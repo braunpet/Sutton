@@ -8,6 +8,10 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
 
+/**
+ * The BasicAuthInterceptor class is responsible for creating an auth credential for the Basic scheme
+ * to authorize outgoing requests from the client
+ * */
 public class BasicAuthInterceptor implements Interceptor {
 	private final String credentials;
 

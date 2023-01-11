@@ -34,5 +34,8 @@ public abstract class AbstractApplication extends ResourceConfig {
 				.useIndentation(true).create()));
 	}
 
+	/**
+	 * this method should be used to register the services to be used in the webapp
+	 * */
 	protected abstract Set<Class<?>> getServiceClasses();
 }

@@ -14,14 +14,27 @@
 
 package de.fhws.fiw.fds.sutton.server.database;
 
+/**
+ * The SearchParameter class provides the required attributes to apply the paging behavior using offset and size.
+ * It could also be used to define sorting criteria to sort the results that were read from the database
+ * */
 public class SearchParameter {
 
     public static final SearchParameter DEFAULT = new SearchParameter();
 
+    /**
+     * The offset {@link Integer} from the collection of the full results where the page should start
+     * */
     private int offset = 0;
 
+    /**
+     * The size {@link Integer} of the page
+     * */
     private int size = Integer.MAX_VALUE;
 
+    /**
+     * The sorting criterion {@link String} to be used to sort the results from the database
+     * */
     private String orderByAttribute = "";
 
     public int getOffset() {

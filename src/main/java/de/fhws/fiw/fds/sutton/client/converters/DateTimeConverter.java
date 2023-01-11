@@ -9,6 +9,10 @@ import com.owlike.genson.Converter;
 import com.owlike.genson.stream.ObjectReader;
 import com.owlike.genson.stream.ObjectWriter;
 
+/**
+ * The DateTimeConverter class provides the required functionality to serialize and deserialize a {@link LocalDateTime}
+ * object to and from the JSON format using the {@link DateTimeFormatter#ISO_OFFSET_DATE_TIME} format
+ * */
 public class DateTimeConverter implements Converter<LocalDateTime> {
 	@Override
 	public void serialize(final LocalDateTime convert, final ObjectWriter objectWriter,

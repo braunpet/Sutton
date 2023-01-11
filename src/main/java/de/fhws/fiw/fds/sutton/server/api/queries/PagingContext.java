@@ -19,6 +19,10 @@ package de.fhws.fiw.fds.sutton.server.api.queries;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+/**
+ * The PagingContext provides the essential requirements to create a paging context in the response to make it clear
+ * for the client to navigate through the available pages according to the hyperlinks principle of the REST architecture
+ * */
 public class PagingContext
 {
 	private final UriInfo uriInfo;

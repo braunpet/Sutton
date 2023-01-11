@@ -8,6 +8,10 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.MessageDigest;
 
+/**
+ * The EtagGenerator class creates Etags for serializable objects to send them to the client as a header in the
+ * response to apply the caching mechanism according to the REST specifications
+ * */
 public class EtagGenerator
 {
 	public static EntityTag createEntityTag( final Serializable object )
@@ -15,6 +19,13 @@ public class EtagGenerator
 		return new EntityTag( createEtag( object ) );
 	}
 
+	/**
+	 * Creates an Etag for the given serializable object
+	 * @param object {@link Serializable} the object to create an Etag for
+	 * @return an Etag {@link String} for the given object if it is not null
+	 *
+	 * @throws NullPointerException
+	 * */
 	public static String createEtag( final Serializable object )
 	{
 		if ( object == null )

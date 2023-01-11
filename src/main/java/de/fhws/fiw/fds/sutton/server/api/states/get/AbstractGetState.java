@@ -25,10 +25,23 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
+/**
+ * <p>The AbstractGetState class extends the {@link AbstractState} class and defines the required
+ * properties and methods to implement the functionality of fetching a single resource from the database.</p>
+ *
+ * <p>Each extending state class has to define a builder class, which must extend
+ * {@link AbstractGetState.AbstractGetStateBuilder}.</p>
+ * */
 public abstract class AbstractGetState<T extends AbstractModel> extends AbstractState
 {
+	/**
+	 * id {@link Long} of the model to be searched in the database
+	 * */
 	protected long requestedId;
 
+	/**
+	 * The result {@link SingleModelResult} of searching the model in the database
+	 * */
 	protected SingleModelResult<T> requestedModel;
 
 	public AbstractGetState( final AbstractGetStateBuilder builder )
@@ -68,10 +81,21 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
 		return createResponse( );
 	}
 
+	/**
+	 * This method should be used to prove if the user is allowed to request a model
+	 * */
 	protected abstract void authorizeRequest( );
 
+	/**
+	 * Extending classes should use this method to implement the loading of the requested resource from the database
+	 * */
 	protected abstract SingleModelResult<T> loadModel( );
 
+	/**
+	 * Returns true if the user doesn't have the most recent version of the model
+	 * @param modelFromDatabase the model from the database so that the user can compare it with
+	 *                          the model, the user knows about
+	 * */
 	protected boolean clientKnowsCurrentModelState( final AbstractModel modelFromDatabase )
 	{
 		return false;
@@ -95,6 +119,11 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
 		this.responseBuilder.entity( this.requestedModel.getResult( ) );
 	}
 
+	/**
+	 * This method is used to define the caching behavior. It could also be used to inform the client that the requested
+	 * resource hasn't been modified using the Etag or the last-modified mechanism. In this case this method should
+	 * return a response with the status 304.
+	 * */
 	protected void defineHttpCaching( )
 	{
 
@@ -116,6 +145,9 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
 
 	public static abstract class AbstractGetStateBuilder extends AbstractState.AbstractStateBuilder
 	{
+		/**
+		 * id {@link Long} of the model to be searched in the database
+		 * */
 		protected long requestedId;
 
 		public AbstractGetStateBuilder setRequestedId( final long requestedId )

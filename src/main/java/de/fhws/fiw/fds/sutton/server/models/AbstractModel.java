@@ -20,10 +20,21 @@ import com.owlike.genson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
+/**
+ * This class specifies the basic requirements, that a Model should fulfill to be
+ * used as a resource or a sub-resource.
+ * */
 public abstract class AbstractModel implements Serializable, Cloneable
 {
+
+	/**
+	 * A unique identifier for the model object
+	 * */
 	protected long id;
 
+	/**
+	 * The id of the primary resource the model is related to, when the model is being used as a sub-resource
+	 * */
 	private long primaryId;
 
 	public long getId( )
@@ -36,18 +47,29 @@ public abstract class AbstractModel implements Serializable, Cloneable
 		this.id = id;
 	}
 
+	/**
+	 * @return the {@link AbstractModel#primaryId} {@link Long}
+	 * */
 	@JsonIgnore
 	public long getPrimaryId( )
 	{
 		return primaryId;
 	}
 
+	/**
+	 * @param primaryId {@link Long} - the id of the primary resource, this model is related to
+	 * Set the {@link AbstractModel#primaryId} to the provided value
+	 * */
 	@JsonIgnore
 	public void setPrimaryId( final long primaryId )
 	{
 		this.primaryId = primaryId;
 	}
 
+	/**
+	 * Creates and returns a copy of the model
+	 * @throws CloneNotSupportedException - if the model couldn't be cloned
+	 * */
 	@Override public Object clone( ) throws CloneNotSupportedException
 	{
 		return super.clone( );

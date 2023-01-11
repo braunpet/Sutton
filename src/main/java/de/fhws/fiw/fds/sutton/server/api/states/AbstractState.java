@@ -25,6 +25,11 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+/**
+ * <p>The AbstractState class defines the basic requirements each extending state class needs to define a proper workflow.</p>
+ *
+ * <p>Each extending state class has to define a builder class, which must extend {@link AbstractState.AbstractStateBuilder}.</p>
+ * */
 public abstract class AbstractState
 {
 	protected UriInfo uriInfo;
@@ -37,6 +42,9 @@ public abstract class AbstractState
 
 	protected Response.ResponseBuilder responseBuilder;
 
+	/**
+	 * This constructor instantiates an instance of the AbstractState class using the builder pattern
+	 * */
 	protected AbstractState( final AbstractStateBuilder builder )
 	{
 		this.uriInfo = builder.uriInfo;
@@ -104,21 +112,41 @@ public abstract class AbstractState
 		Hyperlinks.addLink( this.uriInfo, this.responseBuilder, uriTemplate, relType, mediaType, params );
 	}
 
+
+	/**
+	 * Creates hyperlinks as specified in the specifications of the REST architecture and adds them to the response as
+	 * headers
+	 * @param uriTemplate {@link String} the uri template to be used to build the hyperlink in the response
+	 * @param relType     {@link String} describes what the hyperlink stands for
+	 * @param params      an ellipsis of {@link Object} to be built to the href part of the hyperlink
+	 */
 	protected final void addLink( final String uriTemplate, final String relType, final Object... params )
 	{
 		Hyperlinks.addLink( this.uriInfo, this.responseBuilder, uriTemplate, relType, null, params );
 	}
 
+	/**
+	 * Returns the value of the Accept header from the request
+	 * @return the value {@link String} of the Accept header from the request
+	 * */
 	protected final String getAcceptRequestHeader( )
 	{
 		return getRequestHeader( "Accept" );
 	}
 
+	/**
+	 * @param headerName  {@link String} name of the header in the request to return its value
+	 * @return the value {@link String} of the provided header from the request
+	 * */
 	protected final String getRequestHeader( final String headerName )
 	{
 		return this.httpServletRequest.getHeader( headerName );
 	}
 
+	/**
+	 * this inner static abstract class is used in the context of the builder pattern in order to
+	 * instantiate state classes
+	 * */
 	public static abstract class AbstractStateBuilder
 	{
 		protected UriInfo uriInfo;
@@ -153,6 +181,9 @@ public abstract class AbstractState
 			return this;
 		}
 
+		/**
+		 * This method is used to return a state class, which extends {@link AbstractState}
+		 * */
 		public abstract AbstractState build( );
 	}
 }

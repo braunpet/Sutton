@@ -16,8 +16,18 @@
 
 package de.fhws.fiw.fds.sutton.server.database.results;
 
+/**
+ * This class extends {@link AbstractResult} and represent an empty result with no information to return
+ * to the client in the response
+ *
+ * @see CollectionModelResult
+ * @see SingleModelResult
+ * */
 public class NoContentResult extends AbstractResult
 {
+	/**
+	 * Default constructor to instantiate an empty result with no content
+	 * */
 	public NoContentResult( )
 	{
 		super( );

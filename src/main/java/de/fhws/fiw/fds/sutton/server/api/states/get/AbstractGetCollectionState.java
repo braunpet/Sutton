@@ -24,14 +24,35 @@ import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 
 import javax.ws.rs.core.Response;
 
+/**
+ * <p>The AbstractGetCollectionState extends the {@link AbstractState} and provides the required methods and
+ * properties to request a collection of resources.</p>
+ *
+ * <p>Each extending state class has to define a builder class, which must extend
+ * {@link AbstractGetCollectionState.AbstractGetCollectionStateBuilder}.</p>
+ * */
 public abstract class AbstractGetCollectionState<T extends AbstractModel> extends AbstractState
 {
+	/**
+	 * The header name {@link String} of the total number of results found in the database to be sent in
+	 * the response to the client
+	 * */
 	public static final String HEADER_TOTALNUMBEROFRESULTS = "X-totalnumberofresults";
 
+	/**
+	 * The header name {@link String} for the number of the results in the current response page
+	 * */
 	public static final String HEADER_NUMBEROFRESULTS = "X-numberofresults";
 
+	/**
+	 * The query {@link AbstractQuery} to be used to fetch the resources from the database and to set the paging
+	 * behavior
+	 * */
 	protected AbstractQuery<T> query;
 
+	/**
+	 * the collection {@link CollectionModelResult} of the requested resources to be sent to the client
+	 * */
 	protected CollectionModelResult<T> result;
 
 	protected AbstractGetCollectionState( final AbstractGetCollectionStateBuilder<T> builder )
@@ -58,8 +79,15 @@ public abstract class AbstractGetCollectionState<T extends AbstractModel> extend
 		return createResponse( );
 	}
 
+	/**
+	 * This method should be used to prove if the user is allowed to request a model
+	 * */
 	protected abstract void authorizeRequest( );
 
+	/**
+	 * Extending classes should use this method to implement the loading of the requested resources
+	 * from the database
+	 * */
 	protected final CollectionModelResult<T> loadModels( )
 	{
 		return this.query.startQuery( );
@@ -92,6 +120,9 @@ public abstract class AbstractGetCollectionState<T extends AbstractModel> extend
 		return HEADER_TOTALNUMBEROFRESULTS;
 	}
 
+	/**
+	 * Extending classes should use this method to set the body of the response.
+	 * */
 	protected abstract void defineHttpResponseBody( );
 
 	protected void defineHttpHeaderNumberOfResults( )

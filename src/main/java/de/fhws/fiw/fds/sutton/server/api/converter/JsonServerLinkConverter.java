@@ -23,6 +23,12 @@ import com.owlike.genson.stream.ObjectWriter;
 
 import javax.ws.rs.core.Link;
 
+/**
+ * The JsonServerLinkConverter class provides the required functionality to serialize the {@link Link} property to the
+ * JSON format for {@link de.fhws.fiw.fds.sutton.server.models.AbstractModel} objects, which are
+ * used as resources in Sutton framework, it is also responsible for the deserialization process in order to recreate
+ * the {@link Link} from the JSON object sent in the response body
+ * */
 public class JsonServerLinkConverter implements Converter<Link>
 {
 	public JsonServerLinkConverter( )

@@ -3,10 +3,26 @@ package de.fhws.fiw.fds.sutton.server.api.states.get;
 import de.fhws.fiw.fds.sutton.server.api.queries.AbstractRelationQuery;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 
+/**
+ * <p>The AbstractGetCollectionRelationState extends the {@link AbstractGetCollectionState} with the required
+ * functionality to request a collection of sub-resources related to a specific main resource from the database.</p>
+ *
+ * <p>Each extending state class has to define a builder class, which must extend
+ *  * {@link AbstractGetCollectionRelationState.AbstractGetCollectionRelationStateBuilder}</p>
+ *
+ * @see AbstractGetCollectionState
+ * */
 public abstract class AbstractGetCollectionRelationState<T extends AbstractModel> extends AbstractGetCollectionState<T>
 {
+	/**
+	 * id {@link Long} of the main resource
+	 * */
 	protected long primaryId;
 
+	/**
+	 * The query {@link AbstractRelationQuery} to be used to fetch sub-resources associated with a primary resource
+	 * from the database
+	 * */
 	protected AbstractRelationQuery<T> query;
 
 	public AbstractGetCollectionRelationState( final AbstractGetCollectionRelationStateBuilder builder )

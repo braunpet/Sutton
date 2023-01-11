@@ -1,5 +1,12 @@
 package de.fhws.fiw.fds.sutton.server.api.converter;
 
+/**
+ * the ServerLink class describes the structure of the links, that are nested within the individual
+ * {@link de.fhws.fiw.fds.sutton.server.models.AbstractModel}. The ServerLink Class is required for the functionality
+ * of the converters
+ *
+ * @see XmlServerLinkConverter
+ * */
 public class ServerLink
 {
 	private String href;

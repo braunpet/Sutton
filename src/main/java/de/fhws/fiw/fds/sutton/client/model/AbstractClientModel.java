@@ -16,7 +16,15 @@
 
 package de.fhws.fiw.fds.sutton.client.model;
 
+/**
+ * This class specifies the basic requirements, that a Model should fulfill to be
+ * used as a resource or a sub-resource within the client side.
+ * */
 public abstract class AbstractClientModel {
+
+	/**
+	 * A unique identifier for the model object
+	 * */
 	protected long id;
 
 	protected AbstractClientModel() {

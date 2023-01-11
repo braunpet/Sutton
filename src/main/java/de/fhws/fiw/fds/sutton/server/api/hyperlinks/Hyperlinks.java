@@ -21,8 +21,22 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
+/**
+ * The Hyperlinks class provides the required functionality to create hyperlinks according to the specifications of
+ * the REST architecture
+ * */
 public class Hyperlinks
 {
+	/**
+	 * Creates hyperlinks as specified in the specifications of the REST architecture and adds them to the response as
+	 * headers
+	 * @param uriInfo the {@link UriInfo} to derive the required path information from
+	 * @param responseBuilder the {@link Response.ResponseBuilder} to add the created hyperlink to as a header
+	 * @param mediaType {@link String} the media type in which the data will be sent when this link is requested
+	 * @param relationType {@link String} describes what the hyperlink stands for
+	 * @param path {@link String} the relative path to use it to build the href for the hyperlink
+	 * @param params an ellipsis of {@link Object} to be built to the href part of the hyperlink
+	 * */
 	public static void addLink( final UriInfo uriInfo,
 		final Response.ResponseBuilder responseBuilder,
 		final String path,
@@ -86,6 +100,14 @@ public class Hyperlinks
 		return sb.toString( );
 	}
 
+	/**
+	 * Creates hyperlinks as specified in the specifications of the REST architecture and adds them to the response as
+	 * headers
+	 * @param uri the {@link URI} to derive the required path information from
+	 * @param responseBuilder the {@link Response.ResponseBuilder} to add the created hyperlink to as a header
+	 * @param mediaType {@link String} the media type in which the data will be sent when this link is requested
+	 * @param relType {@link String} describes what the hyperlink stands for
+	 * */
 	public static void addLink( final Response.ResponseBuilder responseBuilder,
 		final URI uri,
 		final String relType,

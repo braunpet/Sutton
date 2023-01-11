@@ -16,6 +16,8 @@ package de.fhws.fiw.fds.suttondemo.server.database.inmemory;
 
 import java.time.LocalDate;
 import java.util.function.Predicate;
+import java.util.stream.IntStream;
+
 import org.apache.commons.lang.StringUtils;
 import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.inmemory.AbstractInMemoryStorage;

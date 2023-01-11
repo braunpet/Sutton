@@ -25,16 +25,38 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
+/**
+ * <p>The AbstractPutState extends the {@link AbstractState} and provides the required
+ * functionality to update a model in the database.</p>
+ *
+ * <p>Each extending state class has to define a builder class, which must extend
+ * {@link AbstractPutState.AbstractPutStateBuilder}</p>
+ * */
 public abstract class AbstractPutState<T extends AbstractModel> extends AbstractState
 {
+	/**
+	 * The updated model {@link AbstractModel} to save in the database
+	 * */
 	protected T modelToUpdate;
 
+	/**
+	 * The id {@link Long} from the request of the resource to be updated
+	 * */
 	protected long requestedId;
 
+	/**
+	 * The result {@link SingleModelResult} of searching the model to be updated in the database
+	 * */
 	protected SingleModelResult<T> resultAfterGet;
 
+	/**
+	 * The model {@link AbstractModel} from the result of searching the model to update in the database
+	 * */
 	protected T storedModel;
 
+	/**
+	 * The result {@link NoContentResult} of updating the model in the database
+	 * */
 	protected NoContentResult resultAfterUpdate;
 
 	protected AbstractPutState( final AbstractPutStateBuilder<T> builder )
@@ -80,15 +102,30 @@ public abstract class AbstractPutState<T extends AbstractModel> extends Abstract
 		return createResponse( );
 	}
 
+	/**
+	 * This method should be used to prove if the user is allowed to update an existing model
+	 * */
 	protected abstract void authorizeRequest( );
 
+	/**
+	 * Extending classes should use this method to load the model to update from the database
+	 * */
 	protected abstract SingleModelResult<T> loadModel( );
 
+	/**
+	 * Returns true if the user doesn't have the most recent version of the model
+	 * @param modelFromDatabase the model from the database so that the user can compare it with
+	 *                          the model, the user knows about
+	 * */
 	protected boolean clientDoesNotKnowCurrentModelState( final AbstractModel modelFromDatabase )
 	{
 		return false;
 	}
 
+	/**
+	 * Extending classes should use this method to implement the updating mechanism of the model in the database
+	 * @return the result {@link NoContentResult} of updating the model in the database
+	 * */
 	protected abstract NoContentResult updateModel( );
 
 	protected Response createResponse( )
@@ -111,6 +148,10 @@ public abstract class AbstractPutState<T extends AbstractModel> extends Abstract
 		this.responseBuilder.status( Response.Status.NO_CONTENT );
 	}
 
+	/**
+	 * This method is used to configure the cashing behavior. It could be used to solve the lost update problem when
+	 * multiple clients attempt to update the same resource at the same time.
+	 * */
 	protected void defineHttpCaching( )
 	{
 

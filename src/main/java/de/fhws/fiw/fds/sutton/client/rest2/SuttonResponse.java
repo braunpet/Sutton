@@ -15,20 +15,25 @@
 package de.fhws.fiw.fds.sutton.client.rest2;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 import com.owlike.genson.GensonBuilder;
 import de.fhws.fiw.fds.sutton.client.converters.ClientLinkConverter;
 import de.fhws.fiw.fds.sutton.client.converters.DateTimeConverter;
+import de.fhws.fiw.fds.sutton.client.model.AbstractClientModel;
 import de.fhws.fiw.fds.sutton.client.utils.Header;
 import de.fhws.fiw.fds.sutton.client.utils.Link;
 import okhttp3.Headers;
 import okhttp3.Response;
 
+/**
+ * The SuttonResponse class describes the structure of HTTP responses received after executing {@link SuttonRequest}.
+ * It contains all necessary information for Sutton clients to take further action, such as reading
+ * the relation-type links in the response and creating additional requests based on them.
+ * By utilizing the SuttonResponse, clients can easily implement the HATEOAS principle of REST architecture.
+ * */
 public class SuttonResponse {
 	public static final int OK = 200;
 
@@ -78,6 +83,11 @@ public class SuttonResponse {
 
 	private Map<String, List<String>> responseHeaders;
 
+	/**
+	 * Constructs a SuttonResponse using the provided response and the SuttonRequest and processes it accordingly
+	 * @param response {@link Response} the response received after executing a SuttonRequest
+	 * @param lastRequest {@link SuttonRequest} an executed request by a Sutton client
+	 * */
 	protected SuttonResponse(final Response response, final SuttonRequest lastRequest) {
 		this.mapRelationTypeToLink = new HashMap<>();
 		this.requestForThisResponse = lastRequest;
@@ -85,14 +95,24 @@ public class SuttonResponse {
 		processResponse();
 	}
 
+	/**
+	 * @return the HTTP status code {@link Integer} after executing a {@link SuttonRequest}
+	 * */
 	public int getStatusCode() {
 		return this.statusCode;
 	}
 
+	/**
+	 * @return the <strong>Location</strong> header in the response if exists, otherwise, it returns null
+	 * */
 	public final String getLocationUri() {
 		return getHeaderString("Location");
 	}
 
+	/**
+	 * @param relationType {@link String} the relation-type link name to search for in the relation-type headers' list
+	 * @return true if relation-type headers' list contains the provided relation-type link
+	 * */
 	public final boolean containsLink(final String relationType) {
 		return this.mapRelationTypeToLink.containsKey(relationType);
 	}
@@ -101,12 +121,23 @@ public class SuttonResponse {
 		return this.responseData;
 	}
 
-	public final <T> T readEntity(final Class<T> clazz) {
+	/**
+	 * Reads the response body that contains a single model and returns it
+	 * @param clazz {@link Class} the class of the model in the response body to use it for the deserialization
+	 *                           process
+	 * @return a single {@link T}
+	 * */
+	public final <T extends AbstractClientModel> T readEntity(final Class<T> clazz) {
 		final Genson genson = new GensonBuilder()
 				.withConverters(new ClientLinkConverter(), new DateTimeConverter()).create();
 		return genson.deserialize(this.responseData, clazz);
 	}
 
+	/**
+	 * Reads the response body and extracts the collection of models from it
+	 * @param toType {@link GenericType} the generic type of the collection of the models in the response body
+	 * @return a collection of {@link T}
+	 * */
 	public final <T> T readEntities(GenericType<T> toType) {
 		final Genson genson = new GensonBuilder()
 				.withConverters(new ClientLinkConverter(), new DateTimeConverter()).create();
@@ -114,18 +145,32 @@ public class SuttonResponse {
 		return genson.deserialize(this.responseData, toType);
 	}
 
+	/**
+	 * @return the response body as a {@link String}
+	 * */
 	public final String getResponseString() {
 		return new String(this.responseData);
 	}
 
+	/**
+	 * @return the total number {@link Integer} of results found after executing an HTTP GET collection request
+	 * */
 	public final int getTotalNumberOfResults() {
 		return getHeaderInt(HEADER_TOTALNUMBEROFRESULTS);
 	}
 
+	/**
+	 * @return the number {@link Integer} of received results in the response after executing an HTTP GET collection request
+	 * */
 	public final int getNumberOfResults() {
 		return getHeaderInt(HEADER_NUMBEROFRESULTS);
 	}
 
+	/**
+	 * Returns a list of headers {@link Header}, which have the given name
+	 * @param header {@link String} name of the header to search for in the list of headers in the response
+	 * @return a list of headers {@link Header} if they exist or an empty list instead
+	 * */
 	public final List<Header> getHeaders(String header) {
 		List<String> responseHeaders = this.responseHeaders.get(header);
 
@@ -140,18 +185,44 @@ public class SuttonResponse {
 		return headers;
 	}
 
+	/**
+	 * Returns all relation-type links {@link Link} from the response
+	 * @return a list of all relation-type links {@link Link} from the response if they exist or an empty list instead
+	 * */
 	public List<Link> getLinks() {
 		return new LinkedList(this.mapRelationTypeToLink.values());
 	}
 
+	/**
+	 * @param relationType {@link String} the relation-type name to search for relation-type link by
+	 * @return a relation-type link {@link Link}. whose relation-type matches the provided
+	 * relation-type
+	 * */
 	public final Link getLink(final String relationType) {
 		return this.mapRelationTypeToLink.get(relationType);
 	}
 
+	/**
+	 * Creates a SuttonRequest using the provided relation-type to choose the proper relation-type header from
+	 * the response to create this request. This method enables the client to utilize the HATEOAS concept of
+	 * the REST-architecture by using the relation-type headers in the response.
+	 * @param headerRelationType {@link String} the relation-type to search for a relation-type link in the response
+	 *                                            headers by it
+	 * @return a {@link SuttonRequest}  ready for execution
+	 * */
 	public final SuttonRequest createRequestFromHeaderLink(final String headerRelationType) {
 		return createRequest(getLink(headerRelationType));
 	}
 
+	/**
+	 * Creates a SuttonRequest using the provided relation-type to extract the relation-type link from a model in the
+	 * response body. This method enables the client to utilize the HATEOAS concept of
+	 * the REST-architecture by using the relation-type headers in the response.
+	 * @param relationType {@link String} the relation-type to search for relation-type link within the response body
+	 * @return a {@link SuttonRequest} with its {@link SuttonRequest#uriTemplate} and {@link SuttonRequest#mediaType}
+	 * configured according to the relation-type link <strong>if found</strong>, otherwise the
+	 * {@link SuttonRequest#uriTemplate} and {@link SuttonRequest#mediaType} will not be set.
+	 * */
 	public final SuttonRequest createRequestFromBodyLink(final String relationType) {
 		return createRequest(getLinkFromBody(relationType));
 	}
@@ -165,6 +236,13 @@ public class SuttonResponse {
 		return link;
 	}
 
+	/**
+	 * Creates a SuttonRequest using the provided relation-type Link {@link Link} to instantiate this request
+	 * @param link {@link Link} the relation-type link to use for creating the SuttonRequest
+	 * @return a {@link SuttonRequest} with its {@link SuttonRequest#uriTemplate} and {@link SuttonRequest#mediaType}
+	 * configured according to the relation-type link <strong>if the Link is not null</strong>, otherwise the
+	 * {@link SuttonRequest#uriTemplate} and {@link SuttonRequest#mediaType} will not be set.
+	 * */
 	public final SuttonRequest createRequest(final Link link) {
 		SuttonRequest nextRequest = requestForThisResponse;
 
@@ -176,6 +254,10 @@ public class SuttonResponse {
 		return nextRequest;
 	}
 
+	/**
+	 * Processes the SuttonResponse by setting its status code, its headers, its relation-type links, and its
+	 * body according to the information of the response used to instantiate this SuttonResponse
+	 * */
 	protected final void processResponse() {
 		try {
 			readStatusCode();
@@ -188,15 +270,24 @@ public class SuttonResponse {
 		}
 	}
 
+	/**
+	 * Sets the HTTP status code of SuttonResponse to the status code of the response, which was used to instantiate it
+	 * */
 	protected void readStatusCode() {
 		this.statusCode = this.response.code();
 	}
 
+	/**
+	 * Extracts all headers from the response, used to instantiate the SuttonResponse, to a multimap
+	 * */
 	protected void readAllHeaders() {
 		final Headers headers = this.response.headers();
 		this.responseHeaders = headers.toMultimap();
 	}
 
+	/**
+	 * Extracts all relation-type headers from the response and formats them to a map of links {@link Link}
+	 * */
 	protected final void readAllLinks() {
 		final List<String> linkHeaders = this.responseHeaders.get("Link");
 
@@ -208,18 +299,21 @@ public class SuttonResponse {
 		}
 	}
 
+	/**
+	 * Reads the response body into a byte array, which will be set as the response body data for SuttonResponse
+	 * */
 	protected void readResponseBody() throws IOException {
 		this.responseData = this.response.body().bytes();
 	}
 
 	private String getHeaderString(String headerName) {
 		List<String> allValues = this.responseHeaders.get(headerName);
-		String value = allValues.get(0);
+		String value = allValues.stream().findFirst().orElseGet(() -> null);
 		return value;
 	}
 
 	private int getHeaderInt(String headerName) {
 		String value = getHeaderString(headerName);
-		return Integer.parseInt(value);
+		return value != null ? Integer.parseInt(value) : -1;
 	}
 }

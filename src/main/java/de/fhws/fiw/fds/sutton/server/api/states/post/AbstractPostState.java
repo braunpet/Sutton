@@ -24,10 +24,23 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
+/**
+ * <p>The AbstractPostState extends the {@link AbstractState} and provides the required
+ * functionality to create a model in the database.</p>
+ *
+ * <p>Each extending state class has to define a builder class, which must extend
+ * {@link AbstractPostState.AbstractPostStateBuilder}</p>
+ * */
 public abstract class AbstractPostState<T extends AbstractModel> extends AbstractState
 {
+	/**
+	 * The model {@link AbstractModel} sent in the request to be created
+	 * */
 	protected T modelToStore;
 
+	/**
+	 * The result {@link NoContentResult} of creating the model in the database
+	 * */
 	protected NoContentResult resultAfterSave;
 
 	protected AbstractPostState( final AbstractPostStateBuilder<T> builder )
@@ -59,8 +72,15 @@ public abstract class AbstractPostState<T extends AbstractModel> extends Abstrac
 		return createResponse( );
 	}
 
+	/**
+	 * This method should be used to prove if the user is allowed to create a model
+	 * */
 	protected abstract void authorizeRequest( );
 
+	/**
+	 * Extending classes should use this method to implement the creation of model in the database
+	 * @return the result {@link NoContentResult} of creating the model in the database
+	 * */
 	protected abstract NoContentResult saveModel( );
 
 	protected Response createResponse( )

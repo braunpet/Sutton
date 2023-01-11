@@ -23,12 +23,28 @@ import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 
 import javax.ws.rs.core.Response;
 
+/**
+ * <p>The AbstractDeleteState class extends the {@link AbstractState} class and defines the required
+ * properties and methods to implement the DELETE state.</p>
+ *
+ * <p>Each extending state class has to define a builder class, which must extend
+ * {@link AbstractDeleteState.AbstractDeleteStateBuilder}.</p>
+ * */
 public abstract class AbstractDeleteState<T extends AbstractModel> extends AbstractState
 {
+	/**
+	 * id {@link Long} of the model to be deleted
+	 * */
 	protected long modelIdToDelete;
 
+	/**
+	 * the result {@link SingleModelResult} of searching the model to be deleted in the storage
+	 * */
 	protected SingleModelResult<T> modelToDelete;
 
+	/**
+	 * the result {@link NoContentResult} to return to the client after deleting the model from the storage
+	 * */
 	protected NoContentResult resultAfterDelete;
 
 	public AbstractDeleteState( final AbstractDeleteStateBuilder builder )
@@ -68,15 +84,30 @@ public abstract class AbstractDeleteState<T extends AbstractModel> extends Abstr
 		return createResponse( );
 	}
 
+	/**
+	 * This method should be used to prove if the user is allowed to perform the delete action
+	 * */
 	protected abstract void authorizeRequest( );
 
+	/**
+	 * Extending classes should use this method to search for the model to be deleted in the storage
+	 * @return {@link SingleModelResult} - the result of searching the model in the database
+	 * */
 	protected abstract SingleModelResult<T> loadModel( );
 
+	/**
+	 * Returns true if the user doesn't have the most recent version of the model
+	 * @param modelFromDatabase the model from the database so that the user can compare it with
+	 *                          the model, the user knows about
+	 * */
 	protected boolean clientDoesNotKnowCurrentModelState( final AbstractModel modelFromDatabase )
 	{
 		return false;
 	}
 
+	/**
+	 * Extending classes should use this method to implement the deletion of the model from the database
+	 * */
 	protected abstract NoContentResult deleteModel( );
 
 	protected Response createResponse( )
@@ -108,6 +139,9 @@ public abstract class AbstractDeleteState<T extends AbstractModel> extends Abstr
 
 	public static abstract class AbstractDeleteStateBuilder extends AbstractState.AbstractStateBuilder
 	{
+		/**
+		 * id {@link Long} of the model to be searched in the database in order to be deleted
+		 * */
 		protected long requestedId;
 
 		public AbstractDeleteStateBuilder setRequestedId( final long requestedId )

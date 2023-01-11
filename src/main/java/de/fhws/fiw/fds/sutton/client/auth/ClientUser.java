@@ -1,5 +1,9 @@
 package de.fhws.fiw.fds.sutton.client.auth;
 
+/**
+ * The ClientUser enum is used to define users to be used in the context of the Basic authorization scheme
+ * to authorize the requests made by a client
+ * */
 public enum ClientUser {
 	ANONYMOUS("", "");
 

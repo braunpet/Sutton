@@ -20,6 +20,10 @@ import com.owlike.genson.stream.ObjectReader;
 import com.owlike.genson.stream.ObjectWriter;
 import de.fhws.fiw.fds.sutton.client.utils.Link;
 
+/**
+ * The ClientLinkConverter class provides the required functionality to serialize and deserialize the {@link Link} class
+ * to and from the JSON format
+ * */
 public class ClientLinkConverter implements Converter<Link> {
 	@Override
 	public void serialize(final Link link, final ObjectWriter objectWriter, final Context context)

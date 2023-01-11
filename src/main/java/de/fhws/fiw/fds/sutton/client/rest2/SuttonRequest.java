@@ -35,76 +35,181 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * The SuttonRequest class describes the structure of HTTP requests to be executed by a sutton client.
+ * When a SuttonRequest is executed by calling the {@link SuttonRequest#execute()} method it returns a
+ * {@link SuttonResponse} containing all relevant information to the client.
+ *
+ * @see SuttonResponse
+ * */
 public class SuttonRequest {
+	/**
+	 * The endpoint {@link String} to send the request to
+	 * */
 	protected String uriTemplate;
+
+	/**
+	 * The media type {@link String} of data to be sent in the request body
+	 * */
 	protected String mediaType;
+
+	/**
+	 * The HTTP verb {@link HttpVerb} to be executed by the request
+	 * */
 	protected HttpVerb httpVerb;
+
+	/**
+	 * The model {@link AbstractClientModel} to be sent in the request body
+	 * */
 	protected AbstractClientModel requestModel;
+
+	/**
+	 * The image to be sent to the server in the request body
+	 * */
 	protected byte[] requestImage;
+
+	/**
+	 * The authentication scheme {@link Authentication} to be used to authenticate the request
+	 * */
 	protected Authentication authentication;
+
+	/**
+	 * The api key {@link ApiKey} to use it in the request
+	 * */
 	protected ApiKey apiKey;
+
+	/**
+	 * The JSON Web Token {@link String} to be used in the request according to the (RFC 7519) standard for creating data with
+	 * optional signature and/or optional encryption whose payload holds JSON that asserts some number of claims.
+	 * The tokens are signed either using a private secret or a public/private key.
+	 * */
 	protected String jwtTokenName;
+
+	/**
+	 * The headers {@link Header} in the request to be executed by the client
+	 * */
 	protected List<Header> headers = new LinkedList<>();
 
+	/**
+	 * Constructs a SuttonRequest and sets its mediaType to "application/json"
+	 * */
 	public SuttonRequest() {
 		this.mediaType = "application/json";
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#requestModel} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setRequestModel(final AbstractClientModel requestModel) {
 		this.requestModel = requestModel;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#uriTemplate} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setUriTemplate(final String uriTemplate) {
 		this.uriTemplate = uriTemplate;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#mediaType} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setMediaType(final String mediaType) {
 		this.mediaType = mediaType;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#httpVerb} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setHttpVerb(final HttpVerb httpVerb) {
 		this.httpVerb = httpVerb;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#requestImage} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setRequestImage(final byte[] requestImage) {
 		this.requestImage = requestImage;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#authentication} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setAuthentication(final Authentication authentication) {
 		this.authentication = authentication;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#apiKey} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setApiKey(final ApiKey apiKey) {
 		this.apiKey = apiKey;
 		return this;
 	}
 
+	/**
+	 * Sets the {@link SuttonRequest#jwtTokenName} to the given value and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest setJwtTokenName(String jwtTokenName) {
 		this.jwtTokenName = jwtTokenName;
 		return this;
 	}
 
+	/**
+	 * Creates a new {@link Header} from the given header name and value and adds it to the headers list
+	 * {@link SuttonRequest#headers} of the SuttonRequest. The method returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest addHeader(String header, String value) {
 		this.headers.add(new Header(header, value));
 		return this;
 	}
 
+	/**
+	 * Adds the given header to the headers list
+	 * {@link SuttonRequest#headers} of the SuttonRequest and returns the current instance of
+	 * SuttonRequest to enable chaining other methods to it.
+	 * */
 	public final SuttonRequest addHeader(Header header) {
 		this.headers.add(header);
 		return this;
 	}
 
+	/**
+	 * Replaces the given template in the {@link SuttonRequest#uriTemplate} with the given value
+	 * after encoding it using the "UTF-8" encoding scheme
+	 * @param value {@link Long} the value to replace {@link SuttonRequest#uriTemplate} by after
+	 *                            encoding it
+	 * @param template {@link String} the template to be replaced within the {@link SuttonRequest#uriTemplate}
+	 * @return the current instance of SuttonRequest to enable chaining other methods to it.
+	 * */
 	public SuttonRequest replace(final String template, final long value) {
 		replace(template, Long.toString(value));
 		return this;
 	}
 
+	/**
+	 * Replaces the given template in the {@link SuttonRequest#uriTemplate} with the given value
+	 * after encoding it using the "UTF-8" encoding scheme
+	 * @param value {@link String} the value to replace {@link SuttonRequest#uriTemplate} by after
+	 *                            encoding it
+	 * @param template {@link String} the template to be replaced within the {@link SuttonRequest#uriTemplate}
+	 * @return the current instance of SuttonRequest to enable chaining other methods to it.
+	 * */
 	public SuttonRequest replace(final String template, String value) {
 		try {
 			value = URLEncoder.encode(value, "UTF-8");
@@ -116,6 +221,12 @@ public class SuttonRequest {
 		return this;
 	}
 
+	/**
+	 * Executes the SuttonRequest
+	 * @return a {@link SuttonResponse} or null if the request could not be executed due to cancellation,
+	 * a connectivity problem or timeout. Because networks can fail during an exchange,
+	 * it is possible that the remote server accepted the request before the failure.
+	 * */
 	public SuttonResponse execute() {
 		this.setAllUnsetQueryParameterToEmptyString();
 		final MediaType mediaType = MediaType.parse(this.mediaType);
@@ -195,6 +306,9 @@ public class SuttonRequest {
 		}
 	}
 
+	/**
+	 * The HttpVerb enum represents the supported HTTP verbs by {@link SuttonRequest}
+	 * */
 	public enum HttpVerb {
 		GET, POST, PUT, DELETE
 	}

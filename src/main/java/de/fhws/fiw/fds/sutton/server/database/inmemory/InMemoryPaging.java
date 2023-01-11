@@ -21,10 +21,23 @@ import java.util.stream.Collectors;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 
+/**
+ * The InMemoryPaging class provides the functionality to define the results' page to be sent in the response to client
+ * */
 public class InMemoryPaging {
     private InMemoryPaging() {
     }
 
+    /**
+     * Creates the results' page that should be sent in the response to the client
+     * @param offset {@link Integer} defines the index of the collection of the full results from the database where
+     *                              the page should start
+     * @param size {@link Integer} the number of the results in the page to be sent in the response to the client
+     * @param fullResult a {@link CollectionModelResult} of all results that were read from the database
+     * @return a {@link CollectionModelResult} of the results in the page to be sent in the response to the client.
+     * The total number of results in the collection to be returned is set to the size of <strong>fullResult</strong> that
+     * were read from the database.
+     * */
     public static <T extends AbstractModel> CollectionModelResult<T> page(
             final CollectionModelResult<T> fullResult,
             final int offset,

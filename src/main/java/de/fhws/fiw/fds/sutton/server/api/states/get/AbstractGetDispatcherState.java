@@ -24,6 +24,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 
+/**
+ * <p>The AbstractGetDispatcherState extends the {@link AbstractState} and provides the extending class the
+ * basic requirements to implement a dispatcher state as introduced in the REST architecture.</p>
+ *
+ * <p>Extending state class has to define a builder class, which must extend
+ *  * {@link AbstractGetDispatcherState.AbstractDispatcherStateBuilder}.</p>
+ * */
 public abstract class AbstractGetDispatcherState extends AbstractState
 {
 	protected AbstractGetDispatcherState( final AbstractDispatcherStateBuilder builder )
