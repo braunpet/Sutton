@@ -73,6 +73,11 @@ public class PagingBehaviorUsingPage<T extends AbstractModel> extends PagingBeha
     }
 
     @Override
+    public String getOrderByAttributes() {
+        return "";
+    }
+
+    @Override
     protected boolean hasNextLink(final CollectionModelResult<?> result) {
         return this.pageNumber * DEFAULT_PAGE_SIZE < result.getTotalNumberOfResult();
     }

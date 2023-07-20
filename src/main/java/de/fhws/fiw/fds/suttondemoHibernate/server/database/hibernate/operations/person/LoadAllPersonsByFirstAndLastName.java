@@ -2,6 +2,7 @@ package de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.operations
 
 import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperation;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonDB;
 import jakarta.persistence.EntityManagerFactory;
@@ -12,7 +13,7 @@ import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
-public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOperation<PersonDB, CollectionModelHibernateResult<PersonDB>> {
+public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOrderByOperation<PersonDB, CollectionModelHibernateResult<PersonDB>, Root<PersonDB>> {
 
     private final String firstName;
     private final String lastName;
@@ -47,7 +48,7 @@ public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOperation<
         final Root<PersonDB> root = cq.from(PersonDB.class);
         final Predicate predicate = createPredicate(cb, root);
 
-        cq.select(root).where(predicate);
+        cq.select(root).where(predicate).orderBy(getOrderFromSearchParameter(cb, root, this.searchParameter));
 
         return this.em.createQuery(cq)
                 .setHint("org.hibernate.cacheable", true)

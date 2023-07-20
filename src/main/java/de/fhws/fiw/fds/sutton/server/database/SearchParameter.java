@@ -35,7 +35,7 @@ public class SearchParameter {
     /**
      * The sorting criterion {@link String} to be used to sort the results from the database
      */
-    private String orderByAttribute = "";
+    private String orderByAttributes = "";
 
     public int getOffset() {
         return this.offset;
@@ -53,12 +53,12 @@ public class SearchParameter {
         this.size = size;
     }
 
-    public String getOrderByAttribute() {
-        return this.orderByAttribute;
+    public String getOrderByAttributes() {
+        return this.orderByAttributes;
     }
 
-    public void setOrderByAttribute(String orderByAttribute) {
-        this.orderByAttribute = orderByAttribute;
+    public void setOrderByAttributes(String orderByAttributes) {
+        this.orderByAttributes = orderByAttributes;
     }
 
 }

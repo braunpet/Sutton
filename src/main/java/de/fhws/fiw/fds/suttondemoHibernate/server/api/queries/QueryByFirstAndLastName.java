@@ -29,11 +29,11 @@ public class QueryByFirstAndLastName extends AbstractQuery<Person> {
 
     private int waitingTime;
 
-    public QueryByFirstAndLastName(String firstName, String lastName, int offset, int size, int waitingTime) {
+    public QueryByFirstAndLastName(String firstName, String lastName, int offset, int size, int waitingTime, String orderByAttributes) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.waitingTime = waitingTime;
-        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size);
+        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size, orderByAttributes);
     }
 
     public String getFirstName() {

@@ -4,14 +4,11 @@ import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBRelation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.SuttonColumnConstants;
-import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperation;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +17,7 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
         PrimaryModel extends AbstractDBModel,
         SecondaryModel extends AbstractDBModel,
         Relation extends AbstractDBRelation>
-        extends AbstractDatabaseOperation<SecondaryModel, CollectionModelHibernateResult<SecondaryModel>> {
+        extends AbstractDatabaseOrderByOperation<SecondaryModel, CollectionModelHibernateResult<SecondaryModel>, Join<Relation, SecondaryModel>> {
 
     private final Class<Relation> clazzOfRelation;
     private final long primaryId;
@@ -41,9 +38,11 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Relation> find = cb.createQuery(this.clazzOfRelation);
         Root<Relation> rootEntry = find.from(this.clazzOfRelation);
+        Join<Relation, SecondaryModel> join = rootEntry.join(SuttonColumnConstants.SECONDARY_MODEL);
 
         Predicate primaryIdEquals = cb.equal(rootEntry.get(SuttonColumnConstants.DB_RELATION_ID).get(SuttonColumnConstants.PRIMARY_ID), this.primaryId);
-        find.where(primaryIdEquals);
+        find.where(primaryIdEquals)
+                .orderBy(getOrderFromSearchParameter(cb, join, this.searchParameter));
         TypedQuery<Relation> findQuery = em.createQuery(find);
         List<SecondaryModel> results = findQuery
                 .setHint("org.hibernate.cacheable", true)
@@ -55,6 +54,8 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
                 .collect(Collectors.toList());
         return new CollectionModelHibernateResult<>(results);
     }
+
+
 
     @Override
     protected CollectionModelHibernateResult<SecondaryModel> errorResult() {

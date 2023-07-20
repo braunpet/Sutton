@@ -44,6 +44,13 @@ public abstract class PagingBehavior<T extends AbstractModel> {
     public abstract int getSize();
 
     /**
+     * Returns the order in which the result's page should be sorted
+     *
+     * @return {@link String} the sort-param of the query
+     */
+    public abstract String getOrderByAttributes();
+
+    /**
      * Adds a self link header to the response containing the number of the results in the page
      *
      * @param pagingContext the {@link PagingContext} containing the required information to create the self link

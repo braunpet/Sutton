@@ -2,10 +2,9 @@ package de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.operations
 
 import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.SuttonColumnConstants;
-import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperation;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.LocationDB;
-import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonDB;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonLocationDB;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
@@ -14,7 +13,7 @@ import jakarta.persistence.criteria.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LoadPersonLocationByCityName extends AbstractDatabaseOperation<LocationDB, CollectionModelHibernateResult<LocationDB>> {
+public class LoadPersonLocationByCityName extends AbstractDatabaseOrderByOperation<LocationDB, CollectionModelHibernateResult<LocationDB>, Join<PersonLocationDB, LocationDB>> {
 
 
     private final Class<PersonLocationDB> clazzOfRelation = PersonLocationDB.class;
@@ -54,7 +53,8 @@ public class LoadPersonLocationByCityName extends AbstractDatabaseOperation<Loca
 
         Predicate primaryIdEquals = cb.equal(rootEntry.get(SuttonColumnConstants.DB_RELATION_ID).get(SuttonColumnConstants.PRIMARY_ID), this.primaryId);
         Predicate cityNameEquals = cb.like(cb.lower(join.get("cityName")), "%" + cityName.toLowerCase() + "%");
-        find.where(primaryIdEquals, cityNameEquals);
+        find.where(primaryIdEquals, cityNameEquals)
+                .orderBy(getOrderFromSearchParameter(cb, join, this.searchParameter));
         TypedQuery<PersonLocationDB> findQuery = em.createQuery(find);
         return findQuery
                 .setHint("org.hibernate.cacheable", true)

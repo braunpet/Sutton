@@ -37,8 +37,9 @@ public class PersonService extends AbstractService {
             @DefaultValue("") @QueryParam("lastname") final String lastName,
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("20") @QueryParam("size") int size,
-            @DefaultValue("0") @QueryParam("wait") int waitingTime) {
-        return new GetAllPersons.Builder().setQuery(new QueryByFirstAndLastName(firstName, lastName, offset, size, waitingTime))
+            @DefaultValue("0") @QueryParam("wait") int waitingTime,
+            @DefaultValue("") @QueryParam("sort") final String orderByAttributes) {
+        return new GetAllPersons.Builder().setQuery(new QueryByFirstAndLastName(firstName, lastName, offset, size, waitingTime, orderByAttributes))
                 .setUriInfo(this.uriInfo)
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
@@ -106,10 +107,11 @@ public class PersonService extends AbstractService {
                                          @DefaultValue("") @QueryParam("cityname") final String cityName,
                                          @DefaultValue("0") @QueryParam("offset") int offset,
                                          @DefaultValue("20") @QueryParam("size") int size,
-                                         @DefaultValue("0") @QueryParam("wait") int waitingTime) {
+                                         @DefaultValue("0") @QueryParam("wait") int waitingTime,
+                                         @DefaultValue("") @QueryParam("sort") final String orderByAttributes) {
         return new GetAllLocationsOfPerson.Builder()
                 .setParentId(personId)
-                .setQuery(new QueryByLocationName(personId, cityName, offset, size, waitingTime))
+                .setQuery(new QueryByLocationName(personId, cityName, offset, size, waitingTime, orderByAttributes))
                 .setUriInfo(this.uriInfo)
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)

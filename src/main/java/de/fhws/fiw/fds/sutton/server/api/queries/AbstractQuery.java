@@ -21,8 +21,6 @@ import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 
-import java.util.function.Predicate;
-
 /**
  * the AbstractQuery class is used to set the paging behavior to be used, when the amount of the requested resources
  * is too big to be returned in a single response. The AbstractQuery class sets also the paging links accordingly
@@ -72,6 +70,7 @@ public abstract class AbstractQuery<T extends AbstractModel> {
             final SearchParameter searchParameter = new SearchParameter();
             searchParameter.setOffset(this.pagingBehavior.getOffset());
             searchParameter.setSize(this.pagingBehavior.getSize());
+            searchParameter.setOrderByAttributes(this.pagingBehavior.getOrderByAttributes());
 
             result = doExecuteQuery(searchParameter);
         } catch (final DatabaseException e) {
@@ -105,8 +104,4 @@ public abstract class AbstractQuery<T extends AbstractModel> {
         this.pagingBehavior.addNextPageLink(pagingContext, this.result);
     }
 
-    protected Predicate<T> all( )
-    {
-        return p -> true;
-    }
 }
