@@ -56,7 +56,7 @@ public class CollectionModelResult<T extends AbstractModel> extends AbstractResu
      */
     public CollectionModelResult(final Collection<T> result) {
         this.result = result != null ? result : new LinkedList<>();
-        this.totalNumberOfResult = result.size();
+        this.totalNumberOfResult = this.result.size();
     }
 
     @Override
