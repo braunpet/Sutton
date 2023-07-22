@@ -17,6 +17,7 @@
 package de.fhws.fiw.fds.sutton.server.api.queries;
 
 import de.fhws.fiw.fds.sutton.server.database.DatabaseException;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
 import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
@@ -48,7 +49,7 @@ public abstract class AbstractQuery<T extends AbstractModel> {
 
     /**
      * The order in which the results will be sorted by the query. This sorting is done in the
-     * {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation}.
+     * {@link AbstractDatabaseOperationWithSearchParameter}.
      * By default, there is no sorting.
      */
     protected String orderByAttributes = "";
@@ -95,7 +96,7 @@ public abstract class AbstractQuery<T extends AbstractModel> {
     /**
      * Sets the {@link AbstractQuery#orderByAttributes} to the given one.
      * @param orderByAttributes The order in which the results will be sorted by the query.
-     *                          This sorting is done in the {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation}.
+     *                          This sorting is done in the {@link AbstractDatabaseOperationWithSearchParameter}.
      * @return the same AbstractQuery object, on which the method was called
      */
     public AbstractQuery setOrderByAttributes(final String orderByAttributes) {

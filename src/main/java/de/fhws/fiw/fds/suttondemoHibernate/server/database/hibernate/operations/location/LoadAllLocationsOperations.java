@@ -4,6 +4,11 @@ import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.model.AbstractReadAllOperation;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.LocationDB;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.From;
+import jakarta.persistence.criteria.Predicate;
+
+import java.util.List;
 
 public class LoadAllLocationsOperations extends AbstractReadAllOperation<LocationDB> {
 
@@ -11,4 +16,8 @@ public class LoadAllLocationsOperations extends AbstractReadAllOperation<Locatio
         super(emf, LocationDB.class, searchParameter);
     }
 
+    @Override
+    public List<Predicate> getAdditionalPredicates(CriteriaBuilder cb, From from) {
+        return null;
+    }
 }
