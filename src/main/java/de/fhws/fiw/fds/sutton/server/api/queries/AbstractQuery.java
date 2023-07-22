@@ -18,6 +18,7 @@ package de.fhws.fiw.fds.sutton.server.api.queries;
 
 import de.fhws.fiw.fds.sutton.server.database.DatabaseException;
 import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 
@@ -38,6 +39,12 @@ public abstract class AbstractQuery<T extends AbstractModel> {
     protected PagingBehavior pagingBehavior = new OnePageWithAllResults();
 
     /**
+     * The order in which the results will be sorted by the query. This sorting is done in the {@link AbstractDatabaseOrderByOperation}.
+     * By default, there is no sorting.
+     */
+    protected String orderByAttributes = "";
+
+    /**
      * Default constructor to instantiate an AbstractQuery
      */
     protected AbstractQuery() {
@@ -51,6 +58,17 @@ public abstract class AbstractQuery<T extends AbstractModel> {
      */
     public AbstractQuery setPagingBehavior(final PagingBehavior pagingBehavior) {
         this.pagingBehavior = pagingBehavior;
+        return this;
+    }
+
+    /**
+     * Sets the {@link AbstractQuery#orderByAttributes} to the given one.
+     * @param orderByAttributes The order in which the results will be sorted by the query.
+     *                          This sorting is done in the {@link AbstractDatabaseOrderByOperation}.
+     * @return the same AbstractQuery object, on which the method was called
+     */
+    public AbstractQuery setOrderByAttributes(final String orderByAttributes) {
+        this.orderByAttributes = orderByAttributes;
         return this;
     }
 
@@ -70,7 +88,7 @@ public abstract class AbstractQuery<T extends AbstractModel> {
             final SearchParameter searchParameter = new SearchParameter();
             searchParameter.setOffset(this.pagingBehavior.getOffset());
             searchParameter.setSize(this.pagingBehavior.getSize());
-            searchParameter.setOrderByAttributes(this.pagingBehavior.getOrderByAttributes());
+            searchParameter.setOrderByAttributes(this.orderByAttributes);
 
             result = doExecuteQuery(searchParameter);
         } catch (final DatabaseException e) {

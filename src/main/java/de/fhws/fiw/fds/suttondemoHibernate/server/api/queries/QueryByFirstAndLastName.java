@@ -33,7 +33,8 @@ public class QueryByFirstAndLastName extends AbstractQuery<Person> {
         this.firstName = firstName;
         this.lastName = lastName;
         this.waitingTime = waitingTime;
-        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size, orderByAttributes);
+        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size);
+        this.orderByAttributes = orderByAttributes;
     }
 
     public String getFirstName() {

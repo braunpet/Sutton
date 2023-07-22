@@ -19,7 +19,8 @@ public class QueryByLocationName extends AbstractRelationQuery<Location> {
         super(primaryId);
         this.cityName = cityName;
         this.waitingTime = waitingTime;
-        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size, orderByAttributes);
+        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size);
+        this.orderByAttributes = orderByAttributes;
     }
 
     public String getCityName() {

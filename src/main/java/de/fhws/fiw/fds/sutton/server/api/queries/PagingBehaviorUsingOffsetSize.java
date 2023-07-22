@@ -22,6 +22,9 @@ import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The PagingBehaviorUsingOffsetSize class is an instance of {@link PagingBehavior} and describes a paging behavior
@@ -59,11 +62,6 @@ public class PagingBehaviorUsingOffsetSize<T extends AbstractModel> extends Pagi
     public static final String QUERY_PARAM_OFFSET = "offset";
 
     /**
-     * Default name {@link String} of the orderByAttributes property to be used as query parameter
-     */
-    public static final String QUERY_PARAM_ORDER_BY_ATTRIBUTES = "sort";
-
-    /**
      * The offset {@link Integer} from the collection of the full results where the page should start
      */
     protected int offset;
@@ -72,11 +70,6 @@ public class PagingBehaviorUsingOffsetSize<T extends AbstractModel> extends Pagi
      * The size {@link Integer} of the page
      */
     protected int size;
-
-    /**
-     * The orderByAttributes {@link String} of page
-     */
-    protected String orderByAttributes;
 
     /**
      * Name {@link String} of the offset property to be used as query parameter
@@ -88,40 +81,32 @@ public class PagingBehaviorUsingOffsetSize<T extends AbstractModel> extends Pagi
      */
     protected String sizeQueryParamName = QUERY_PARAM_SIZE;
 
-    /**
-     * Name {@link String} of the orderByAttributes property to be used as query parameter
-     */
-    protected String orderByAttributesQueryParamName = QUERY_PARAM_ORDER_BY_ATTRIBUTES;
-
     private PagingBehaviorUsingOffsetSize() {
     }
 
-    private PagingBehaviorUsingOffsetSize(final String offsetQueryParamName, final String sizeQueryParamName, final String orderByAttributesQueryParamName) {
+    private PagingBehaviorUsingOffsetSize(final String offsetQueryParamName, final String sizeQueryParamName) {
         this.offsetQueryParamName = offsetQueryParamName;
         this.sizeQueryParamName = sizeQueryParamName;
-        this.orderByAttributesQueryParamName = orderByAttributesQueryParamName;
     }
 
     /**
-     * This constructor instantiates a PagingBehaviorUsingOffsetSize and sets the offset, the size and the orderByAttributes query parameters
-     * names to the given values. It also checks if the given offset, size and orderByAttributes values are acceptable
+     * This constructor instantiates a PagingBehaviorUsingOffsetSize and sets the offset and the size query parameters
+     * names to the given values. It also checks if the given offset and size values are acceptable
      */
-    public PagingBehaviorUsingOffsetSize(final String offsetQueryParamName, final String sizeQueryParamName, final String orderByAttributesQueryParamName,
-                                         final int offset, final int size, final String orderByAttributes) {
-        this(offsetQueryParamName, sizeQueryParamName, orderByAttributesQueryParamName);
+    public PagingBehaviorUsingOffsetSize(final String offsetQueryParamName, final String sizeQueryParamName,
+                                         final int offset, final int size) {
+        this(offsetQueryParamName, sizeQueryParamName);
         setOffset(offset);
         setSize(size);
-        setOrderByAttributes(orderByAttributes);
     }
 
     /**
-     * This constructor instantiates a PagingBehaviorUsingOffsetSize and checks if the given offset, size and orderByAttributes
+     * This constructor instantiates a PagingBehaviorUsingOffsetSize and checks if the given offset and size
      * values are acceptable and sets the values accordingly
      */
-    public PagingBehaviorUsingOffsetSize(final int offset, final int size, final String orderByAttributes) {
+    public PagingBehaviorUsingOffsetSize(final int offset, final int size) {
         setOffset(offset);
         setSize(size);
-        setOrderByAttributes(orderByAttributes);
     }
 
     @Override
@@ -132,11 +117,6 @@ public class PagingBehaviorUsingOffsetSize<T extends AbstractModel> extends Pagi
     @Override
     public int getSize() {
         return this.size;
-    }
-
-    @Override
-    public String getOrderByAttributes() {
-        return this.orderByAttributes;
     }
 
     @Override
@@ -187,10 +167,6 @@ public class PagingBehaviorUsingOffsetSize<T extends AbstractModel> extends Pagi
 
     private void setSize(final int size) {
         this.size = Math.max(1, Math.min(size, getDefaultMaxPageSize()));
-    }
-
-    private void setOrderByAttributes(final String orderByAttributes) {
-        this.orderByAttributes = orderByAttributes == null ? "" : orderByAttributes;
     }
 
     private UriBuilder createUriBuilder(final UriInfo uriInfo) {
