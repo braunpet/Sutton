@@ -10,8 +10,6 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.searchParameterAtt
 
 public class QueryByFirstNameEquals extends AbstractQuery<Person> {
 
-    String firstName;
-
     public QueryByFirstNameEquals(String firstNameValue) {
         addAttributeEqualValue(new AttributeEqualsValueFirstName(firstNameValue));
     }
