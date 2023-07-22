@@ -324,7 +324,7 @@ public class TestHibernateRelations extends AbstractHibernateTestHelper {
 
         SearchParameter searchParameter = new SearchParameter();
         searchParameter.addAttributeEqualValue(new AbstractAttributeEqualsValue<String>("cityName", "London") {});
-        CollectionModelHibernateResult<LocationDB> locationResultGetAllById = relDao.readAll(1, searchParameter);
+        CollectionModelHibernateResult<LocationDB> locationResultGetAllById = relDao.readAll(person.getId(), searchParameter);
         assertEquals(1, locationResultGetAllById.getTotalNumberOfResult());
         assertEquals("London", locationResultGetAllById.getResult().stream().toList().get(0).getCityName());
     }
