@@ -1,6 +1,7 @@
 package suttondemoHibernate.database.hibernate;
 
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
@@ -280,5 +281,51 @@ public class TestHibernateRelations extends AbstractHibernateTestHelper {
         CollectionModelHibernateResult<LocationDB> locationResultGetAllById = relDao.readByCityName(person.getId(), "London", searchParameter);
         assertEquals(20, locationResultGetAllById.getResult().size());
         assertEquals(25, locationResultGetAllById.getTotalNumberOfResult());
+    }
+
+    @Test
+    public void test_db_read_PersonLocation_by_cityName_with_SearchParameter() throws Exception {
+        //Person
+        PersonDB person = new PersonDB();
+        person.setFirstName("James");
+        person.setLastName("Bond");
+        person.setBirthDate(LocalDate.of(1948, 7, 7));
+        person.setEmailAddress("james.bond@thws.de");
+
+        PersonDaoHibernate personDao = new PersonDaoHibernateImpl();
+        NoContentResult resultSavePerson = personDao.create(person);
+
+        assertFalse(resultSavePerson.hasError());
+
+        CollectionModelHibernateResult<PersonDB> personResultGetAll = personDao.readAll();
+        assertEquals(1, personResultGetAll.getResult().size());
+        PersonLocationDaoHibernate relDao = new PersonLocationDaoHibernateImpl();
+
+        LocationDB locationLondon = new LocationDB();
+        locationLondon.setCityName("London");
+        locationLondon.setVisitedOn(LocalDate.of(2021, 9, 30));
+        locationLondon.setLongitude(-0.118092);
+        locationLondon.setLatitude(51.509865);
+
+        NoContentResult resultSaveRelLondon = relDao.create(person.getId(), locationLondon);
+        assertFalse(resultSaveRelLondon.hasError());
+
+        // 24 Relations to Location not London
+        IntStream.range(1, 25).forEach(i -> {
+            LocationDB location = new LocationDB();
+            location.setCityName("Berlin");
+            location.setVisitedOn(LocalDate.of(2021, 9, 30));
+            location.setLongitude(-0.118092);
+            location.setLatitude(51.509865);
+
+            NoContentResult resultSaveRel = relDao.create(person.getId(), location);
+            assertFalse(resultSaveRel.hasError());
+        });
+
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.addAttributeEqualValue(new AbstractAttributeEqualsValue<String>("cityName", "London") {});
+        CollectionModelHibernateResult<LocationDB> locationResultGetAllById = relDao.readAll(1, searchParameter);
+        assertEquals(1, locationResultGetAllById.getTotalNumberOfResult());
+        assertEquals("London", locationResultGetAllById.getResult().stream().toList().get(0).getCityName());
     }
 }

@@ -1,6 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.database.hibernate.operations.model;
 
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
@@ -8,12 +8,13 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
 public abstract class AbstractReadAllOperation<T extends AbstractDBModel>
-        extends AbstractDatabaseOrderByOperation<T, Root<T>> {
+        extends AbstractDatabaseOrderByOperation<T> {
 
     private final Class<T> clazz;
     private final SearchParameter searchParameter;
@@ -30,8 +31,9 @@ public abstract class AbstractReadAllOperation<T extends AbstractDBModel>
         final CriteriaQuery<T> cq = cb.createQuery(this.clazz);
         final Root<T> rootEntry = cq.from(this.clazz);
 
+        Predicate[] predicatesFromSearchParameter = getPredicatesFromSearchParameter(cb, rootEntry, this.searchParameter);
         final CriteriaQuery<T> all = cq.select(rootEntry)
-                .where() // all / no predicates
+                .where(predicatesFromSearchParameter)
                 .orderBy(getOrderFromSearchParameter(cb, rootEntry, this.searchParameter));
         final TypedQuery<T> allQuery = em.createQuery(all);
 

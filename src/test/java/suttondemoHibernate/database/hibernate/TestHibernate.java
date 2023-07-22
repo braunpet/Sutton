@@ -1,14 +1,13 @@
 package suttondemoHibernate.database.hibernate;
 
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.dao.PersonDaoHibernate;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.dao.PersonDaoHibernateImpl;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonDB;
-import de.fhws.fiw.fds.suttondemoHibernate.server.database.utils.ResetDatabase;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -291,5 +290,35 @@ public class TestHibernate extends AbstractHibernateTestHelper{
         assertEquals("Bond", personList.get(1).getLastName());
         assertEquals("Jeremy", personList.get(0).getFirstName());
         assertEquals("Alu", personList.get(0).getLastName());
+    }
+
+    @Test
+    public void test_db_load_all_with_attribute_equal_value_in_SearchParameter() {
+        PersonDB person = new PersonDB();
+        person.setFirstName("James");
+        person.setLastName("Bond");
+        person.setBirthDate(LocalDate.of(1948, 7, 7));
+        person.setEmailAddress("james.bond@thws.de");
+
+        PersonDaoHibernate dao = new PersonDaoHibernateImpl();
+        NoContentResult resultSave = dao.create(person);
+
+        assertFalse(resultSave.hasError());
+
+        PersonDB person2 = new PersonDB();
+        person2.setFirstName("Jeremy");
+        person2.setLastName("Alu");
+        person2.setBirthDate(LocalDate.of(1964, 3, 18));
+        person2.setEmailAddress("jeremy.alu@thws.de");
+
+        NoContentResult resultSave2 = dao.create(person2);
+
+        assertFalse(resultSave2.hasError());
+
+        SearchParameter searchParameter = new SearchParameter();
+        searchParameter.addAttributeEqualValue(new AbstractAttributeEqualsValue<String>("firstName", "James") {});
+        CollectionModelHibernateResult<PersonDB> result = dao.readAll(searchParameter);
+        assertEquals(1, result.getTotalNumberOfResult());
+        assertEquals("James", result.getResult().stream().toList().get(0).getFirstName());
     }
 }

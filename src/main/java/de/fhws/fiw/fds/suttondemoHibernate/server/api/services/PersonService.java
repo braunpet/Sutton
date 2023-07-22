@@ -18,6 +18,7 @@ import de.fhws.fiw.fds.sutton.server.api.services.AbstractService;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByFirstAndLastName;
+import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByFirstNameEquals;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByLocationName;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.person_locations.*;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.*;
@@ -40,6 +41,19 @@ public class PersonService extends AbstractService {
             @DefaultValue("0") @QueryParam("wait") int waitingTime,
             @DefaultValue("") @QueryParam("sort") final String orderByAttributes) {
         return new GetAllPersons.Builder().setQuery(new QueryByFirstAndLastName(firstName, lastName, offset, size, waitingTime, orderByAttributes))
+                .setUriInfo(this.uriInfo)
+                .setRequest(this.request)
+                .setHttpServletRequest(this.httpServletRequest)
+                .setContext(this.context)
+                .build()
+                .execute();
+    }
+
+    @GET
+    @Path("{firstName: \\p{L}+}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonsWithFirstName(@PathParam("firstName") final String firstName) {
+        return new GetAllPersons.Builder().setQuery(new QueryByFirstNameEquals(firstName))
                 .setUriInfo(this.uriInfo)
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)

@@ -1,7 +1,6 @@
 package de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.operations.person;
 
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
-import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperation;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonDB;
@@ -13,7 +12,7 @@ import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
-public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOrderByOperation<PersonDB, Root<PersonDB>> {
+public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOrderByOperation<PersonDB> {
 
     private final String firstName;
     private final String lastName;

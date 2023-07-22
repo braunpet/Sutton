@@ -3,7 +3,7 @@ package de.fhws.fiw.fds.sutton.server.database.hibernate;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.model.APIKey;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.operation.PersistAPIKeyOperation;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.operation.ReadAllAPIKeysOperation;
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 
 import java.util.ArrayList;
 import java.util.Collection;

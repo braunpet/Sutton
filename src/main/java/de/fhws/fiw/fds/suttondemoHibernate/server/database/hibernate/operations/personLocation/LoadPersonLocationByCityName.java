@@ -1,6 +1,6 @@
 package de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.operations.personLocation;
 
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.SuttonColumnConstants;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOrderByOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
@@ -13,7 +13,7 @@ import jakarta.persistence.criteria.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LoadPersonLocationByCityName extends AbstractDatabaseOrderByOperation<LocationDB, Join<PersonLocationDB, LocationDB>> {
+public class LoadPersonLocationByCityName extends AbstractDatabaseOrderByOperation<LocationDB> {
 
 
     private final Class<PersonLocationDB> clazzOfRelation = PersonLocationDB.class;

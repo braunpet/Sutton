@@ -15,7 +15,7 @@
 package de.fhws.fiw.fds.suttondemoHibernate.server;
 
 import de.fhws.fiw.fds.sutton.server.database.IDatabaseAccessObject;
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 

@@ -4,7 +4,7 @@ import de.fhws.fiw.fds.sutton.server.api.rateLimiting.model.APIKey;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.operation.ReadAPIKeyOperation;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.operation.ReadAllAPIKeysOperation;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.operation.UpdateAPIKeyOperation;
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.IDatabaseConnection;
 
 import javax.ws.rs.WebApplicationException;

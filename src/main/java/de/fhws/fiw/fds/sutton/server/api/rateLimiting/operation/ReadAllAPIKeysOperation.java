@@ -1,7 +1,7 @@
 package de.fhws.fiw.fds.sutton.server.api.rateLimiting.operation;
 
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.model.APIKey;
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.model.AbstractReadAllOperation;
 import jakarta.persistence.EntityManagerFactory;
 

@@ -12,7 +12,10 @@
  * the License.
  */
 
-package de.fhws.fiw.fds.sutton.server.database;
+package de.fhws.fiw.fds.sutton.server.database.searchParameter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The SearchParameter class provides the required attributes to apply the paging behavior using offset and size.
@@ -21,6 +24,11 @@ package de.fhws.fiw.fds.sutton.server.database;
 public class SearchParameter {
 
     public static final SearchParameter DEFAULT = new SearchParameter();
+
+    /**
+     * A {@link List} which contains {@link AbstractAttributeEqualsValue}s for which will be searched
+     */
+    public List<AbstractAttributeEqualsValue> attributesEqualsValues = new ArrayList<>();
 
     /**
      * The offset {@link Integer} from the collection of the full results where the page should start
@@ -61,4 +69,19 @@ public class SearchParameter {
         this.orderByAttributes = orderByAttributes;
     }
 
+    public List<AbstractAttributeEqualsValue> getAttributesEqualsValues() {
+        return attributesEqualsValues;
+    }
+
+    public void addAttributeEqualValue(AbstractAttributeEqualsValue attributeEqualValue) {
+        attributesEqualsValues.add(attributeEqualValue);
+    }
+
+    public void removeAttributeEqualValue(AbstractAttributeEqualsValue attributeEqualValue) {
+        attributesEqualsValues.remove(attributeEqualValue);
+    }
+
+    public void setAttributesEqualsValues(List<AbstractAttributeEqualsValue> attributesEqualsValues) {
+        this.attributesEqualsValues = attributesEqualsValues;
+    }
 }

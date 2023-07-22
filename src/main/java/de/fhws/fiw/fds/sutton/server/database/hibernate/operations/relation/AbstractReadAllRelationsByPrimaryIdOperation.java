@@ -1,6 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.database.hibernate.operations.relation;
 
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBRelation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.SuttonColumnConstants;
@@ -17,7 +17,7 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
         PrimaryModel extends AbstractDBModel,
         SecondaryModel extends AbstractDBModel,
         Relation extends AbstractDBRelation>
-        extends AbstractDatabaseOrderByOperation<SecondaryModel, Join<Relation, SecondaryModel>> {
+        extends AbstractDatabaseOrderByOperation<SecondaryModel> {
 
     private final Class<Relation> clazzOfRelation;
     private final long primaryId;
@@ -41,7 +41,8 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
         Join<Relation, SecondaryModel> join = rootEntry.join(SuttonColumnConstants.SECONDARY_MODEL);
 
         Predicate primaryIdEquals = cb.equal(rootEntry.get(SuttonColumnConstants.DB_RELATION_ID).get(SuttonColumnConstants.PRIMARY_ID), this.primaryId);
-        find.where(primaryIdEquals)
+        Predicate[] predicatesFromSearchParameter = getPredicatesFromSearchParameter(cb, join, this.searchParameter);
+        find.where(primaryIdEquals, cb.and(predicatesFromSearchParameter))
                 .orderBy(getOrderFromSearchParameter(cb, join, this.searchParameter));
         TypedQuery<Relation> findQuery = em.createQuery(find);
         List<SecondaryModel> results = findQuery

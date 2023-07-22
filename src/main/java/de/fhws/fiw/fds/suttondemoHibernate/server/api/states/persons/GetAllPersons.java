@@ -38,13 +38,15 @@ public class GetAllPersons extends AbstractGetCollectionState<Person> {
 
     @Override
     protected void authorizeRequest() {
-        QueryByFirstAndLastName theQuery = (QueryByFirstAndLastName) this.query;
-        int waitingTime = theQuery.getWaitingTime();
+        if(this.query instanceof QueryByFirstAndLastName){
+            QueryByFirstAndLastName theQuery = (QueryByFirstAndLastName) this.query;
+            int waitingTime = theQuery.getWaitingTime();
 
-        try {
-            Thread.sleep(waitingTime);
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                Thread.sleep(waitingTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
