@@ -16,4 +16,9 @@ public class DemoStateReturns200Ok extends AbstractState {
     protected Response buildInternal() {
         return Response.ok().build();
     }
+
+    @Override
+    protected Response buildInternalWithRateLimiter() {
+        return buildInternal();
+    }
 }

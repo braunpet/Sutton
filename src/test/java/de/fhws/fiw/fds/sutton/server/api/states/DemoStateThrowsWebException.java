@@ -17,4 +17,9 @@ public class DemoStateThrowsWebException extends AbstractState {
     protected Response buildInternal() {
         throw new WebApplicationException();
     }
+
+    @Override
+    protected Response buildInternalWithRateLimiter() {
+        return buildInternal();
+    }
 }

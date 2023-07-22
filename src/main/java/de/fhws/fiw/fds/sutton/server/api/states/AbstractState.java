@@ -80,7 +80,7 @@ public abstract class AbstractState {
      *
      * @return the response sent back to the client
      */
-    private Response buildInternalWithRateLimiter() {
+    protected Response buildInternalWithRateLimiter() {
         String apiKey = getApiKeyFromRequest();
         if (rateLimiter.isRequestAllowed(apiKey)) {
             return buildInternal();

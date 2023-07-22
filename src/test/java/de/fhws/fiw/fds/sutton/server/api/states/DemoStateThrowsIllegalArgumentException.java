@@ -16,4 +16,9 @@ public class DemoStateThrowsIllegalArgumentException extends AbstractState {
     protected Response buildInternal() {
         throw new IllegalArgumentException();
     }
+
+    @Override
+    protected Response buildInternalWithRateLimiter() {
+        return buildInternal();
+    }
 }
