@@ -57,6 +57,12 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
 
         this.requestedModel = loadModel();
 
+        if(this.requestedModel.getErrorCode() != null){
+            return Response.status(this.requestedModel.getErrorCode())
+                    .entity(this.requestedModel.getErrorMessage())
+                    .build();
+        }
+
         if (this.requestedModel.hasError()) {
             return Response.serverError()
                     .build();

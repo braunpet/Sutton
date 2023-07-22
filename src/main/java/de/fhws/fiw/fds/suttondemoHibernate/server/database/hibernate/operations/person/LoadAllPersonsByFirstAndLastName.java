@@ -13,7 +13,7 @@ import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
-public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOrderByOperation<PersonDB, CollectionModelHibernateResult<PersonDB>, Root<PersonDB>> {
+public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOrderByOperation<PersonDB, Root<PersonDB>> {
 
     private final String firstName;
     private final String lastName;
@@ -32,13 +32,6 @@ public class LoadAllPersonsByFirstAndLastName extends AbstractDatabaseOrderByOpe
     protected CollectionModelHibernateResult<PersonDB> run() {
         var returnValue = new CollectionModelHibernateResult<>(readResult());
         returnValue.setTotalNumberOfResult(getTotalNumberOfResults());
-        return returnValue;
-    }
-
-    @Override
-    protected CollectionModelHibernateResult<PersonDB> errorResult() {
-        final CollectionModelHibernateResult<PersonDB> returnValue = new CollectionModelHibernateResult<>();
-        returnValue.setError();
         return returnValue;
     }
 

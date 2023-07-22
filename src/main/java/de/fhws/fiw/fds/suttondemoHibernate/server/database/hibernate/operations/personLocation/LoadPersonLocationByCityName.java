@@ -13,7 +13,7 @@ import jakarta.persistence.criteria.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class LoadPersonLocationByCityName extends AbstractDatabaseOrderByOperation<LocationDB, CollectionModelHibernateResult<LocationDB>, Join<PersonLocationDB, LocationDB>> {
+public class LoadPersonLocationByCityName extends AbstractDatabaseOrderByOperation<LocationDB, Join<PersonLocationDB, LocationDB>> {
 
 
     private final Class<PersonLocationDB> clazzOfRelation = PersonLocationDB.class;
@@ -35,13 +35,6 @@ public class LoadPersonLocationByCityName extends AbstractDatabaseOrderByOperati
     protected CollectionModelHibernateResult<LocationDB> run() {
         var returnValue = new CollectionModelHibernateResult<>(readResult());
         returnValue.setTotalNumberOfResult(getTotalNumberOfResults());
-        return returnValue;
-    }
-
-    @Override
-    protected CollectionModelHibernateResult<LocationDB> errorResult() {
-        final CollectionModelHibernateResult<LocationDB> returnValue = new CollectionModelHibernateResult<>();
-        returnValue.setError();
         return returnValue;
     }
 

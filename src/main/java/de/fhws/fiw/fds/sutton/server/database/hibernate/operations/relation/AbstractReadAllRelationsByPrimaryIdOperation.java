@@ -17,7 +17,7 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
         PrimaryModel extends AbstractDBModel,
         SecondaryModel extends AbstractDBModel,
         Relation extends AbstractDBRelation>
-        extends AbstractDatabaseOrderByOperation<SecondaryModel, CollectionModelHibernateResult<SecondaryModel>, Join<Relation, SecondaryModel>> {
+        extends AbstractDatabaseOrderByOperation<SecondaryModel, Join<Relation, SecondaryModel>> {
 
     private final Class<Relation> clazzOfRelation;
     private final long primaryId;
@@ -55,12 +55,4 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
         return new CollectionModelHibernateResult<>(results);
     }
 
-
-
-    @Override
-    protected CollectionModelHibernateResult<SecondaryModel> errorResult() {
-        final CollectionModelHibernateResult<SecondaryModel> returnValue = new CollectionModelHibernateResult<>();
-        returnValue.setError();
-        return returnValue;
-    }
 }

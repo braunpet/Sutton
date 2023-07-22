@@ -98,7 +98,7 @@ public class PersonDaoAdapter implements PersonDao {
         }
         if (result.hasError()) {
             final SingleModelResult<Person> returnValue = new SingleModelResult<>();
-            returnValue.setError();
+            returnValue.setError(result.getErrorCode(), result.getErrorMessage());
             return returnValue;
         } else {
             return new SingleModelResult<>(createFrom(result.getResult()));
@@ -108,7 +108,7 @@ public class PersonDaoAdapter implements PersonDao {
     private CollectionModelResult<Person> createResult(CollectionModelHibernateResult<PersonDB> result) {
         if (result.hasError()) {
             final CollectionModelResult<Person> returnValue = new CollectionModelResult<>();
-            returnValue.setError();
+            returnValue.setError(result.getErrorCode(), result.getErrorMessage());
             return returnValue;
         } else {
             final CollectionModelResult returnValue = new CollectionModelResult<>(createFrom(result.getResult()));

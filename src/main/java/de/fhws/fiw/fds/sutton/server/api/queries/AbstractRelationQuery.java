@@ -19,4 +19,9 @@ public abstract class AbstractRelationQuery<T extends AbstractModel> extends Abs
         return this;
     }
 
+    public AbstractRelationQuery setOrderByAttributes(final String orderByAttributes) {
+        super.setOrderByAttributes(orderByAttributes);
+        return this;
+    }
+
 }

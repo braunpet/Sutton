@@ -85,7 +85,7 @@ public class LocationDaoAdapter implements LocationDao {
         }
         if (result.hasError()) {
             final SingleModelResult<Location> returnValue = new SingleModelResult<>();
-            returnValue.setError();
+            returnValue.setError(result.getErrorCode(), result.getErrorMessage());
             return returnValue;
         } else {
             return new SingleModelResult<>(createFrom(result.getResult()));
@@ -95,7 +95,7 @@ public class LocationDaoAdapter implements LocationDao {
     private CollectionModelResult<Location> createResult(CollectionModelHibernateResult<LocationDB> result) {
         if (result.hasError()) {
             final CollectionModelResult<Location> returnValue = new CollectionModelResult<>();
-            returnValue.setError();
+            returnValue.setError(result.getErrorCode(), result.getErrorMessage());
             return returnValue;
         } else {
             final CollectionModelResult returnValue = new CollectionModelResult<>(createFrom(result.getResult()));

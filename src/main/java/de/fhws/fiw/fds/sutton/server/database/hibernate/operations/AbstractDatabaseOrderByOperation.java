@@ -2,7 +2,7 @@ package de.fhws.fiw.fds.sutton.server.database.hibernate.operations;
 
 import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
-import de.fhws.fiw.fds.sutton.server.database.results.AbstractResult;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.From;
@@ -14,8 +14,7 @@ import java.util.List;
 
 public abstract class AbstractDatabaseOrderByOperation<
         T extends AbstractDBModel,
-        R extends AbstractResult,
-        F extends From> extends AbstractDatabaseOperation<T, R>{
+        F extends From> extends AbstractDatabaseOperation<T, CollectionModelHibernateResult<T>> {
 
     protected AbstractDatabaseOrderByOperation(EntityManagerFactory emf) {
         super(emf);
@@ -36,7 +35,14 @@ public abstract class AbstractDatabaseOrderByOperation<
         return orders;
     }
 
-    private static class OrderByConstants{
+    @Override
+    protected CollectionModelHibernateResult<T> errorResult() {
+        CollectionModelHibernateResult<T> returnValue = new CollectionModelHibernateResult<T>();
+        returnValue.setError(400, "The given sort-Attribute doesn't exist. Maybe a misspell? Watch case sensitivity!");
+        return returnValue;
+    }
+
+    private static class OrderByConstants {
         protected static final String DIVIDER = ",";
         protected static final String ASC = "asc";
         protected static final String DESC = "desc";

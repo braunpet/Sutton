@@ -13,7 +13,7 @@ import jakarta.persistence.criteria.Root;
 import java.util.List;
 
 public abstract class AbstractReadAllOperation<T extends AbstractDBModel>
-        extends AbstractDatabaseOrderByOperation<T, CollectionModelHibernateResult<T>, Root<T>> {
+        extends AbstractDatabaseOrderByOperation<T, Root<T>> {
 
     private final Class<T> clazz;
     private final SearchParameter searchParameter;
@@ -42,13 +42,6 @@ public abstract class AbstractReadAllOperation<T extends AbstractDBModel>
                 .getResultList();
 
         return new CollectionModelHibernateResult<>(result);
-    }
-
-    @Override
-    protected CollectionModelHibernateResult<T> errorResult() {
-        final CollectionModelHibernateResult<T> returnValue = new CollectionModelHibernateResult<>();
-        returnValue.setError();
-        return returnValue;
     }
 
 }

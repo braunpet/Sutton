@@ -68,6 +68,12 @@ public abstract class AbstractGetCollectionState<T extends AbstractModel> extend
 
         this.result = loadModels();
 
+        if (this.result.getErrorCode() != null) {
+            return Response.status(this.result.getErrorCode())
+                    .entity(this.result.getErrorMessage())
+                    .build();
+        }
+
         if (this.result.hasError()) {
             return Response.serverError()
                     .build();
