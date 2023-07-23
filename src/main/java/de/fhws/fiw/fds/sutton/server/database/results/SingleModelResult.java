@@ -65,4 +65,28 @@ public class SingleModelResult<T extends AbstractModel> extends AbstractResult {
         return !this.found;
     }
 
+    public static class SingleModelResultBuilder<T extends AbstractModel> extends AbstractResultBuilder<SingleModelResult<T>> {
+
+        private T result;
+        private boolean found;
+
+        public SingleModelResultBuilder<T> setResult(T result) {
+            this.result = result;
+            this.found = result != null;
+            return this;
+        }
+
+        @Override
+        public SingleModelResult<T> build() {
+            SingleModelResult<T> singleModelResult = new SingleModelResult<>();
+            singleModelResult.result = this.result;
+            singleModelResult.found = this.found;
+            singleModelResult.hasError = this.hasError;
+            singleModelResult.errorCode = this.errorCode;
+            singleModelResult.errorMessage = this.errorMessage;
+            singleModelResult.databaseExecutionTimeInMs = this.databaseExecutionTimeInMs;
+            return singleModelResult;
+        }
+    }
+
 }

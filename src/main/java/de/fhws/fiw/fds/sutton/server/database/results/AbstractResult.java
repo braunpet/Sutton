@@ -17,6 +17,8 @@
 package de.fhws.fiw.fds.sutton.server.database.results;
 
 
+import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
+
 /**
  * The AbstractResult class defines the required properties, that all kind of results should possess in order to
  * give descriptive information about possible errors
@@ -117,6 +119,43 @@ public abstract class AbstractResult {
         this.hasError = true;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
+    }
+
+    public static abstract class AbstractResultBuilder<T extends AbstractResult> {
+
+        protected boolean hasError;
+        protected Integer errorCode;
+        protected String errorMessage;
+        protected long databaseExecutionTimeInMs;
+
+        public AbstractResultBuilder<T> setHasError(final boolean hasError) {
+            this.hasError = hasError;
+            return this;
+        }
+
+        public AbstractResultBuilder<T> setErrorCode(Integer errorCode) {
+            this.errorCode = errorCode;
+            return this;
+        }
+
+        public AbstractResultBuilder<T> setErrorMessage(String errorMessage) {
+            this.errorMessage = errorMessage;
+            return this;
+        }
+
+        public AbstractResultBuilder<T> setError(final int errorCode, final String errorMessage){
+            this.hasError = true;
+            this.errorCode = errorCode;
+            this.errorMessage = errorMessage;
+            return this;
+        }
+
+        public AbstractResultBuilder<T> setDatabaseExecutionTimeInMs(long databaseExecutionTimeInMs) {
+            this.databaseExecutionTimeInMs = databaseExecutionTimeInMs;
+            return this;
+        }
+
+        public abstract T build();
     }
 
 }
