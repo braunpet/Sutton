@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.database.binaryData;
+package de.fhws.fiw.fds.sutton.server.database.binaryData.database;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,7 +41,7 @@ public class BinaryDataResourceHandler {
                 fos.write(data);
             }
         }else{
-            throw new IOException("File already exists");
+            throw new IOException("File already exists.");
         }
 
         return file;
@@ -82,10 +82,10 @@ public class BinaryDataResourceHandler {
         if (existingFile.exists()) {
             boolean delete = existingFile.delete();
             if (!delete) {
-                throw new IOException("File not found or could not be updated");
+                throw new IOException("File not found or could not be updated.");
             }
         } else {
-            throw new IOException("File not found");
+            throw new IOException("File not found.");
         }
 
         return saveBinaryData(id, data);
@@ -102,7 +102,7 @@ public class BinaryDataResourceHandler {
         File file = new File(RESOURCE_DIRECTORY + id);
         boolean deleted = file.delete();
         if(!deleted){
-            throw new IOException("Failed to delete file: " + file.getName());
+            throw new IOException("Failed to delete file: " + file.getName() + ".");
         }
         return true;
     }
@@ -117,7 +117,7 @@ public class BinaryDataResourceHandler {
         for (File file : allFiles) {
             boolean deleted = file.delete();
             if (!deleted) {
-                throw new IOException("Failed to delete file: " + file.getName());
+                throw new IOException("Failed to delete file: " + file.getName() + ".");
             }
         }
     }

@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.database.binaryData;
+package de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao;
 
 import de.fhws.fiw.fds.sutton.server.database.IDatabaseAccessObject;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;

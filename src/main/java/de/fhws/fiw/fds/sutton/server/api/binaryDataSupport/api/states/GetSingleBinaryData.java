@@ -1,7 +1,7 @@
-package de.fhws.fiw.fds.sutton.server.api.states.binaryData;
+package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.states;
 
 import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetState;
-import de.fhws.fiw.fds.sutton.server.database.binaryData.IBinaryDataDaoSupplier;
+import de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao.IBinaryDataDaoSupplier;
 import de.fhws.fiw.fds.sutton.server.models.BinaryDataModel;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 

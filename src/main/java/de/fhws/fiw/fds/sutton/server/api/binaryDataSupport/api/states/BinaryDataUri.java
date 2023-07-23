@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.api.states.binaryData;
+package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.states;
 
 import de.fhws.fiw.fds.sutton.server.AbstractStart;
 

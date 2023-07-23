@@ -1,5 +1,6 @@
-package de.fhws.fiw.fds.sutton.server.database.binaryData;
+package de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao;
 
+import de.fhws.fiw.fds.sutton.server.database.binaryData.database.BinaryDataResourceHandler;
 import de.fhws.fiw.fds.sutton.server.database.results.AbstractResult;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
@@ -19,7 +20,7 @@ import java.util.function.Supplier;
  * The BinaryDataDaoImpl class provides an implementation of the BinaryDataDao interface.
  * It provides methods to handle binary data in the local FileSystem.
  */
-public class BinaryDataDaoImpl implements BinaryDataDao {
+public class BinaryDataDaoImpl implements de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao.BinaryDataDao {
 
     /**
      * The resource handler used to manage binary data resources.
@@ -43,7 +44,7 @@ public class BinaryDataDaoImpl implements BinaryDataDao {
      */
     private <T extends AbstractResult> T handleIOException(IOException e, String message, Supplier<T> resultBuilder) {
         T result = resultBuilder.get();
-        result.setError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), message + e.getMessage());
+        result.setError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), message + " " + e.getMessage());
         return result;
     }
 
@@ -99,7 +100,7 @@ public class BinaryDataDaoImpl implements BinaryDataDao {
                 model.setId(Long.parseLong(file.getName()));
                 models.add(model);
             } catch (IOException e) {
-                return handleIOException(e, "Error reading binary data file: ", CollectionModelResult::new);
+                return handleIOException(e, "Error reading binary data file.", CollectionModelResult::new);
             }
         }
 
@@ -118,7 +119,7 @@ public class BinaryDataDaoImpl implements BinaryDataDao {
             resourceHandler.updateBinaryData(model.getId(), model.getData());
             return new NoContentResult();
         } catch (IOException e) {
-            return handleIOException(e, "Error updating binary data file: ", NoContentResult::new);
+            return handleIOException(e, "Error updating binary data file.", NoContentResult::new);
         }
     }
 

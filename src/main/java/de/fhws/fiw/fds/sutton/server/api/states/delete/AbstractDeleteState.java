@@ -71,6 +71,12 @@ public abstract class AbstractDeleteState<T extends AbstractModel> extends Abstr
 
         this.resultAfterDelete = deleteModel();
 
+        if(this.resultAfterDelete.getErrorCode() != null){
+            return Response.status(this.resultAfterDelete.getErrorCode())
+                    .entity(this.resultAfterDelete.getErrorMessage())
+                    .build();
+        }
+
         if (this.resultAfterDelete.hasError()) {
             return Response.serverError()
                     .build();

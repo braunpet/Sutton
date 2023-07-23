@@ -54,11 +54,17 @@ public abstract class AbstractPostState<T extends AbstractModel> extends Abstrac
 
         authorizeRequest();
 
-        if (this.modelToStore.getId() != 0) {
+        if (this.modelToStore == null || this.modelToStore.getId() != 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         this.resultAfterSave = saveModel();
+
+        if(this.resultAfterSave.getErrorCode() != null){
+            return Response.status(this.resultAfterSave.getErrorCode())
+                    .entity(this.resultAfterSave.getErrorMessage())
+                    .build();
+        }
 
         if (this.resultAfterSave.hasError()) {
             return Response.serverError()

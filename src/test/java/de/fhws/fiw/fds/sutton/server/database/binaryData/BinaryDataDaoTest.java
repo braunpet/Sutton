@@ -1,5 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.database.binaryData;
 
+import de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao.BinaryDataDaoImpl;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
@@ -40,7 +41,7 @@ public class BinaryDataDaoTest extends AbstractBinaryDataDaoTest {
 
         assertTrue(result.hasError());
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), result.getErrorCode());
-        assertEquals("Error persisting binary data file on FileSystem.Test exception", result.getErrorMessage());
+        assertEquals("Error persisting binary data file on FileSystem. Test exception", result.getErrorMessage());
     }
 
     @Test
@@ -90,7 +91,7 @@ public class BinaryDataDaoTest extends AbstractBinaryDataDaoTest {
 
         assertTrue(result.hasError());
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), result.getErrorCode());
-        assertEquals("Error updating binary data file: Cannot delete file", result.getErrorMessage());
+        assertEquals("Error updating binary data file. Cannot delete file", result.getErrorMessage());
     }
 
     @Test
