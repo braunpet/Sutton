@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.database.binbaryData;
+package de.fhws.fiw.fds.sutton.server.database.binaryData;
 
 import de.fhws.fiw.fds.sutton.server.database.results.AbstractResult;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;

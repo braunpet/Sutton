@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.database.binbaryData;
+package de.fhws.fiw.fds.sutton.server.database.binaryData;
 
 import java.io.File;
 import java.io.FileOutputStream;

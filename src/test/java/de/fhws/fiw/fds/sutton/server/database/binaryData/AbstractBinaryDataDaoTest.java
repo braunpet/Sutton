@@ -1,7 +1,5 @@
 package de.fhws.fiw.fds.sutton.server.database.binaryData;
 
-import de.fhws.fiw.fds.sutton.server.database.binbaryData.BinaryDataDaoImpl;
-import de.fhws.fiw.fds.sutton.server.database.binbaryData.BinaryDataResourceHandler;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.models.BinaryDataModel;
