@@ -49,6 +49,19 @@ public class BinaryDataService extends AbstractService {
                 .execute();
     }
 
+    @POST
+    @Consumes({MediaType.APPLICATION_OCTET_STREAM})
+    public Response createSingleBinaryData(final byte[] binaryData) {
+        return new PostRawBinaryData.Builder()
+                .setBinaryData(binaryData)
+                .setUriInfo(this.uriInfo)
+                .setRequest(this.request)
+                .setHttpServletRequest(this.httpServletRequest)
+                .setContext(this.context)
+                .build()
+                .execute();
+    }
+
     @PUT
     @Path("{id: \\d+}")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
