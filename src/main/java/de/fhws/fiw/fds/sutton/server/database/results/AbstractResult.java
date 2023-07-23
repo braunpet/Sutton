@@ -128,18 +128,8 @@ public abstract class AbstractResult {
         protected String errorMessage;
         protected long databaseExecutionTimeInMs;
 
-        public AbstractResultBuilder<T> setHasError(final boolean hasError) {
-            this.hasError = hasError;
-            return this;
-        }
-
-        public AbstractResultBuilder<T> setErrorCode(Integer errorCode) {
-            this.errorCode = errorCode;
-            return this;
-        }
-
-        public AbstractResultBuilder<T> setErrorMessage(String errorMessage) {
-            this.errorMessage = errorMessage;
+        public AbstractResultBuilder<T> setError() {
+            this.hasError = true;
             return this;
         }
 
