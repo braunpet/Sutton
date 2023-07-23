@@ -1,10 +1,10 @@
 package de.fhws.fiw.fds.sutton.server.database.binaryData;
 
-import de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao.BinaryDataDaoImpl;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao.BinaryDataDaoImpl;
 import de.fhws.fiw.fds.sutton.server.database.binaryData.database.BinaryDataResourceHandler;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
-import de.fhws.fiw.fds.sutton.server.models.BinaryDataModel;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;

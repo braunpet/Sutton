@@ -1,8 +1,9 @@
-package de.fhws.fiw.fds.sutton.server.models;
+package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models;
 
 import com.owlike.genson.annotation.JsonConverter;
 import de.fhws.fiw.fds.sutton.server.api.converter.JsonServerLinkConverter;
 import de.fhws.fiw.fds.sutton.server.api.converter.XmlServerLinkConverter;
+import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
 import de.fhws.fiw.fds.sutton.server.utils.JsonByteArrayConverter;
 import de.fhws.fiw.fds.sutton.server.utils.XmlByteArrayConverter;
 import jakarta.xml.bind.annotation.XmlAccessType;

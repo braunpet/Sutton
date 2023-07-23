@@ -1,10 +1,10 @@
 package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.states;
 
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao.IBinaryDataDaoSupplier;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.api.states.post.AbstractPostState;
-import de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao.IBinaryDataDaoSupplier;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
-import de.fhws.fiw.fds.sutton.server.models.BinaryDataModel;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 
 public class PostRawBinaryData extends AbstractPostState<BinaryDataModel>
         implements IBinaryDataDaoSupplier {

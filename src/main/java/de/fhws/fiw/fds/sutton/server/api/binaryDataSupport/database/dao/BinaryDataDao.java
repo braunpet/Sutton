@@ -1,10 +1,10 @@
-package de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao;
+package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao;
 
 import de.fhws.fiw.fds.sutton.server.database.IDatabaseAccessObject;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
-import de.fhws.fiw.fds.sutton.server.models.BinaryDataModel;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 
 /**
  * The BinaryDataDao interface provides methods to handle binary data on the local FileSystem.

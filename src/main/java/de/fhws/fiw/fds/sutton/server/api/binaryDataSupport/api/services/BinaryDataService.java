@@ -2,7 +2,7 @@ package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.services;
 
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.states.*;
 import de.fhws.fiw.fds.sutton.server.api.services.AbstractService;
-import de.fhws.fiw.fds.sutton.server.models.BinaryDataModel;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

@@ -1,11 +1,11 @@
-package de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao;
+package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao;
 
 import de.fhws.fiw.fds.sutton.server.database.binaryData.database.BinaryDataResourceHandler;
 import de.fhws.fiw.fds.sutton.server.database.results.AbstractResult;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
-import de.fhws.fiw.fds.sutton.server.models.BinaryDataModel;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * The BinaryDataDaoImpl class provides an implementation of the BinaryDataDao interface.
  * It provides methods to handle binary data in the local FileSystem.
  */
-public class BinaryDataDaoImpl implements de.fhws.fiw.fds.sutton.server.database.binaryData.database.dao.BinaryDataDao {
+public class BinaryDataDaoImpl implements BinaryDataDao {
 
     /**
      * The resource handler used to manage binary data resources.
