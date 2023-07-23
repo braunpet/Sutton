@@ -32,13 +32,19 @@ public abstract class AbstractStart {
     private static final String WEB_APP_MOUNT = "/WEB-INF/classes";
     private static final String WEB_APP_CLASSES = "target/classes";
 
+    private static String contextPath = null;
+
+    public AbstractStart(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
     protected void startTomcat() throws Exception {
         new DatabaseInstaller().install();
 
         final Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
 
-        final Context context = tomcat.addWebapp(CONTEXT_PATH_PREFIX + contextPath(),
+        final Context context = tomcat.addWebapp(CONTEXT_PATH_PREFIX + getContextPath(),
                 new File(WEB_APP_LOCATION).getAbsolutePath());
         final String pathToClasses = new File(WEB_APP_CLASSES).getAbsolutePath();
         final WebResourceRoot resources = new StandardRoot(context);
@@ -51,6 +57,7 @@ public abstract class AbstractStart {
         tomcat.getServer().await();
     }
 
-    protected abstract String contextPath();
-
+    public static String getContextPath() {
+        return contextPath;
+    }
 }

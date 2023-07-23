@@ -20,13 +20,13 @@ public class Start extends AbstractStart {
 
     public static final String CONTEXT_PATH = "sd";
 
+    public Start() {
+        super(CONTEXT_PATH);
+    }
+
     public static void main(final String[] args) throws Exception {
         new Start().startTomcat();
     }
 
-    @Override
-    protected String contextPath() {
-        return CONTEXT_PATH;
-    }
 
 }

@@ -91,7 +91,7 @@ public abstract class AbstractGetCollectionState<T extends AbstractModel> extend
      * Extending classes should use this method to implement the loading of the requested resources
      * from the database
      */
-    protected final CollectionModelResult<T> loadModels() {
+    public CollectionModelResult<T> loadModels() {
         return this.query.startQuery();
     }
 
