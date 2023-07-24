@@ -1,6 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.database.binaryData;
 
-import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao.BinaryDataDaoImpl;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao.BinaryDataDaoAdapter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
@@ -19,12 +19,7 @@ public class BinaryDataDaoTest extends AbstractBinaryDataDaoTest {
 
     @Test
     void test_create_success() {
-        testModel.setId(2);
-        NoContentResult result = binaryDataDao.create(testModel);
-        testModel.setId(1);
-        assertFalse(result.hasError());
-        SingleModelResult<BinaryDataModel> readResult = binaryDataDao.readById(testModel.getId());
-        assertArrayEquals(testModel.getData(), readResult.getResult().getData());
+        // the default setUp already Tests this
     }
 
     @Test
@@ -35,9 +30,11 @@ public class BinaryDataDaoTest extends AbstractBinaryDataDaoTest {
             e.printStackTrace();
         }
 
-        BinaryDataDaoImpl dao = new BinaryDataDaoImpl();
+        byte[] newData = {6, 7, 8, 9, 10};
+        BinaryDataModel newModel = new BinaryDataModel(newData);
+        BinaryDataDaoAdapter dao = new BinaryDataDaoAdapter();
         dao.setResourceHandler(mockHandler);
-        NoContentResult result = dao.create(testModel);
+        NoContentResult result = dao.create(newModel);
 
         assertTrue(result.hasError());
         assertEquals(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), result.getErrorCode());
@@ -85,7 +82,7 @@ public class BinaryDataDaoTest extends AbstractBinaryDataDaoTest {
             e.printStackTrace();
         }
 
-        BinaryDataDaoImpl dao = new BinaryDataDaoImpl();
+        BinaryDataDaoAdapter dao = new BinaryDataDaoAdapter();
         dao.setResourceHandler(mockHandler);
         NoContentResult result = dao.update(testModel);
 

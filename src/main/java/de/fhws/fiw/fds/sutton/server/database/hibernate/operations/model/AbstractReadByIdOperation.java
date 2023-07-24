@@ -5,6 +5,8 @@ import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatab
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import jakarta.persistence.EntityManagerFactory;
 
+import javax.ws.rs.core.Response;
+
 /**
  * This abstract class represents an operation to read a database entity by its ID.
  * It extends the AbstractDatabaseOperation class to perform the database read operation.
@@ -41,7 +43,7 @@ public abstract class AbstractReadByIdOperation<T extends AbstractDBModel>
      * Runs the database operation to read the entity by its ID.
      * It uses the EntityManager's find method to retrieve the entity from the database.
      *
-     * @return A SingleModelHibernateResult containing the loaded entity if found, or an empty result if not found.
+     * @return A SingleModelHibernateResult containing the loaded entity if found, or {@link AbstractReadByIdOperation#errorResult()} if not
      */
     @Override
     protected SingleModelHibernateResult<T> run() {
@@ -50,7 +52,7 @@ public abstract class AbstractReadByIdOperation<T extends AbstractDBModel>
         if (result != null) {
             return new SingleModelHibernateResult<>(result);
         } else {
-            return new SingleModelHibernateResult<>();
+            return errorResult();
         }
     }
 
@@ -61,9 +63,9 @@ public abstract class AbstractReadByIdOperation<T extends AbstractDBModel>
      */
     @Override
     protected SingleModelHibernateResult<T> errorResult() {
-        final SingleModelHibernateResult<T> returnValue = new SingleModelHibernateResult<T>();
-        returnValue.setError();
-        return returnValue;
+        return new SingleModelHibernateResult.SingleModelHibernateResultBuilder<T>()
+                .setError(Response.Status.NOT_FOUND.getStatusCode(), "Requested entity not found in Database.")
+                .build();
     }
 }
 

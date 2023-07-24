@@ -1,17 +1,17 @@
 package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao;
 
 /**
- * The IBinaryDataDaoSupplier interface provides a method to get an instance of BinaryDataDaoImpl.
+ * The IBinaryDataDaoSupplier interface provides a method to get an instance of BinaryDataDaoAdapter.
  */
 public interface IBinaryDataDaoSupplier {
 
     /**
-     * Returns an instance of BinaryDataDaoImpl.
+     * Returns an instance of BinaryDataDaoAdapter.
      *
-     * @return an instance of BinaryDataDaoImpl
+     * @return an instance of BinaryDataDaoAdapter
      */
     default BinaryDataDao getBinaryDataDao() {
-        return new BinaryDataDaoImpl();
+        return new BinaryDataDaoAdapter();
     }
 
 }

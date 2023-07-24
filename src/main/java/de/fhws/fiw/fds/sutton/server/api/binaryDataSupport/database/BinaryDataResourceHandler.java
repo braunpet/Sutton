@@ -19,7 +19,7 @@ public class BinaryDataResourceHandler {
     /**
      * The directory where the binary data resources are stored.
      */
-    private static final String RESOURCE_DIRECTORY = "src/main/resources/binaryData/";
+    public static final String RESOURCE_DIRECTORY = "src/main/resources/binaryData/";
 
     /**
      * Saves the given binary data with the given id. The id is also the fileName.

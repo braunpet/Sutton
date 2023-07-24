@@ -25,4 +25,27 @@ public class SingleModelHibernateResult<T extends AbstractDBModel> extends Abstr
     public boolean isEmpty() {
         return !this.found;
     }
+
+    public static class SingleModelHibernateResultBuilder<T extends AbstractDBModel> extends AbstractResultBuilder<SingleModelHibernateResult<T>>{
+        private T result;
+        private boolean found;
+
+        public SingleModelHibernateResultBuilder<T> setResult(T result) {
+            this.result = result;
+            this.found = result != null;
+            return this;
+        }
+
+        @Override
+        public SingleModelHibernateResult<T> build() {
+            SingleModelHibernateResult<T> singleModelHibernateResult = new SingleModelHibernateResult<>();
+            singleModelHibernateResult.result = this.result;
+            singleModelHibernateResult.found = this.found;
+            singleModelHibernateResult.hasError = this.hasError;
+            singleModelHibernateResult.errorCode = this.errorCode;
+            singleModelHibernateResult.errorMessage = this.errorMessage;
+            singleModelHibernateResult.databaseExecutionTimeInMs = this.databaseExecutionTimeInMs;
+            return singleModelHibernateResult;
+        }
+    }
 }

@@ -6,6 +6,7 @@
     <class>de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel</class>
     <class>de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBRelation</class>
     <class>de.fhws.fiw.fds.sutton.server.api.rateLimiting.model.APIKey</class>
+    <class>de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.models.BinaryDataDBModel</class>
     <class>de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonDB</class>
     <class>de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.LocationDB</class>
     <class>de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonLocationDB</class>

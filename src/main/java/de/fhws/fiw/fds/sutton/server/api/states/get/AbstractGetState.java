@@ -68,11 +68,6 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
                     .build();
         }
 
-        if (this.requestedModel.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND)
-                    .build();
-        }
-
         if (clientKnowsCurrentModelState(this.requestedModel.getResult())) {
             return Response.notModified().build();
         }

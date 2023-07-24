@@ -38,4 +38,31 @@ public class CollectionModelHibernateResult<T extends AbstractDBModel> extends A
         this.totalNumberOfResult = totalNumberOfResult;
     }
 
+    public static class CollectionModelHibernateResultBuilder<T extends AbstractDBModel> extends AbstractResultBuilder<CollectionModelHibernateResult<T>>{
+        private Collection<T> result;
+        private int totalNumberOfResult;
+
+        public CollectionModelHibernateResultBuilder<T> setResult(Collection<T> result) {
+            this.result = result != null ? result : new LinkedList<>();
+            this.totalNumberOfResult = result.size();
+            return this;
+        }
+
+        public CollectionModelHibernateResultBuilder<T> setTotalNumberOfResult(int totalNumberOfResult) {
+            this.totalNumberOfResult = totalNumberOfResult;
+            return this;
+        }
+
+        public CollectionModelHibernateResult<T> build() {
+            CollectionModelHibernateResult<T> collectionModelHibernateResult = new CollectionModelHibernateResult<>();
+            collectionModelHibernateResult.result = this.result;
+            collectionModelHibernateResult.totalNumberOfResult = this.totalNumberOfResult;
+            collectionModelHibernateResult.hasError = this.hasError;
+            collectionModelHibernateResult.errorCode = this.errorCode;
+            collectionModelHibernateResult.errorMessage = this.errorMessage;
+            collectionModelHibernateResult.databaseExecutionTimeInMs = this.databaseExecutionTimeInMs;
+            return collectionModelHibernateResult;
+        }
+    }
+
 }

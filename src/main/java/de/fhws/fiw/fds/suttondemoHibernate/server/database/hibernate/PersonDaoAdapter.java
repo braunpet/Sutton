@@ -93,9 +93,6 @@ public class PersonDaoAdapter implements PersonDao {
     }
 
     private SingleModelResult<Person> createResult(SingleModelHibernateResult<PersonDB> result) {
-        if (result.isEmpty()) {
-            return new SingleModelResult<>();
-        }
         if (result.hasError()) {
             final SingleModelResult<Person> returnValue = new SingleModelResult<>();
             returnValue.setError(result.getErrorCode(), result.getErrorMessage());

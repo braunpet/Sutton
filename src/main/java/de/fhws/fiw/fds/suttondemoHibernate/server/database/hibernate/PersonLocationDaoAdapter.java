@@ -105,9 +105,6 @@ public class PersonLocationDaoAdapter implements PersonLocationDao {
     }
 
     private SingleModelResult<Location> createResult(SingleModelHibernateResult<LocationDB> result) {
-        if (result.isEmpty()) {
-            return new SingleModelResult<>();
-        }
         if (result.hasError()) {
             final SingleModelResult<Location> returnValue = new SingleModelResult<>();
             returnValue.setError(result.getErrorCode(), result.getErrorMessage());
