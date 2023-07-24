@@ -38,4 +38,20 @@ public interface BinaryDataDao extends IDatabaseAccessObject<BinaryDataModel> {
      * @return a NoContentResult indicating the result of the operation
      */
     NoContentResult deleteAll();
+
+    /**
+     * Retrieves all binary data that match the given media type.
+     *
+     * @param mediaType the media type to match the binary data
+     * @return a CollectionModelResult containing the matching binary data
+     */
+    CollectionModelResult<BinaryDataModel> readAllByMediaType(String mediaType);
+
+    /**
+     * Deletes all binary data that match the given media type.
+     *
+     * @param mediaType the media type to match the binary data
+     * @return a NoContentResult indicating the result of the operation
+     */
+    NoContentResult deleteAllByMediaType(String mediaType);
 }

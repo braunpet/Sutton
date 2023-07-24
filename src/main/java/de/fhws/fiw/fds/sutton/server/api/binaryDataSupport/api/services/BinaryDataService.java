@@ -10,6 +10,8 @@ import javax.ws.rs.core.Response;
 
 @Path("binaryData")
 public class BinaryDataService extends AbstractService {
+
+    // TODO ist get all hier sinnvoll? Binary Dateien können ziemlich groß werden...
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAllBinaryData() {
@@ -50,10 +52,11 @@ public class BinaryDataService extends AbstractService {
     }
 
     @POST
-    @Consumes({MediaType.APPLICATION_OCTET_STREAM})
-    public Response createSingleBinaryData(final byte[] binaryData) {
+    public Response createSingleBinaryData(@HeaderParam("Content-Type") final String mediaType,
+                                           final byte[] binaryData) {
         return new PostRawBinaryData.Builder()
                 .setBinaryData(binaryData)
+                .setMediaType(mediaType)
                 .setUriInfo(this.uriInfo)
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
@@ -83,6 +86,33 @@ public class BinaryDataService extends AbstractService {
     public Response deleteSingleBinaryData(@PathParam("id") final long id) {
         return new DeleteSingleBinaryData.Builder()
                 .setRequestedId(id)
+                .setUriInfo(this.uriInfo)
+                .setRequest(this.request)
+                .setHttpServletRequest(this.httpServletRequest)
+                .setContext(this.context)
+                .build()
+                .execute();
+    }
+
+    @GET
+    @Path("mediaType")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getAllBinaryDataByMediaType(@HeaderParam("Content-Type") final String mediaType) {
+        return new GetAllBinaryDataByMediaType.Builder()
+                .setMediaType(mediaType)
+                .setUriInfo(this.uriInfo)
+                .setRequest(this.request)
+                .setHttpServletRequest(this.httpServletRequest)
+                .setContext(this.context)
+                .build()
+                .execute();
+    }
+
+    @DELETE
+    @Path("mediaType")
+    public Response deleteAllBinaryDataByMediaType(@HeaderParam("Content-Type") final String mediaType) {
+        return new DeleteAllBinaryDataByMediaType.Builder()
+                .setMediaType(mediaType)
                 .setUriInfo(this.uriInfo)
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)

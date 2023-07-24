@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -30,7 +31,7 @@ public abstract class AbstractBinaryDataDaoTest {
         mockHandler = Mockito.mock(BinaryDataResourceHandler.class);
 
         byte[] testData = {1, 2, 3, 4, 5};
-        testModel = new BinaryDataModel(testData);
+        testModel = new BinaryDataModel(testData, MediaType.APPLICATION_OCTET_STREAM_TYPE.toString());
 
         NoContentResult createResult = binaryDataDao.create(testModel);
         assertFalse(createResult.hasError());

@@ -1,5 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao;
 
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.operations.LoadAllBinaryDataByMediaTypeOperation;
 import de.fhws.fiw.fds.sutton.server.database.binaryData.database.BinaryDataResourceHandler;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
@@ -10,6 +11,7 @@ import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.models.BinaryDataDBModel;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -147,6 +149,40 @@ public class BinaryDataDaoAdapter implements BinaryDataDao {
     }
 
     /**
+     * Reads all binary data of a specific media type from the database.
+     *
+     * @param mediaType the media type of the binary data to read
+     * @return a CollectionModelResult containing all binary data of the specified media type
+     */
+    @Override
+    public CollectionModelResult<BinaryDataModel> readAllByMediaType(String mediaType) {
+        return buildCollectionModelResult(dao.readAllByMediaType(mediaType));
+    }
+
+    /**
+     * Deletes all binary data of a specific media type from the database.
+     *
+     * @param mediaType the media type of the binary data to delete
+     * @return a NoContentResult indicating the result of the operation
+     */
+    @Override
+    public NoContentResult deleteAllByMediaType(String mediaType) {
+        CollectionModelResult<BinaryDataModel> allByMediaType = readAllByMediaType(mediaType);
+        if (allByMediaType.hasError()) {
+            return new NoContentResult.NoContentResultBuilder()
+                    .setError(allByMediaType.getErrorCode(), allByMediaType.getErrorMessage())
+                    .build();
+        }
+        for (BinaryDataModel model : allByMediaType.getResult()) {
+            NoContentResult deleteResult = delete(model.getId());
+            if (deleteResult.hasError()) {
+                return deleteResult;
+            }
+        }
+        return new NoContentResult.NoContentResultBuilder().build();
+    }
+
+    /**
      * Sets the resource handler. This method is only for testing with Mockito.
      *
      * @param resourceHandler the resource handler to set
@@ -165,6 +201,7 @@ public class BinaryDataDaoAdapter implements BinaryDataDao {
         BinaryDataDBModel dbModel = new BinaryDataDBModel();
         dbModel.setId(model.getId());
         dbModel.setDataFileReference(BinaryDataResourceHandler.RESOURCE_DIRECTORY + model.getId());
+        dbModel.setMediaType(model.getMediaType().toString());
         return dbModel;
     }
 
@@ -177,6 +214,7 @@ public class BinaryDataDaoAdapter implements BinaryDataDao {
     private BinaryDataModel createFrom(BinaryDataDBModel dbModel) {
         BinaryDataModel model = new BinaryDataModel();
         model.setId(dbModel.getId());
+        model.setMediaType(dbModel.getMediaType());
         try {
             model.setData(Files.readAllBytes(Paths.get(dbModel.getDataFileReference())));
         } catch (IOException e) {

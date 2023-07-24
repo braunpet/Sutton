@@ -45,4 +45,14 @@ public class BinaryDataDaoHibernateImpl implements BinaryDataDaoHibernate {
     public NoContentResult deleteAll() {
         return new DeleteAllBinaryDataOperation(emf).start();
     }
+
+    @Override
+    public CollectionModelHibernateResult<BinaryDataDBModel> readAllByMediaType(String mediaType) {
+        return new LoadAllBinaryDataByMediaTypeOperation(emf, mediaType).start();
+    }
+
+    @Override
+    public NoContentResult deleteAllByMediaType(String mediaType) {
+        return new DeleteAllBinaryDataByMediaTypeOperation(emf, mediaType).start();
+    }
 }

@@ -6,12 +6,15 @@ import de.fhws.fiw.fds.sutton.server.api.states.post.AbstractPostState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 public class PostRawBinaryData extends AbstractPostState<BinaryDataModel>
         implements IBinaryDataDaoSupplier {
 
     public PostRawBinaryData(final Builder builder) {
         super(builder);
-        this.modelToStore = new BinaryDataModel(builder.binaryData);
+        this.modelToStore = new BinaryDataModel(builder.binaryData, builder.mediaType);
     }
 
     @Override
@@ -30,8 +33,15 @@ public class PostRawBinaryData extends AbstractPostState<BinaryDataModel>
     public static class Builder extends AbstractPostStateBuilder<BinaryDataModel> {
         private byte[] binaryData;
 
+        private String mediaType;
+
         public Builder setBinaryData(byte[] binaryData) {
             this.binaryData = binaryData;
+            return this;
+        }
+
+        public Builder setMediaType(String mediaType) {
+            this.mediaType = mediaType;
             return this;
         }
 

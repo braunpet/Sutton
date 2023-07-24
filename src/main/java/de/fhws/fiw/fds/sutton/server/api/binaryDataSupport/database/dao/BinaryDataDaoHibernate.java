@@ -16,4 +16,8 @@ public interface BinaryDataDaoHibernate extends IDatabaseAccessObjectHibernate<B
     CollectionModelHibernateResult<BinaryDataDBModel> readAll();
 
     NoContentResult deleteAll();
+
+    CollectionModelHibernateResult<BinaryDataDBModel> readAllByMediaType(String mediaType);
+
+    NoContentResult deleteAllByMediaType(String mediaType);
 }

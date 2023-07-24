@@ -16,6 +16,11 @@ public class BinaryDataDBModel extends AbstractDBModel {
     private String dataFileReference;
 
     /**
+     * The media type of the data.
+     */
+    private String mediaType;
+
+    /**
      * Empty Constructor for serialisation and Hibernate
      */
     public BinaryDataDBModel() {
@@ -23,12 +28,14 @@ public class BinaryDataDBModel extends AbstractDBModel {
     }
 
     /**
-     * Constructs a new BinaryDataDBModel with the specified file reference.
+     * Constructs a new BinaryDataDBModel with the specified file reference and media type.
      *
      * @param dataFileReference the file reference to be held by this model
+     * @param mediaType the media type of the data
      */
-    public BinaryDataDBModel(String dataFileReference) {
+    public BinaryDataDBModel(String dataFileReference, String mediaType) {
         this.dataFileReference = dataFileReference;
+        this.mediaType = mediaType;
     }
 
     public String getDataFileReference() {
@@ -37,5 +44,13 @@ public class BinaryDataDBModel extends AbstractDBModel {
 
     public void setDataFileReference(String dataFileReference) {
         this.dataFileReference = dataFileReference;
+    }
+
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
     }
 }

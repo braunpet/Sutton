@@ -7,6 +7,7 @@ import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 import org.junit.jupiter.api.Test;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 
@@ -30,8 +31,8 @@ public class BinaryDataDaoTest extends AbstractBinaryDataDaoTest {
             e.printStackTrace();
         }
 
-        byte[] newData = {6, 7, 8, 9, 10};
-        BinaryDataModel newModel = new BinaryDataModel(newData);
+        byte[] newData = {1, 2, 3};
+        BinaryDataModel newModel = new BinaryDataModel(newData, MediaType.APPLICATION_OCTET_STREAM_TYPE.toString());
         BinaryDataDaoAdapter dao = new BinaryDataDaoAdapter();
         dao.setResourceHandler(mockHandler);
         NoContentResult result = dao.create(newModel);
@@ -67,7 +68,7 @@ public class BinaryDataDaoTest extends AbstractBinaryDataDaoTest {
 
     @Test
     void test_update_not_existing_file() {
-        BinaryDataModel nonExistingModel = new BinaryDataModel(new byte[]{11, 12, 13, 14, 15});
+        BinaryDataModel nonExistingModel = new BinaryDataModel(new byte[]{11, 12, 13, 14, 15}, MediaType.APPLICATION_OCTET_STREAM_TYPE.toString());
         nonExistingModel.setId(9999L);
         NoContentResult result = binaryDataDao.update(nonExistingModel);
         assertTrue(result.hasError());

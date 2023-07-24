@@ -13,6 +13,7 @@ import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.glassfish.jersey.linking.InjectLink;
 
 import javax.ws.rs.core.Link;
+import javax.ws.rs.core.MediaType;
 
 /**
  * The BinaryDataModel class extends the AbstractModel class and represents a model for binary data.
@@ -27,6 +28,11 @@ public class BinaryDataModel extends AbstractModel {
      */
     @XmlJavaTypeAdapter(XmlByteArrayConverter.class)
     private byte[] data;
+
+    /**
+     * The media type of the data.
+     */
+    private String mediaType;
 
     @InjectLink(
             title = "self",
@@ -45,32 +51,34 @@ public class BinaryDataModel extends AbstractModel {
     }
 
     /**
-     * Constructs a new BinaryDataModel with the specified binary data.
+     * Constructs a new BinaryDataModel with the specified binary data and media type.
      *
      * @param data the binary data to be held by this model
+     * @param mediaType the media type of the data
      */
-    public BinaryDataModel(byte[] data) {
+    public BinaryDataModel(byte[] data, String mediaType) {
         this.data = data;
+        this.mediaType = mediaType;
     }
 
-    /**
-     * Returns the binary data held by this model.
-     *
-     * @return the binary data held by this model
-     */
     @JsonConverter(JsonByteArrayConverter.class)
     public byte[] getData() {
         return data;
     }
 
-    /**
-     * Sets the binary data to be held by this model.
-     *
-     * @param data the binary data to be held by this model
-     */
+
     @JsonConverter(JsonByteArrayConverter.class)
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
     }
 
     @JsonConverter(JsonServerLinkConverter.class)
@@ -78,6 +86,7 @@ public class BinaryDataModel extends AbstractModel {
         return selfLink;
     }
 
+    @JsonConverter(JsonServerLinkConverter.class)
     public void setSelfLink(Link selfLink) {
         this.selfLink = selfLink;
     }
