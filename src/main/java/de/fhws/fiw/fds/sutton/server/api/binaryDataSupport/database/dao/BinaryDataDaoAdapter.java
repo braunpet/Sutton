@@ -201,7 +201,7 @@ public class BinaryDataDaoAdapter implements BinaryDataDao {
         BinaryDataDBModel dbModel = new BinaryDataDBModel();
         dbModel.setId(model.getId());
         dbModel.setDataFileReference(BinaryDataResourceHandler.RESOURCE_DIRECTORY + model.getId());
-        dbModel.setMediaType(model.getMediaType().toString());
+        dbModel.setMediaType(model.getMediaType());
         return dbModel;
     }
 
@@ -256,7 +256,7 @@ public class BinaryDataDaoAdapter implements BinaryDataDao {
         BinaryDataModel model = createFrom(dbResult.getResult());
         if (model == null) {
             return new SingleModelResult.SingleModelResultBuilder<BinaryDataModel>()
-                    .setError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Error reading binary data file")
+                    .setError(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), "Error reading binary data file.")
                     .build();
         }
         return new SingleModelResult.SingleModelResultBuilder<BinaryDataModel>()
