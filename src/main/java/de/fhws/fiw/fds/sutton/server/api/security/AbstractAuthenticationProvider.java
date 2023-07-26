@@ -5,7 +5,6 @@ import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -42,7 +41,7 @@ public abstract class AbstractAuthenticationProvider {
     protected abstract Optional<User> loadUserFromDatabase(String name);
 
     private User authorizeUser(final User requestingUser, final String... roles) {
-        final Optional<User> databaseUser = loadUserFromDatabase(requestingUser.getName());
+        final Optional<User> databaseUser = loadUserFromDatabase(requestingUser.getUserName());
 
         if (databaseUser.isPresent() == false) {
             throw new NotAuthorizedException("");

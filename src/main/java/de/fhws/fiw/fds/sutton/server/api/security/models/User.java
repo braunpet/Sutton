@@ -20,7 +20,7 @@ import javax.ws.rs.core.Link;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class User extends AbstractModel {
 
-    private String name;
+    private String userName;
 
     private String secret;
 
@@ -46,17 +46,17 @@ public class User extends AbstractModel {
     public User() {
     }
 
-    public User(final String name, final String secret) {
-        this.name = name;
+    public User(final String userName, final String secret) {
+        this.userName = userName;
         this.secret = secret;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getSecret() {

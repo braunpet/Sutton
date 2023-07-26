@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 public class RoleDB extends AbstractDBModel {
 
     @Column(nullable = false)
-    private String name;
+    private String roleName;
 
     private boolean createPermission = false;
 
@@ -22,24 +22,24 @@ public class RoleDB extends AbstractDBModel {
         // make JPA happy
     }
 
-    public RoleDB(String name) {
-        this.name = name;
+    public RoleDB(String roleName) {
+        this.roleName = roleName;
     }
 
-    public RoleDB(String name, boolean createPermission, boolean readPermission, boolean updatePermission, boolean deletePermission) {
-        this.name = name;
+    public RoleDB(String roleName, boolean createPermission, boolean readPermission, boolean updatePermission, boolean deletePermission) {
+        this.roleName = roleName;
         this.createPermission = createPermission;
         this.readPermission = readPermission;
         this.updatePermission = updatePermission;
         this.deletePermission = deletePermission;
     }
 
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public boolean isCreatePermission() {

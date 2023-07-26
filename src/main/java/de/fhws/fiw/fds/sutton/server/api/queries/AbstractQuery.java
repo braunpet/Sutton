@@ -19,6 +19,7 @@ package de.fhws.fiw.fds.sutton.server.api.queries;
 import de.fhws.fiw.fds.sutton.server.database.DatabaseException;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeLikeValue;
 import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
@@ -43,6 +44,11 @@ public abstract class AbstractQuery<T extends AbstractModel> {
     protected List<AbstractAttributeEqualsValue> attributesEqualsValues = new ArrayList<>();
 
     /**
+     * A {@link List} which contains {@link AbstractAttributeLikeValue}s for which will be searched
+     */
+    protected List<AbstractAttributeLikeValue> attributesLikeValues = new ArrayList<>();
+
+    /**
      * The paging behavior {@link PagingBehavior}  through which the resulting data should be organized and sent back to the client in the response
      */
     protected PagingBehavior pagingBehavior = new OnePageWithAllResults();
@@ -63,7 +69,7 @@ public abstract class AbstractQuery<T extends AbstractModel> {
     /**
      * Adds an {@link AbstractAttributeEqualsValue} to the {@link List} of {@link AbstractQuery#attributesEqualsValues} of the {@link AbstractQuery}
      * @param attributeEqualValue The attributeValue which should be searched for.
-     *                          This searching is done in the {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperation}.
+     *                          This searching is done in the {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter}.
      * @return the same AbstractQuery object, on which the method was called
      */
     public AbstractQuery addAttributeEqualValue(final AbstractAttributeEqualsValue attributeEqualValue){
@@ -74,11 +80,33 @@ public abstract class AbstractQuery<T extends AbstractModel> {
     /**
      * Sets the {@link AbstractQuery#attributesEqualsValues} to the given one.
      * @param attributesEqualsValues The attributeValues which should be searched for.
-     *                          This searching is done in the {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperation}.
+     *                          This searching is done in the {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter}.
      * @return the same AbstractQuery object, on which the method was called
      */
     public AbstractQuery setAttributesEqualsValues(final List<AbstractAttributeEqualsValue> attributesEqualsValues){
         this.attributesEqualsValues = attributesEqualsValues;
+        return this;
+    }
+
+    /**
+     * Adds an {@link AbstractAttributeLikeValue} to the {@link List} of {@link AbstractQuery#attributesLikeValues} of the {@link AbstractQuery}
+     * @param attributeLikeValue The attributeValue which should be searched for.
+     *                          This searching is done in the {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter}.
+     * @return the same AbstractQuery object, on which the method was called
+     */
+    public AbstractQuery addAttributeLikeValue(final AbstractAttributeLikeValue attributeLikeValue){
+        this.attributesLikeValues.add(attributeLikeValue);
+        return this;
+    }
+
+    /**
+     * Sets the {@link AbstractQuery#attributesLikeValues} to the given one.
+     * @param attributesLikeValues The attributeValues which should be searched for.
+     *                          This searching is done in the {@link de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter}.
+     * @return the same AbstractQuery object, on which the method was called
+     */
+    public AbstractQuery setAttributesLikeValues(final List<AbstractAttributeLikeValue> attributesLikeValues){
+        this.attributesLikeValues = attributesLikeValues;
         return this;
     }
 
@@ -119,6 +147,7 @@ public abstract class AbstractQuery<T extends AbstractModel> {
         try {
             final SearchParameter searchParameter = new SearchParameter();
             searchParameter.setAttributesEqualsValues(this.attributesEqualsValues);
+            searchParameter.setAttributesLikeValues(this.attributesLikeValues);
             searchParameter.setOffset(this.pagingBehavior.getOffset());
             searchParameter.setSize(this.pagingBehavior.getSize());
             searchParameter.setOrderByAttributes(this.orderByAttributes);

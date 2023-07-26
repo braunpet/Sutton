@@ -12,7 +12,7 @@ import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class UserDaoHibernateAdapter implements UserDao{
+public class UserDaoAdapter implements UserDao{
 
     private UserDaoHibernate dao = new UserDaoHibernateImpl();
 
@@ -56,7 +56,7 @@ public class UserDaoHibernateAdapter implements UserDao{
     private User createFrom(UserDB model) {
         final User returnValue = new User();
         returnValue.setId(model.getId());
-        returnValue.setName(model.getName());
+        returnValue.setUserName(model.getUserName());
         returnValue.setSecret(model.getSecret());
         return returnValue;
     }
@@ -64,7 +64,7 @@ public class UserDaoHibernateAdapter implements UserDao{
     private UserDB createFrom(User model) {
         final UserDB returnValue = new UserDB();
         returnValue.setId(model.getId());
-        returnValue.setName(model.getName());
+        returnValue.setUserName(model.getUserName());
         returnValue.setSecret(model.getSecret());
         return returnValue;
     }

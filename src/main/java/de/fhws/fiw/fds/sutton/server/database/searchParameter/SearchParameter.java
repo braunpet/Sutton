@@ -31,6 +31,11 @@ public class SearchParameter {
     public List<AbstractAttributeEqualsValue> attributesEqualsValues = new ArrayList<>();
 
     /**
+     * A {@link List} which contains {@link AbstractAttributeLikeValue}s for which will be searched
+     */
+    public List<AbstractAttributeLikeValue> attributesLikeValues = new ArrayList<>();
+
+    /**
      * The offset {@link Integer} from the collection of the full results where the page should start
      */
     private int offset = 0;
@@ -83,5 +88,21 @@ public class SearchParameter {
 
     public void setAttributesEqualsValues(List<AbstractAttributeEqualsValue> attributesEqualsValues) {
         this.attributesEqualsValues = attributesEqualsValues;
+    }
+
+    public List<AbstractAttributeLikeValue> getAttributesLikeValues() {
+        return attributesLikeValues;
+    }
+
+    public void addAttributeLikeValue(AbstractAttributeLikeValue attributeLikeValue) {
+        attributesLikeValues.add(attributeLikeValue);
+    }
+
+    public void removeAttributeLikeValue(AbstractAttributeLikeValue attributeLikeValue) {
+        attributesLikeValues.remove(attributeLikeValue);
+    }
+
+    public void setAttributesLikeValues(List<AbstractAttributeLikeValue> attributesLikeValues) {
+        this.attributesLikeValues = attributesLikeValues;
     }
 }

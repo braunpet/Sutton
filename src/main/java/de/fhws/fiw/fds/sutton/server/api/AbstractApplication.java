@@ -19,6 +19,8 @@ import java.util.Set;
 
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.service.RateLimiterService;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.services.BinaryDataService;
+import de.fhws.fiw.fds.sutton.server.api.security.api.services.RoleService;
+import de.fhws.fiw.fds.sutton.server.api.security.api.services.UserService;
 import org.apache.catalina.filters.CorsFilter;
 import org.apache.catalina.loader.ParallelWebappClassLoader;
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
@@ -60,6 +62,8 @@ public abstract class AbstractApplication extends ResourceConfig {
 
         allServiceClasses.add(RateLimiterService.class);
         allServiceClasses.add(BinaryDataService.class);
+        allServiceClasses.add(UserService.class);
+        allServiceClasses.add(RoleService.class);
 
         return allServiceClasses;
     }

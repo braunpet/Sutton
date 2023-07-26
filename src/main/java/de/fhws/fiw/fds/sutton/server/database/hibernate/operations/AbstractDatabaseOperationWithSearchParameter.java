@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class supports the use of QueryTemplates and also supports sorting.
@@ -60,9 +61,17 @@ public abstract class AbstractDatabaseOperationWithSearchParameter< T extends Ab
      * @return An array of predicates retrieved from the search parameter.
      */
     private Predicate[] getPredicatesFromSearchParameter(CriteriaBuilder cb, From from) {
-        return searchParameter.getAttributesEqualsValues().stream()
+        List<Predicate> predicatesEquals = searchParameter.getAttributesEqualsValues().stream()
                 .map(attributeValue -> cb.equal(from.get(attributeValue.getSearchByAttribute()), attributeValue.getEqualsValue()))
-                .toArray(Predicate[]::new);
+                .collect(Collectors.toList());
+
+        List<Predicate> predicatesLike = searchParameter.attributesLikeValues.stream()
+                .map(attributeValue -> cb.like(cb.lower(from.get(attributeValue.getSearchByAttribute())), attributeValue.getEqualsValue().toLowerCase() + "%"))
+                .collect(Collectors.toList());
+
+        predicatesEquals.addAll(predicatesLike);
+
+        return predicatesEquals.toArray(Predicate[]::new);
     }
 
     /**

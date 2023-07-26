@@ -16,7 +16,7 @@ import javax.ws.rs.core.Link;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Role extends AbstractModel {
 
-    private String name;
+    private String roleName;
 
     private boolean createPermission = false;
 
@@ -48,24 +48,24 @@ public class Role extends AbstractModel {
     @XmlJavaTypeAdapter(XmlServerLinkConverter.class)
     private Link selfLinkPrimary;
 
-    public Role(String name) {
-        this.name = name;
+    public Role(String roleName) {
+        this.roleName = roleName;
     }
 
-    public Role(String name, boolean createPermission, boolean readPermission, boolean updatePermission, boolean deletePermission) {
-        this.name = name;
+    public Role(String roleName, boolean createPermission, boolean readPermission, boolean updatePermission, boolean deletePermission) {
+        this.roleName = roleName;
         this.createPermission = createPermission;
         this.readPermission = readPermission;
         this.updatePermission = updatePermission;
         this.deletePermission = deletePermission;
     }
 
-    public String getName() {
-        return name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     public boolean isCreatePermission() {

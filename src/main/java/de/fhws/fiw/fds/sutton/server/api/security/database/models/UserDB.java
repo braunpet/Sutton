@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 public class UserDB extends AbstractDBModel {
 
     @Column(nullable = false)
-    private String name;
+    private String userName;
 
     @Column(nullable = false)
     private String secret;
@@ -17,17 +17,17 @@ public class UserDB extends AbstractDBModel {
         // make JPA happy
     }
 
-    public UserDB(String name, String secret) {
-        this.name = name;
+    public UserDB(String userName, String secret) {
+        this.userName = userName;
         this.secret = secret;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getSecret() {

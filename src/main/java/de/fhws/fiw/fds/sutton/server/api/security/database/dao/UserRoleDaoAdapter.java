@@ -62,7 +62,7 @@ public class UserRoleDaoAdapter implements UserRoleDao{
     }
 
     private Role createFrom(RoleDB model) {
-        final Role returnValue = new Role(model.getName());
+        final Role returnValue = new Role(model.getRoleName());
         returnValue.setId(model.getId());
         returnValue.setCreatePermission(model.isCreatePermission());
         returnValue.setReadPermission(model.isReadPermission());
@@ -72,7 +72,7 @@ public class UserRoleDaoAdapter implements UserRoleDao{
     }
 
     private RoleDB createFrom(Role model) {
-        final RoleDB returnValue = new RoleDB(model.getName());
+        final RoleDB returnValue = new RoleDB(model.getRoleName());
         returnValue.setId(model.getId());
         returnValue.setCreatePermission(model.isCreatePermission());
         returnValue.setReadPermission(model.isReadPermission());

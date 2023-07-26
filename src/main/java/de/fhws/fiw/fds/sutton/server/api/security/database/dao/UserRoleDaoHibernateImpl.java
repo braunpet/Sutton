@@ -47,4 +47,5 @@ public class UserRoleDaoHibernateImpl implements UserRoleDaoHibernate{
     public CollectionModelHibernateResult<RoleDB> readAll(long primaryId, SearchParameter searchParameter) {
         return new ReadAllUserRolesOperation(emf, primaryId, searchParameter).start();
     }
+
 }

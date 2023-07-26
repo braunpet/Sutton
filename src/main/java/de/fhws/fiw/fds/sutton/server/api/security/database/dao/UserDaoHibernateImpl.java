@@ -37,4 +37,5 @@ public class UserDaoHibernateImpl implements UserDaoHibernate{
     public NoContentResult delete(long id) {
         return new DeleteUserByIdOperation(emf, id).start();
     }
+
 }
