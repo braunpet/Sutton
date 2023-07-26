@@ -18,13 +18,13 @@ public class Role extends AbstractModel {
 
     private String name;
 
-    private boolean canCreate;
+    private boolean createPermission = false;
 
-    private boolean canRead;
+    private boolean readPermission = false;
 
-    private boolean canUpdate;
+    private boolean updatePermission = false;
 
-    private boolean canDelete;
+    private boolean deletePermission = false;
 
     @InjectLink(
             style = InjectLink.Style.ABSOLUTE,
@@ -48,16 +48,16 @@ public class Role extends AbstractModel {
     @XmlJavaTypeAdapter(XmlServerLinkConverter.class)
     private Link selfLinkPrimary;
 
-    public Role() {
-
+    public Role(String name) {
+        this.name = name;
     }
 
-    public Role(String name, boolean canCreate, boolean canRead, boolean canUpdate, boolean canDelete) {
+    public Role(String name, boolean createPermission, boolean readPermission, boolean updatePermission, boolean deletePermission) {
         this.name = name;
-        this.canCreate = canCreate;
-        this.canRead = canRead;
-        this.canUpdate = canUpdate;
-        this.canDelete = canDelete;
+        this.createPermission = createPermission;
+        this.readPermission = readPermission;
+        this.updatePermission = updatePermission;
+        this.deletePermission = deletePermission;
     }
 
     public String getName() {
@@ -68,36 +68,36 @@ public class Role extends AbstractModel {
         this.name = name;
     }
 
-    public boolean isCanCreate() {
-        return canCreate;
+    public boolean isCreatePermission() {
+        return createPermission;
     }
 
-    public void setCanCreate(boolean canCreate) {
-        this.canCreate = canCreate;
+    public void setCreatePermission(boolean createPermission) {
+        this.createPermission = createPermission;
     }
 
-    public boolean isCanRead() {
-        return canRead;
+    public boolean isReadPermission() {
+        return readPermission;
     }
 
-    public void setCanRead(boolean canRead) {
-        this.canRead = canRead;
+    public void setReadPermission(boolean readPermission) {
+        this.readPermission = readPermission;
     }
 
-    public boolean isCanUpdate() {
-        return canUpdate;
+    public boolean isUpdatePermission() {
+        return updatePermission;
     }
 
-    public void setCanUpdate(boolean canUpdate) {
-        this.canUpdate = canUpdate;
+    public void setUpdatePermission(boolean updatePermission) {
+        this.updatePermission = updatePermission;
     }
 
-    public boolean isCanDelete() {
-        return canDelete;
+    public boolean isDeletePermission() {
+        return deletePermission;
     }
 
-    public void setCanDelete(boolean canDelete) {
-        this.canDelete = canDelete;
+    public void setDeletePermission(boolean deletePermission) {
+        this.deletePermission = deletePermission;
     }
 
 

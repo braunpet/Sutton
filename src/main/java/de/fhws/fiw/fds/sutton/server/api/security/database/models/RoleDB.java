@@ -18,8 +18,12 @@ public class RoleDB extends AbstractDBModel {
 
     private boolean deletePermission = false;
 
-    public RoleDB() {
+    protected RoleDB() {
         // make JPA happy
+    }
+
+    public RoleDB(String name) {
+        this.name = name;
     }
 
     public RoleDB(String name, boolean createPermission, boolean readPermission, boolean updatePermission, boolean deletePermission) {

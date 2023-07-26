@@ -25,7 +25,7 @@ public abstract class AbstractPersistOperation<T extends AbstractDBModel>
      * @param emf            The EntityManagerFactory used for database access.
      * @param modelToPersist The database entity to be persisted.
      */
-    protected AbstractPersistOperation(EntityManagerFactory emf, T modelToPersist) {
+    public AbstractPersistOperation(EntityManagerFactory emf, T modelToPersist) {
         super(emf);
         this.modelToPersist = modelToPersist;
     }

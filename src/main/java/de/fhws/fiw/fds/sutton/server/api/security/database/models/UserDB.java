@@ -11,15 +11,15 @@ public class UserDB extends AbstractDBModel {
     private String name;
 
     @Column(nullable = false)
-    private String password;
+    private String secret;
 
     public UserDB() {
         // make JPA happy
     }
 
-    public UserDB(String name, String password) {
+    public UserDB(String name, String secret) {
         this.name = name;
-        this.password = password;
+        this.secret = secret;
     }
 
     public String getName() {
@@ -30,11 +30,11 @@ public class UserDB extends AbstractDBModel {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSecret() {
+        return secret;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }
