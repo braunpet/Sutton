@@ -52,7 +52,7 @@ public class Location extends AbstractModel {
     private Link selfLinkPrimary;
 
     public Location() {
-        // make JPA happy
+
     }
 
     public Location(final String cityName, final double longitude, final double latitude, final LocalDate visitedOn) {

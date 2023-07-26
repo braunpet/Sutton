@@ -1,5 +1,7 @@
 package de.fhws.fiw.fds.sutton.server.api.security;
 
+import de.fhws.fiw.fds.sutton.server.api.security.models.User;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
@@ -59,10 +61,11 @@ public abstract class AbstractAuthenticationProvider {
 
     private void checkRoles(final User user, final String... roles) {
         if (roles.length > 0) {
-            if (Arrays.stream(roles).noneMatch(role -> user.getRole().equalsIgnoreCase(role))) {
+//            if (Arrays.stream(roles).noneMatch(role -> user.getRole().equalsIgnoreCase(role))) {
                 throw new ForbiddenException("");
-            }
+//            }
         }
     }
 
+    // TODO rewrite the whole class
 }

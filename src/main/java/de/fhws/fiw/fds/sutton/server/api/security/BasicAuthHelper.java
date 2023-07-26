@@ -1,5 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.api.security;
 
+import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.servlet.http.HttpServletRequest;
