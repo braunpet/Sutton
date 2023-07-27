@@ -38,4 +38,8 @@ public class UserDaoHibernateImpl implements UserDaoHibernate{
         return new DeleteUserByIdOperation(emf, id).start();
     }
 
+    @Override
+    public SingleModelHibernateResult<UserDB> readUserByName(String userName) {
+        return new ReadUserByNameOperation(emf, userName).start();
+    }
 }

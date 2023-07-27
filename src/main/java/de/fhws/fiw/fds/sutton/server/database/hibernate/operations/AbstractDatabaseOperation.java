@@ -30,7 +30,7 @@ public abstract class AbstractDatabaseOperation<T extends AbstractDBModel, R ext
      *
      * @param emf The EntityManagerFactory used to create EntityManagers.
      */
-    protected AbstractDatabaseOperation(EntityManagerFactory emf) {
+    public AbstractDatabaseOperation(EntityManagerFactory emf) {
         this.emf = emf;
     }
 

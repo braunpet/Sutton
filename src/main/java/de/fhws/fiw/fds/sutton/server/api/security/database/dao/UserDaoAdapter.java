@@ -93,4 +93,8 @@ public class UserDaoAdapter implements UserDao{
         }
     }
 
+    @Override
+    public SingleModelResult<User> readUserByName(String userName) {
+        return new SingleModelResult<>(createFrom(dao.readUserByName(userName).getResult()));
+    }
 }

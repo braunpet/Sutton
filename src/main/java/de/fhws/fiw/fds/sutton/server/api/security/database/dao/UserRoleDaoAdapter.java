@@ -103,4 +103,8 @@ public class UserRoleDaoAdapter implements UserRoleDao{
         }
     }
 
+    @Override
+    public CollectionModelResult<Role> readRolesByUserName(String userName) {
+        return createResult(dao.readRolesByUserName(userName));
+    }
 }

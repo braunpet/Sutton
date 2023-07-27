@@ -48,4 +48,8 @@ public class UserRoleDaoHibernateImpl implements UserRoleDaoHibernate{
         return new ReadAllUserRolesOperation(emf, primaryId, searchParameter).start();
     }
 
+    @Override
+    public CollectionModelHibernateResult<RoleDB> readRolesByUserName(String userName) {
+        return new ReadRolesByUserNameOperation(emf, userName).start();
+    }
 }
