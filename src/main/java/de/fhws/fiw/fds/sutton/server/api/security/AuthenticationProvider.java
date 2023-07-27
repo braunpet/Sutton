@@ -16,37 +16,102 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * Provides functionality for user authentication and authorization.
+ * Provides functionality for user authentication with basic authorization as
+ * defined in the HTTP 1.0 specification in RFC 7617, where an HTTP user agent has to provide a username and a password
+ * to make an HTTP request and with a bearer token.
  */
 public class AuthenticationProvider implements IAuthDaoSupplier {
 
-    public final User accessControl(final HttpServletRequest request, Permission permission, List<String> roles){
-        return accessControl(request, permission, roles.toArray(new String[0]));
+//    public final User accessControl(final HttpServletRequest request, Permission permission, List<String> roles){
+//        return accessControl(request, permission, roles.toArray(new String[0]));
+//    }
+//
+//    /**
+//     * Controls access to a resource based on the user's authorization.
+//     * If a Bearer token is present, validate it and authorize the user based on it.
+//     * If no Bearer token is present, fall back to Basic Auth.
+//     *
+//     * @param request the HTTP request.
+//     * @param permission the required permission.
+//     * @param roles the roles that are allowed to perform the action.
+//     * @return the authenticated and authorized user.
+//     * @throws NotAuthorizedException if the user is not authorized.
+//     * @throws ForbiddenException if the user is forbidden from performing the action.
+//     */
+//    public final User accessControl(final HttpServletRequest request, Permission permission, final String... roles) {
+//        if(permission.equals(Permission.TEST)) return null;
+//
+//        String bearerToken = BearerAuthHelper.extractBearerToken(request);
+//        if (bearerToken != null) {
+//            User requestingUser = validateBearerToken(bearerToken);
+//            return authorizeUserWithBearerToken(requestingUser, permission, roles);
+//        } else {
+//            final User requestingUser = BasicAuthHelper.readUserFromHttpHeader(request);
+//            return authorizeUser(requestingUser, permission, roles);
+//        }
+//    }
+
+    /**
+     * Controls access to a resource based on the user's authorization using a Bearer token.
+     * If a Bearer token is present, validate it and authorize the user based on it.
+     *
+     * @param request    the HTTP request.
+     * @param permission the required permission.
+     * @param roles      the roles that are allowed to perform the action.
+     * @return the authenticated and authorized user.
+     * @throws NotAuthorizedException if the user is not authorized.
+     */
+    public final User accessControlWithBearerToken(final HttpServletRequest request, Permission permission, final List<String> roles) {
+        return accessControlWithBearerToken(request, permission, roles.toArray(new String[0]));
     }
 
     /**
-     * Controls access to a resource based on the user's authorization.
+     * Controls access to a resource based on the user's authorization using a Bearer token.
      * If a Bearer token is present, validate it and authorize the user based on it.
-     * If no Bearer token is present, fall back to Basic Auth.
      *
-     * @param request the HTTP request.
+     * @param request    the HTTP request.
      * @param permission the required permission.
-     * @param roles the roles that are allowed to perform the action.
+     * @param roles      the roles that are allowed to perform the action.
      * @return the authenticated and authorized user.
      * @throws NotAuthorizedException if the user is not authorized.
-     * @throws ForbiddenException if the user is forbidden from performing the action.
      */
-    public final User accessControl(final HttpServletRequest request, Permission permission, final String... roles) {
-        if(permission.equals(Permission.NONE)) return null;
-
+    public final User accessControlWithBearerToken(final HttpServletRequest request, Permission permission, final String... roles) {
         String bearerToken = BearerAuthHelper.extractBearerToken(request);
         if (bearerToken != null) {
             User requestingUser = validateBearerToken(bearerToken);
-            return authorizeUser(requestingUser, permission, roles);
+            return authorizeUser(requestingUser, permission, true, roles);
         } else {
-            final User requestingUser = BasicAuthHelper.readUserFromHttpHeader(request);
-            return authorizeUser(requestingUser, permission, roles);
+            throw new NotAuthorizedException("");
         }
+    }
+
+    /**
+     * Controls access to a resource based on the user's authorization using Basic Auth.
+     * If Basic Auth credentials are present, validate them and authorize the user based on them.
+     *
+     * @param request    the HTTP request.
+     * @param permission the required permission.
+     * @param roles      the roles that are allowed to perform the action.
+     * @return the authenticated and authorized user.
+     * @throws NotAuthorizedException if the user is not authorized.
+     */
+    public final User accessControlWithBasicAuth(final HttpServletRequest request, Permission permission, final List<String> roles) {
+        return accessControlWithBasicAuth(request, permission, roles.toArray(new String[0]));
+    }
+
+    /**
+     * Controls access to a resource based on the user's authorization using Basic Auth.
+     * If Basic Auth credentials are present, validate them and authorize the user based on them.
+     *
+     * @param request    the HTTP request.
+     * @param permission the required permission.
+     * @param roles      the roles that are allowed to perform the action.
+     * @return the authenticated and authorized user.
+     * @throws NotAuthorizedException if the user is not authorized.
+     */
+    public final User accessControlWithBasicAuth(final HttpServletRequest request, Permission permission, final String... roles) {
+        final User requestingUser = BasicAuthHelper.readUserFromHttpHeader(request);
+        return authorizeUser(requestingUser, permission, false, roles);
     }
 
     /**
@@ -84,22 +149,23 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
     }
 
     /**
-     * Authorizes the user by checking if the user exists in the database, if the provided password matches the stored password,
-     * and if the user has the required permission for the action.
+     * Authorizes the user by checking if the user exists in the database, if the provided password matches the stored password
+     * (for non-Bearer token users), and if the user has the required permission for the action.
      *
      * @param requestingUser     the user requesting authorization.
      * @param permissionRequired the {@link Permission} which is needed.
+     * @param useBearerToken     indicates whether to authorize the user with a Bearer token.
      * @param roles              the roles that are allowed to perform the action.
      * @return the user from the database.
-     * @throws NotAuthorizedException if the user does not exist in the database or if the provided password does not match the stored password.
+     * @throws NotAuthorizedException if the user does not exist in the database or if the provided password does not match the stored password (for non-Bearer token users).
      * @throws ForbiddenException     if the user does not have the required permission for the action.
      */
-    private User authorizeUser(final User requestingUser, Permission permissionRequired, final String... roles) {
+    private User authorizeUser(final User requestingUser, Permission permissionRequired, boolean useBearerToken, final String... roles) {
         final SingleModelResult<User> databaseUser = loadUserFromDatabase(requestingUser.getUserName());
 
         if (databaseUser.isEmpty()) {
             throw new NotAuthorizedException("");
-        } else if (isBothPasswordsMatch(databaseUser.getResult(), requestingUser)) {
+        } else if (useBearerToken || isBothPasswordsMatch(databaseUser.getResult(), requestingUser)) {
             final User theUser = databaseUser.getResult();
 
             switch (permissionRequired) {

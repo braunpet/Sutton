@@ -29,6 +29,13 @@ public class JwtHelper {
                 .parseClaimsJws(jwt);
     }
 
+    /**
+     * Generates a JSON Web Token (JWT) for the given user. The generated token has a fixed
+     * expiry time of 30 minutes from the current system time.
+     *
+     * @param user the User entity for which the JWT is to be generated. The username of the user is set as the subject of the JWT.
+     * @return a string representing the signed JWT.
+     */
     public static String generateJwt(User user) {
         long nowMillis = System.currentTimeMillis();
         long expMillis = nowMillis + 1800000; // 30 minutes in milliseconds

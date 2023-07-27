@@ -19,7 +19,7 @@ public class DemoStateThrowsWebException extends AbstractState {
 
     @Override
     protected Permission getRequiredPermission() {
-        return Permission.NONE;
+        return Permission.TEST;
     }
 
     @Override

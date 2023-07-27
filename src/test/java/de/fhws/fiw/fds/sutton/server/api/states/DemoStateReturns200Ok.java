@@ -23,7 +23,7 @@ public class DemoStateReturns200Ok extends AbstractState {
 
     @Override
     protected Permission getRequiredPermission() {
-        return Permission.NONE;
+        return Permission.TEST;
     }
 
     @Override

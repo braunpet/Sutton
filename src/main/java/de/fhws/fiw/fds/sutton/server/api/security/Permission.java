@@ -5,6 +5,7 @@ public enum Permission {
     READ,
     UPDATE,
     DELETE,
-    NONE
+    NONE,
+    TEST,
     ;
 }

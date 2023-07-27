@@ -111,10 +111,8 @@ public class User extends AbstractModel {
      */
     public User cloneWithoutSecret() {
         final User returnValue = new User();
-
         returnValue.id = this.id;
-        returnValue.role = this.role;
-
+        returnValue.userName = this.userName;
         return returnValue;
     }
 }

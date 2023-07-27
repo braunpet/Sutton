@@ -71,7 +71,7 @@ public abstract class AbstractState {
      */
     public final Response execute() {
         try {
-            authProvider.accessControl(httpServletRequest, getRequiredPermission(), getAllowedRoles());
+            authProvider.accessControlWithBearerToken(httpServletRequest, getRequiredPermission(), getAllowedRoles());
             return buildInternalWithRateLimiter();
         } catch (final WebApplicationException f) {
             throw f;
