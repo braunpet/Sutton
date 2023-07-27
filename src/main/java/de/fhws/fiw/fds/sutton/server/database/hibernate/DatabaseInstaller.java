@@ -12,6 +12,8 @@ import de.fhws.fiw.fds.sutton.server.api.security.database.operations.user_role.
 import java.util.ArrayList;
 import java.util.List;
 
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.*;
+
 public class DatabaseInstaller implements IDatabaseConnection {
 
     public void install() {
@@ -32,10 +34,17 @@ public class DatabaseInstaller implements IDatabaseConnection {
         System.out.println("Installed API-Keys.");
     }
 
-    private RoleDB adminRole = new RoleDB("Admin", true, true, true, true);
-    private RoleDB modRole = new RoleDB("Moderator", true, true, true, true);
-    private RoleDB userRole = new RoleDB("User", false, true, false, false);
-    private RoleDB guestRole = new RoleDB("Guest", false, false, false, false);
+    public static class RoleNames{
+        public static final String ADMIN = "Admin";
+        public static final String MOD = "Moderator";
+        public static final String USER = "User";
+        public static final String GUEST = "Guest";
+    }
+
+    private RoleDB adminRole = new RoleDB(ADMIN, true, true, true, true);
+    private RoleDB modRole = new RoleDB(MOD, true, true, true, true);
+    private RoleDB userRole = new RoleDB(USER, false, true, false, false);
+    private RoleDB guestRole = new RoleDB(GUEST, false, false, false, false);
 
     private void initializeRoles() {
         List<RoleDB> roles = new ArrayList<>();
