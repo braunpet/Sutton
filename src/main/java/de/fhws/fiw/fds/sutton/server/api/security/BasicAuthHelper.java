@@ -9,41 +9,42 @@ import javax.ws.rs.core.HttpHeaders;
 import java.nio.charset.Charset;
 
 /**
- * The BasicAuthHelper is a helper class to implement the functionality of the basic authorization as defined in the
- * HTTP 1.0 specification in RFC 7617, where an HTTP user agent has to provide a username and a password to make an
- * HTTP request
+ * Helper class to handle Basic Authorization.
  */
 public class BasicAuthHelper {
 
     /**
-     * extracts the username and the password that were sent within an HTTP request in the context of basic
-     * authorization
+     * Extracts the username and password from the HTTP request's Authorization header.
      *
-     * @param request {@link HttpServletRequest} the HTTP request to extract the username and the password from
-     * @return a {@link User} with the unique username and the password from the request
-     * @throws NotAuthorizedException if the HTTP request doesn't implement the basic authorization
+     * @param request the HTTP request to extract the username and password from.
+     * @return a User object with the username and password from the request.
+     * @throws NotAuthorizedException if the request doesn't contain a Basic Authorization header.
      */
     public static User readUserFromHttpHeader(final HttpServletRequest request) {
         final String authHeader = request != null ? request.getHeader(HttpHeaders.AUTHORIZATION) : null;
 
-        if (authHeader != null) {
-            if (authHeader.toLowerCase().startsWith("basic ")) {
-                final String withoutBasic = authHeader.replaceFirst("(?i)basic ", "");
-                final String userColonPass = decodeBase64(withoutBasic);
-                final String[] asArray = userColonPass.split(":", 2);
+        if (authHeader != null && authHeader.toLowerCase().startsWith("basic ")) {
+            final String withoutBasic = authHeader.replaceFirst("(?i)basic ", "");
+            final String userColonPass = decodeBase64(withoutBasic);
+            final String[] asArray = userColonPass.split(":", 2);
 
-                if (asArray.length == 2) {
-                    final String name = asArray[0];
-                    final String secret = asArray[1];
+            if (asArray.length == 2) {
+                final String name = asArray[0];
+                final String secret = asArray[1];
 
-                    return new User(name, secret);
-                }
+                return new User(name, secret);
             }
         }
 
         throw new NotAuthorizedException("");
     }
 
+    /**
+     * Decodes a Base64-encoded string.
+     *
+     * @param value the string to decode.
+     * @return the decoded string.
+     */
     private static String decodeBase64(final String value) {
         return new String(Base64.decodeBase64(value), Charset.forName("UTF-8"));
     }

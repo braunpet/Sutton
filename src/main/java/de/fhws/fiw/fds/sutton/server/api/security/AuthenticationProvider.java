@@ -4,6 +4,8 @@ import de.fhws.fiw.fds.sutton.server.api.security.database.dao.IAuthDaoSupplier;
 import de.fhws.fiw.fds.sutton.server.api.security.models.Role;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ForbiddenException;
@@ -14,48 +16,61 @@ import java.util.List;
 import java.util.function.Function;
 
 /**
- * The AuthenticationProvider class provides the required functionality to implement the basic authorization as
- * defined in the HTTP 1.0 specification in RFC 7617, where an HTTP user agent has to provide a username and a password
- * to make an HTTP request
+ * Provides functionality for user authentication and authorization.
  */
 public class AuthenticationProvider implements IAuthDaoSupplier {
 
-    /**
-     * Extracts the username and the password of the user from the HTTP request, which were sent in the context of
-     * the basic authorization, and then it searches the database for the given user using the read information  from
-     * the request
-     *
-     * @param request    the {@link HttpServletRequest} the HTTP request to extract the username and password from
-     * @param permission the {@link Permission} which is needed.
-     * @param roles      a list of roles {@link String} that are allowed to perform the HTTP request. The method will check
-     *                   if the user owns one of this roles
-     * @return the {@link User} from the database
-     * @throws NotAuthorizedException if the HTTP request doesn't implement basic authorization or if the given
-     *                                username or password are not correct
-     * @throws ForbiddenException     if the user exists but is not allowed to perform the HTTP request
-     */
-    public final User accessControl(final HttpServletRequest request, Permission permission, List<String> roles) {
+    public final User accessControl(final HttpServletRequest request, Permission permission, List<String> roles){
         return accessControl(request, permission, roles.toArray(new String[0]));
     }
 
     /**
-     * Extracts the username and the password of the user from the HTTP request, which were sent in the context of
-     * the basic authorization, and then it searches the database for the given user using the read information  from
-     * the request
+     * Controls access to a resource based on the user's authorization.
+     * If a Bearer token is present, validate it and authorize the user based on it.
+     * If no Bearer token is present, fall back to Basic Auth.
      *
-     * @param request    the {@link HttpServletRequest} the HTTP request to extract the username and password from
-     * @param permission the {@link Permission} which is needed.
-     * @param roles      a list of roles {@link String} that are allowed to perform the HTTP request. The method will check
-     *                   if the user owns one of this roles
-     * @return the {@link User} from the database
-     * @throws NotAuthorizedException if the HTTP request doesn't implement basic authorization or if the given
-     *                                username or password are not correct
-     * @throws ForbiddenException     if the user exists but is not allowed to perform the HTTP request
+     * @param request the HTTP request.
+     * @param permission the required permission.
+     * @param roles the roles that are allowed to perform the action.
+     * @return the authenticated and authorized user.
+     * @throws NotAuthorizedException if the user is not authorized.
+     * @throws ForbiddenException if the user is forbidden from performing the action.
      */
     public final User accessControl(final HttpServletRequest request, Permission permission, final String... roles) {
         if(permission.equals(Permission.NONE)) return null;
-        final User requestingUser = BasicAuthHelper.readUserFromHttpHeader(request);
-        return authorizeUser(requestingUser, permission, roles);
+
+        String bearerToken = BearerAuthHelper.extractBearerToken(request);
+        if (bearerToken != null) {
+            User requestingUser = validateBearerToken(bearerToken);
+            return authorizeUser(requestingUser, permission, roles);
+        } else {
+            final User requestingUser = BasicAuthHelper.readUserFromHttpHeader(request);
+            return authorizeUser(requestingUser, permission, roles);
+        }
+    }
+
+    /**
+     * Validates a Bearer token and loads the corresponding user from the database.
+     *
+     * @param bearerToken the Bearer token to validate.
+     * @return the loaded user.
+     * @throws NotAuthorizedException if the Bearer token is invalid.
+     */
+    private User validateBearerToken(final String bearerToken) {
+        try {
+            Jws<Claims> claims = JwtHelper.parseJwt(bearerToken);
+            String username = claims.getBody().getSubject();
+
+            SingleModelResult<User> user = loadUserFromDatabase(username);
+
+            if (!user.isEmpty()) {
+                return user.getResult();
+            } else {
+                throw new NotAuthorizedException("");
+            }
+        } catch (Exception e) {
+            throw new NotAuthorizedException("");
+        }
     }
 
     /**
@@ -111,7 +126,6 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
             throw new NotAuthorizedException("");
         }
     }
-
 
     /**
      * Checks if the provided password matches the stored password for the user.
@@ -188,5 +202,4 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
             }
         }
     }
-
 }
