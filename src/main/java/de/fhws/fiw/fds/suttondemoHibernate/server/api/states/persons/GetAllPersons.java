@@ -23,6 +23,9 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByFirstAndLas
 
 import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
 
 
 public class GetAllPersons extends AbstractGetCollectionState<Person> {
@@ -53,6 +56,11 @@ public class GetAllPersons extends AbstractGetCollectionState<Person> {
     @Override
     protected void defineTransitionLinks() {
         addLink(PersonUri.REL_PATH, PersonRelTypes.CREATE_PERSON, getAcceptRequestHeader());
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractGetCollectionStateBuilder<Person> {

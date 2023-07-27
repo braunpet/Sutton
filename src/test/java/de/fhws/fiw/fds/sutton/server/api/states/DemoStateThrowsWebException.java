@@ -1,7 +1,11 @@
 package de.fhws.fiw.fds.sutton.server.api.states;
 
+import de.fhws.fiw.fds.sutton.server.api.security.Permission;
+
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import java.util.Collections;
+import java.util.List;
 
 public class DemoStateThrowsWebException extends AbstractState {
     public DemoStateThrowsWebException() {
@@ -11,6 +15,16 @@ public class DemoStateThrowsWebException extends AbstractState {
                 return null;
             }
         });
+    }
+
+    @Override
+    protected Permission getRequiredPermission() {
+        return Permission.NONE;
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return Collections.emptyList();
     }
 
     @Override

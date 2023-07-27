@@ -24,6 +24,10 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.person_locations.PersonLocationRelTypes;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.person_locations.PersonLocationUri;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class GetSinglePerson extends AbstractGetState<Person> {
 
     public GetSinglePerson(final AbstractGetState.AbstractGetStateBuilder builder) {
@@ -47,6 +51,11 @@ public class GetSinglePerson extends AbstractGetState<Person> {
                 this.requestedId );
         addLink( PersonLocationUri.REL_PATH, PersonLocationRelTypes.CREATE_LOCATION, getAcceptRequestHeader( ),
                 this.requestedId );
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractGetStateBuilder {

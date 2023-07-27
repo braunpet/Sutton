@@ -5,6 +5,10 @@ import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetState;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+
 public class GetSingleUser extends AbstractGetState<User>
         implements IAuthDaoSupplier {
 
@@ -27,6 +31,11 @@ public class GetSingleUser extends AbstractGetState<User>
                 this.requestedId);
         addLink(UserUri.REL_PATH_ID, UserRelTypes.DELETE_SINGLE_USER, getAcceptRequestHeader(),
                 this.requestedId);
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return MOD_ROLES;
     }
 
     public static class GetUserStateBuilder extends AbstractGetStateBuilder {

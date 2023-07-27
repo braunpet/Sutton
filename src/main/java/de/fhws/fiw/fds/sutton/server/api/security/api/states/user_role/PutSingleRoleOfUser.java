@@ -7,6 +7,11 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.api.security.models.Role;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN_ROLES;
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+
 public class PutSingleRoleOfUser extends AbstractPutRelationState<Role>
         implements IAuthDaoSupplier {
 
@@ -35,6 +40,11 @@ public class PutSingleRoleOfUser extends AbstractPutRelationState<Role>
                 UserRoleRelTypes.GET_SINGLE_ROLE,
                 getAcceptRequestHeader(),
                 this.primaryId, this.requestedId);
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return ADMIN_ROLES;
     }
 
     public static class Builder extends AbstractPutRelationStateBuilder<Role> {

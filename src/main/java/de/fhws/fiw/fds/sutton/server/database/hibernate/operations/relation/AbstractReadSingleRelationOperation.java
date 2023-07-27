@@ -10,6 +10,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 public abstract class AbstractReadSingleRelationOperation <
         PrimaryModel extends AbstractDBModel,
@@ -64,9 +65,11 @@ public abstract class AbstractReadSingleRelationOperation <
         Predicate[] predicatesFromSearchParameter = getAdditionalPredicates(cb, join).toArray(new Predicate[0]);
         find.where(primaryIdEquals, cb.and(predicatesFromSearchParameter));
         TypedQuery<Relation> findQuery = em.createQuery(find);
-        return new SingleModelHibernateResult<SecondaryModel>(
-                (SecondaryModel) findQuery
+
+        Optional<Relation> result = findQuery
                 .setHint("org.hibernate.cacheable", true)
-                .getSingleResult().getSecondaryModel());
+                .getResultList().stream().findFirst();
+
+        return result.map(relation -> new SingleModelHibernateResult<>((SecondaryModel) relation.getSecondaryModel())).orElseGet(SingleModelHibernateResult::new);
     }
 }

@@ -1,6 +1,7 @@
 package de.fhws.fiw.fds.sutton.server.api.security.models;
 
 import com.owlike.genson.annotation.JsonConverter;
+import com.owlike.genson.annotation.JsonIgnore;
 import de.fhws.fiw.fds.sutton.server.api.converter.JsonServerLinkConverter;
 import de.fhws.fiw.fds.sutton.server.api.converter.XmlServerLinkConverter;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
@@ -67,6 +68,7 @@ public class User extends AbstractModel {
         this.userName = userName;
     }
 
+    @JsonIgnore
     public String getSecret() {
         return secret;
     }
@@ -75,6 +77,7 @@ public class User extends AbstractModel {
         this.secret = secret;
     }
 
+    @JsonIgnore
     public String getSalt() {
         return salt;
     }

@@ -7,6 +7,10 @@ import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 
 import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN_ROLES;
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
 
 public class GetAllUsers extends AbstractGetCollectionState<User>
         implements IAuthDaoSupplier {
@@ -28,6 +32,11 @@ public class GetAllUsers extends AbstractGetCollectionState<User>
     @Override
     protected void defineTransitionLinks() {
         addLink(UserUri.REL_PATH, UserRelTypes.CREATE_USER, getAcceptRequestHeader());
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return MOD_ROLES;
     }
 
     public static class Builder extends AbstractGetCollectionStateBuilder<User> {

@@ -11,6 +11,9 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 
 import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
 
 public class GetAllLocations extends AbstractGetCollectionState<Location> {
     public GetAllLocations(final Builder builder) {
@@ -37,6 +40,11 @@ public class GetAllLocations extends AbstractGetCollectionState<Location> {
         protected CollectionModelResult<Location> doExecuteQuery(SearchParameter searchParameter) throws DatabaseException {
             return DaoFactory.getInstance().getLocationDao().readAll();
         }
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractGetCollectionStateBuilder<Location> {

@@ -6,6 +6,10 @@ import de.fhws.fiw.fds.sutton.server.api.states.post.AbstractPostState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class PostBinaryData extends AbstractPostState<BinaryDataModel>
     implements IBinaryDataDaoSupplier {
 
@@ -24,6 +28,11 @@ public class PostBinaryData extends AbstractPostState<BinaryDataModel>
 
     @Override
     protected void defineTransitionLinks() {
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractPostStateBuilder<BinaryDataModel> {

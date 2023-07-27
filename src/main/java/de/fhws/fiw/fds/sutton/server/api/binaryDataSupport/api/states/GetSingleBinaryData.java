@@ -5,6 +5,10 @@ import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetState;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class GetSingleBinaryData extends AbstractGetState<BinaryDataModel>
     implements IBinaryDataDaoSupplier {
 
@@ -28,6 +32,11 @@ public class GetSingleBinaryData extends AbstractGetState<BinaryDataModel>
                 this.requestedId );
         addLink( BinaryDataUri.REL_PATH_ID, BinaryDataRelTypes.DELETE_SINGLE_BINARY_DATA, getAcceptRequestHeader( ),
                 this.requestedId );
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class GetBinaryDataStateBuilder extends AbstractGetStateBuilder {

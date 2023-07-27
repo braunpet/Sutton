@@ -11,6 +11,9 @@ import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataMode
 
 import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
 
 public class GetAllBinaryData extends AbstractGetCollectionState<BinaryDataModel>
         implements IBinaryDataDaoSupplier {
@@ -37,6 +40,11 @@ public class GetAllBinaryData extends AbstractGetCollectionState<BinaryDataModel
     @Override
     protected void defineTransitionLinks() {
         addLink(BinaryDataUri.REL_PATH, BinaryDataRelTypes.CREATE_BINARY_DATA, getAcceptRequestHeader());
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractGetCollectionStateBuilder<BinaryDataModel> {

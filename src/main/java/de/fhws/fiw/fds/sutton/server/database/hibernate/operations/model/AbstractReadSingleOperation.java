@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 
 /**
  * This abstract class represents an operation to read a single entity of type T from the database
@@ -59,9 +60,11 @@ public abstract class AbstractReadSingleOperation<T extends AbstractDBModel>
                 .where(getAdditionalPredicates(cb, rootEntry).toArray(new Predicate[0]));
         final TypedQuery<T> allQuery = em.createQuery(all);
 
-        return new SingleModelHibernateResult<>(allQuery
+        Optional<T> result = allQuery
                 .setHint("org.hibernate.cacheable", true)
-                .getSingleResult()) ;
+                .getResultList().stream().findFirst();
+
+        return result.map(SingleModelHibernateResult::new).orElseGet(SingleModelHibernateResult::new);
     }
 
 }

@@ -106,17 +106,17 @@ public class Role extends AbstractModel {
         return selfLinkOnSecond;
     }
 
-    // TODO need this?
-//    public void setSelfLinkOnSecond(final Link selfLinkOnSecond) {
-//        this.selfLinkOnSecond = selfLinkOnSecond;
-//    }
+    public void setSelfLinkOnSecond(final Link selfLinkOnSecond) {
+        this.selfLinkOnSecond = selfLinkOnSecond;
+    }
 
     @JsonConverter(JsonServerLinkConverter.class)
     public Link getSelfLinkPrimary() {
         return selfLinkPrimary;
     }
 
-//    public void setSelfLinkPrimary(final Link selfLinkPrimary) {
-//        this.selfLinkPrimary = selfLinkPrimary;
-//    }
+    public void setSelfLinkPrimary(final Link selfLinkPrimary) {
+        this.selfLinkPrimary = selfLinkPrimary;
+    }
+
 }

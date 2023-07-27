@@ -7,6 +7,10 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.DaoFactory;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.PersonUri;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class GetSingleLocation extends AbstractGetState<Location> {
 
     public GetSingleLocation( final Builder builder )
@@ -30,6 +34,11 @@ public class GetSingleLocation extends AbstractGetState<Location> {
                 this.requestedId );
         addLink( PersonUri.REL_PATH_ID, LocationRelTypes.DELETE_SINGLE_LOCATION, getAcceptRequestHeader( ),
                 this.requestedId );
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractGetStateBuilder

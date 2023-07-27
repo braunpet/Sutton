@@ -23,6 +23,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.DaoFactory;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class DeleteSinglePerson extends AbstractDeleteState<Person> {
 
     public DeleteSinglePerson(final Builder builder) {
@@ -47,6 +51,11 @@ public class DeleteSinglePerson extends AbstractDeleteState<Person> {
     @Override
     protected void authorizeRequest() {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractDeleteStateBuilder {

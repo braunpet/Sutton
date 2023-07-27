@@ -6,6 +6,10 @@ import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetRelationState;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.api.security.models.Role;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+
 public class GetSingleRoleOfUser extends AbstractGetRelationState<Role>
         implements IAuthDaoSupplier {
 
@@ -50,6 +54,11 @@ public class GetSingleRoleOfUser extends AbstractGetRelationState<Role>
 
     private boolean isUserLinkedToThisRole() {
         return !getUserRoleDao().readById(this.primaryId, this.requestedId).isEmpty();
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return MOD_ROLES;
     }
 
     public static class Builder extends AbstractGetRelationStateBuilder {

@@ -16,6 +16,7 @@
 
 package de.fhws.fiw.fds.sutton.server.api.states.post;
 
+import de.fhws.fiw.fds.sutton.server.api.security.Permission;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
@@ -46,6 +47,11 @@ public abstract class AbstractPostState<T extends AbstractModel> extends Abstrac
     protected AbstractPostState(final AbstractPostStateBuilder<T> builder) {
         super(builder);
         this.modelToStore = builder.modelToCreate;
+    }
+
+    @Override
+    protected Permission getRequiredPermission() {
+        return Permission.CREATE;
     }
 
     @Override

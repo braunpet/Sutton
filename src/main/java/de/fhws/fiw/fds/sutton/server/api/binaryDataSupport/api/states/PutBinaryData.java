@@ -7,6 +7,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class PutBinaryData extends AbstractPutState<BinaryDataModel>
         implements IBinaryDataDaoSupplier {
 
@@ -33,6 +37,11 @@ public class PutBinaryData extends AbstractPutState<BinaryDataModel>
         addLink(BinaryDataUri.REL_PATH_ID, BinaryDataRelTypes.GET_SINGLE_BINARY_DATA, getAcceptRequestHeader(),
                 this.modelToUpdate.getId());
         addLink(BinaryDataUri.REL_PATH, BinaryDataRelTypes.CREATE_BINARY_DATA, getAcceptRequestHeader());
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractPutStateBuilder<BinaryDataModel> {

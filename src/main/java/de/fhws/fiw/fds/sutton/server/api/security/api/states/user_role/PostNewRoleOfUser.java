@@ -6,6 +6,11 @@ import de.fhws.fiw.fds.sutton.server.api.states.post.AbstractPostRelationState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.api.security.models.Role;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN_ROLES;
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+
 public class PostNewRoleOfUser extends AbstractPostRelationState<Role>
         implements IAuthDaoSupplier {
 
@@ -26,6 +31,11 @@ public class PostNewRoleOfUser extends AbstractPostRelationState<Role>
     @Override
     protected void defineTransitionLinks() {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return ADMIN_ROLES;
     }
 
     public static class Builder extends AbstractPostRelationStateBuilder<Role> {

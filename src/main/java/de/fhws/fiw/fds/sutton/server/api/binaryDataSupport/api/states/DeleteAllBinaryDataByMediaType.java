@@ -6,6 +6,10 @@ import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.api.states.delete.AbstractDeleteAllState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.*;
+
 public class DeleteAllBinaryDataByMediaType extends AbstractDeleteAllState
         implements IBinaryDataDaoSupplier {
 
@@ -29,6 +33,11 @@ public class DeleteAllBinaryDataByMediaType extends AbstractDeleteAllState
     @Override
     protected void defineTransitionLinks() {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractDeleteAllStateBuilder<BinaryDataModel> {

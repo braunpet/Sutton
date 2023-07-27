@@ -23,6 +23,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.DaoFactory;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class PutSinglePerson extends AbstractPutState<Person> {
 
     public PutSinglePerson(final Builder builder) {
@@ -47,6 +51,11 @@ public class PutSinglePerson extends AbstractPutState<Person> {
     protected void defineTransitionLinks() {
         addLink(PersonUri.REL_PATH_ID, PersonRelTypes.GET_SINGLE_PERSON, getAcceptRequestHeader(),
                 this.modelToUpdate.getId());
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractPutStateBuilder<Person> {

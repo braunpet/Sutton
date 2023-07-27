@@ -7,6 +7,9 @@ import de.fhws.fiw.fds.sutton.server.api.security.models.Role;
 
 import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
 
 public class GetAllRolesOfUser extends AbstractGetCollectionRelationState<Role>
         implements IAuthDaoSupplier {
@@ -37,6 +40,11 @@ public class GetAllRolesOfUser extends AbstractGetCollectionRelationState<Role>
                 UserRoleRelTypes.GET_ALL_ROLES,
                 getAcceptRequestHeader(),
                 this.primaryId);
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return MOD_ROLES;
     }
 
     public static class Builder extends AbstractGetCollectionRelationStateBuilder<Role> {

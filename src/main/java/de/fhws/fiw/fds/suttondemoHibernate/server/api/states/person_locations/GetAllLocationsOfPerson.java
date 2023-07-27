@@ -7,6 +7,9 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByLocationNam
 
 import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
 
 
 public class GetAllLocationsOfPerson extends AbstractGetCollectionRelationState<Location> {
@@ -45,6 +48,11 @@ public class GetAllLocationsOfPerson extends AbstractGetCollectionRelationState<
                 getAcceptRequestHeader(),
                 this.primaryId);
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractGetCollectionRelationStateBuilder<Location> {

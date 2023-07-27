@@ -8,6 +8,9 @@ import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataMode
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
 
 public class PostRawBinaryData extends AbstractPostState<BinaryDataModel>
         implements IBinaryDataDaoSupplier {
@@ -28,6 +31,11 @@ public class PostRawBinaryData extends AbstractPostState<BinaryDataModel>
 
     @Override
     protected void defineTransitionLinks() {
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractPostStateBuilder<BinaryDataModel> {

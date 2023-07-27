@@ -7,6 +7,11 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.api.security.models.Role;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN_ROLES;
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+
 public class DeleteSingleRole extends AbstractDeleteState<Role>
         implements IAuthDaoSupplier {
 
@@ -31,6 +36,11 @@ public class DeleteSingleRole extends AbstractDeleteState<Role>
     @Override
     protected void authorizeRequest() {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return ADMIN_ROLES;
     }
 
     public static class Builder extends AbstractDeleteStateBuilder {

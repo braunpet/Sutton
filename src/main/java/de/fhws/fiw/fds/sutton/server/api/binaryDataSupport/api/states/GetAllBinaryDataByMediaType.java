@@ -11,6 +11,9 @@ import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 
 import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
 
 public class GetAllBinaryDataByMediaType extends AbstractGetCollectionState<BinaryDataModel>
         implements IBinaryDataDaoSupplier {
@@ -42,6 +45,11 @@ public class GetAllBinaryDataByMediaType extends AbstractGetCollectionState<Bina
     @Override
     protected void defineTransitionLinks() {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractGetCollectionStateBuilder<BinaryDataModel> {

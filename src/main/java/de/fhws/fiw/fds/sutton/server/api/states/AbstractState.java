@@ -18,6 +18,8 @@ package de.fhws.fiw.fds.sutton.server.api.states;
 
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.RateLimiter;
+import de.fhws.fiw.fds.sutton.server.api.security.AuthenticationProvider;
+import de.fhws.fiw.fds.sutton.server.api.security.Permission;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -25,6 +27,7 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
 
 /**
  * <p>The AbstractState class defines the basic requirements each extending state class needs to define a proper workflow.</p>
@@ -43,7 +46,9 @@ public abstract class AbstractState {
 
     protected Response.ResponseBuilder responseBuilder;
 
-    private RateLimiter rateLimiter;
+    protected RateLimiter rateLimiter;
+
+    protected AuthenticationProvider authProvider;
 
     /**
      * This constructor instantiates an instance of the AbstractState class using the builder pattern
@@ -55,6 +60,8 @@ public abstract class AbstractState {
         this.context = builder.context;
         this.rateLimiter = builder.rateLimiter != null ? builder.rateLimiter : RateLimiter.DEFAULT;
         this.responseBuilder = Response.ok();
+
+        this.authProvider = new AuthenticationProvider();
     }
 
     /**
@@ -64,6 +71,7 @@ public abstract class AbstractState {
      */
     public final Response execute() {
         try {
+            authProvider.accessControl(httpServletRequest, getRequiredPermission(), getAllowedRoles());
             return buildInternalWithRateLimiter();
         } catch (final WebApplicationException f) {
             throw f;
@@ -74,6 +82,28 @@ public abstract class AbstractState {
                     .build();
         }
     }
+
+    /**
+     * Returns the permission required to execute the state.
+     *
+     * This method should be overridden by subclasses to specify the permission
+     * required to execute the state. The permission is used in the {@link AuthenticationProvider}
+     * to check if the user has the necessary rights to perform the action.
+     *
+     * @return the {@link Permission} required to execute the state.
+     */
+    protected abstract Permission getRequiredPermission();
+
+    /**
+     * Returns the roles allowed to execute the state.
+     *
+     * This method should be overridden by subclasses to specify the roles
+     * that are allowed to execute the state. The roles are used in the {@link AuthenticationProvider}
+     * to check if the user has one of the necessary roles to perform the action.
+     *
+     * @return an array of {@link String} representing the roles allowed to execute the state.
+     */
+    protected abstract List<String> getAllowedRoles();
 
     /**
      * This adds the {@link RateLimiter}-Logic and checks if the request is allowed.

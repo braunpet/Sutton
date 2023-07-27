@@ -7,6 +7,11 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN_ROLES;
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+
 public class PutUser extends AbstractPutState<User>
         implements IAuthDaoSupplier {
 
@@ -33,6 +38,11 @@ public class PutUser extends AbstractPutState<User>
         addLink(UserUri.REL_PATH_ID, UserRelTypes.GET_SINGLE_USER, getAcceptRequestHeader(),
                 this.modelToUpdate.getId());
         addLink(UserUri.REL_PATH, UserRelTypes.CREATE_USER, getAcceptRequestHeader());
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return ADMIN_ROLES;
     }
 
     public static class Builder extends AbstractPutStateBuilder<User> {

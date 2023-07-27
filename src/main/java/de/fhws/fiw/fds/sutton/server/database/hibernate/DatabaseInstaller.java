@@ -35,10 +35,15 @@ public class DatabaseInstaller implements IDatabaseConnection {
     }
 
     public static class RoleNames{
-        public static final String ADMIN = "Admin";
-        public static final String MOD = "Moderator";
-        public static final String USER = "User";
-        public static final String GUEST = "Guest";
+        protected static final String ADMIN = "Admin";
+        protected static final String MOD = "Moderator";
+        protected static final String USER = "User";
+        protected static final String GUEST = "Guest";
+
+        public static final List<String> ADMIN_ROLES = List.of(ADMIN);
+        public static final List<String> MOD_ROLES = List.of(ADMIN, MOD);
+        public static final List<String> USER_ROLES = List.of(ADMIN, MOD, USER);
+        public static final List<String> GUEST_ROLES = List.of(ADMIN, MOD, USER, GUEST);
     }
 
     private RoleDB adminRole = new RoleDB(ADMIN, true, true, true, true);

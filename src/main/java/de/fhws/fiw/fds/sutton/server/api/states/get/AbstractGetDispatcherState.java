@@ -18,6 +18,7 @@ package de.fhws.fiw.fds.sutton.server.api.states.get;
 
 import de.fhws.fiw.fds.sutton.server.api.caching.CachingUtils;
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
+import de.fhws.fiw.fds.sutton.server.api.security.Permission;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 
 import javax.ws.rs.core.Response;
@@ -35,6 +36,11 @@ public abstract class AbstractGetDispatcherState extends AbstractState {
 
     protected AbstractGetDispatcherState(final AbstractDispatcherStateBuilder builder) {
         super(builder);
+    }
+
+    @Override
+    protected Permission getRequiredPermission() {
+        return Permission.NONE;
     }
 
     @Override

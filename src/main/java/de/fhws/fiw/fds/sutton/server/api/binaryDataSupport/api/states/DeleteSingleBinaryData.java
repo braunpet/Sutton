@@ -1,11 +1,15 @@
 package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.states;
 
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao.IBinaryDataDaoSupplier;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.api.states.delete.AbstractDeleteState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
-import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
+
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
 
 public class DeleteSingleBinaryData extends AbstractDeleteState<BinaryDataModel>
         implements IBinaryDataDaoSupplier {
@@ -31,6 +35,11 @@ public class DeleteSingleBinaryData extends AbstractDeleteState<BinaryDataModel>
     @Override
     protected void authorizeRequest() {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractDeleteStateBuilder {

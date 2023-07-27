@@ -1,5 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.api.security.database.dao;
 
+import de.fhws.fiw.fds.sutton.server.api.security.SecretHashingHelper;
 import de.fhws.fiw.fds.sutton.server.api.security.database.models.UserDB;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
@@ -54,6 +55,9 @@ public class UserDaoAdapter implements UserDao{
     }
 
     private User createFrom(UserDB model) {
+        if(model == null){
+            return null;
+        }
         final User returnValue = new User();
         returnValue.setId(model.getId());
         returnValue.setUserName(model.getUserName());
@@ -66,8 +70,10 @@ public class UserDaoAdapter implements UserDao{
         final UserDB returnValue = new UserDB();
         returnValue.setId(model.getId());
         returnValue.setUserName(model.getUserName());
-        returnValue.setSecret(model.getSecret());
-        returnValue.setSalt(model.getSalt());
+
+        byte[] salt = SecretHashingHelper.getSalt();
+        returnValue.setSecret(SecretHashingHelper.hashPassword(model.getSecret(), salt));
+        returnValue.setSalt(SecretHashingHelper.saltToString(salt));
         return returnValue;
     }
 
