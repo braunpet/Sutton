@@ -58,6 +58,7 @@ public class UserDaoAdapter implements UserDao{
         returnValue.setId(model.getId());
         returnValue.setUserName(model.getUserName());
         returnValue.setSecret(model.getSecret());
+        returnValue.setSalt(model.getSalt());
         return returnValue;
     }
 
@@ -66,6 +67,7 @@ public class UserDaoAdapter implements UserDao{
         returnValue.setId(model.getId());
         returnValue.setUserName(model.getUserName());
         returnValue.setSecret(model.getSecret());
+        returnValue.setSalt(model.getSalt());
         return returnValue;
     }
 

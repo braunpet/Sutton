@@ -1,23 +1,29 @@
 package suttondemoHibernate.database.hibernate;
 
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.IDatabaseConnection;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.model.AbstractReadSingleOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.dao.PersonDaoHibernate;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.dao.PersonDaoHibernateImpl;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonDB;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.From;
+import jakarta.persistence.criteria.Predicate;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
-public class TestHibernate extends AbstractHibernateTestHelper{
+public class TestHibernate extends AbstractHibernateTestHelper implements IDatabaseConnection {
 
     @Test
     public void test_db_save_successful() throws Exception {
@@ -320,5 +326,39 @@ public class TestHibernate extends AbstractHibernateTestHelper{
         CollectionModelHibernateResult<PersonDB> result = dao.readAll(searchParameter);
         assertEquals(1, result.getTotalNumberOfResult());
         assertEquals("James", result.getResult().stream().toList().get(0).getFirstName());
+    }
+
+    @Test
+    public void test_db_loadSingle() {
+        PersonDB person = new PersonDB();
+        person.setFirstName("James");
+        person.setLastName("Bond");
+        person.setBirthDate(LocalDate.of(1948, 7, 7));
+        person.setEmailAddress("james.bond@thws.de");
+
+        PersonDaoHibernate dao = new PersonDaoHibernateImpl();
+        NoContentResult resultSave = dao.create(person);
+
+        assertFalse(resultSave.hasError());
+
+        PersonDB person2 = new PersonDB();
+        person2.setFirstName("Jeremy");
+        person2.setLastName("Alu");
+        person2.setBirthDate(LocalDate.of(1964, 3, 18));
+        person2.setEmailAddress("jeremy.alu@thws.de");
+
+        NoContentResult resultSave2 = dao.create(person2);
+
+        assertFalse(resultSave2.hasError());
+
+        SingleModelHibernateResult<PersonDB> result = new AbstractReadSingleOperation<PersonDB>(SUTTON_EMF, PersonDB.class) {
+            @Override
+            public List<Predicate> getAdditionalPredicates(CriteriaBuilder cb, From from) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(cb.equal(from.get("firstName"), "James"));
+                return predicates;
+            }
+        }.start();
+        assertEquals("James", result.getResult().getFirstName());
     }
 }

@@ -47,8 +47,10 @@ public class DatabaseInstaller implements IDatabaseConnection {
         System.out.println("Installed Roles.");
     }
 
-    private UserDB userPeter = new UserDB("PeterBraun", SecretHashingHelper.hashPassword("&%24msdh3gkj"));
-    private UserDB userNarm0X = new UserDB("Narm0X", SecretHashingHelper.hashPassword("!2rfG34wwt7g"));
+    private final byte[] salt1 = SecretHashingHelper.getSalt();
+    private UserDB userPeter = new UserDB("PeterBraun", SecretHashingHelper.hashPassword("&%24msdh3gkj", salt1), SecretHashingHelper.saltToString(salt1));
+    private final byte[] salt2 = SecretHashingHelper.getSalt();
+    private UserDB userNarm0X = new UserDB("Narm0X", SecretHashingHelper.hashPassword("!2rfG34wwt7g", salt2), SecretHashingHelper.saltToString(salt2));
 
     private void initializeUsers() {
         List<UserDB> users = new ArrayList<>();

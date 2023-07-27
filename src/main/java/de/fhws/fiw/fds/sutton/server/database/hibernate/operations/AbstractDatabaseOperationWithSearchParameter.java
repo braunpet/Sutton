@@ -1,14 +1,15 @@
 package de.fhws.fiw.fds.sutton.server.database.hibernate.operations;
 
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
-import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
+import de.fhws.fiw.fds.sutton.server.database.results.AbstractResult;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Order;
 import jakarta.persistence.criteria.Predicate;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +18,12 @@ import java.util.stream.Collectors;
 /**
  * This class supports the use of QueryTemplates and also supports sorting.
  * @param <T> The Generic to be searched for and sorted.
+ * @param <R> The Generic type of the result returned by the operation.
  */
-public abstract class AbstractDatabaseOperationWithSearchParameter< T extends AbstractDBModel>
-        extends AbstractDatabaseOperation<T, CollectionModelHibernateResult<T>> {
+public abstract class AbstractDatabaseOperationWithSearchParameter<
+        T extends AbstractDBModel,
+        R extends AbstractResult>
+        extends AbstractDatabaseOperation<T, R> {
 
     /**
      * The {@link SearchParameter} used for filtering the database query.
@@ -27,15 +31,22 @@ public abstract class AbstractDatabaseOperationWithSearchParameter< T extends Ab
     protected SearchParameter searchParameter;
 
     /**
+     * The Class of {@link AbstractResult} used to instantiate an ErrorResult.
+     */
+    protected Class<R> clazzOfResult;
+
+    /**
      * Constructs a new {@link AbstractDatabaseOperationWithSearchParameter} with the provided {@link EntityManagerFactory} and
      * {@link SearchParameter}.
      *
      * @param emf The {@link EntityManagerFactory} to be used for database access.
+     * @param clazzOfResult The class of the result to be returned. This should be directly used in new class-constructor.
      * @param searchParameter The {@link SearchParameter} used for filtering the database query.
      */
-    public AbstractDatabaseOperationWithSearchParameter(EntityManagerFactory emf, SearchParameter searchParameter) {
+    public AbstractDatabaseOperationWithSearchParameter(EntityManagerFactory emf, Class<R> clazzOfResult, SearchParameter searchParameter) {
         super(emf);
         this.searchParameter = searchParameter;
+        this.clazzOfResult = clazzOfResult;
     }
 
     /**
@@ -71,7 +82,7 @@ public abstract class AbstractDatabaseOperationWithSearchParameter< T extends Ab
 
         predicatesEquals.addAll(predicatesLike);
 
-        return predicatesEquals.toArray(Predicate[]::new);
+        return predicatesEquals.toArray(new Predicate[0]);
     }
 
     /**
@@ -125,9 +136,14 @@ public abstract class AbstractDatabaseOperationWithSearchParameter< T extends Ab
      * @return A CollectionModelHibernateResult containing the error response.
      */
     @Override
-    protected CollectionModelHibernateResult<T> errorResult() {
-        CollectionModelHibernateResult<T> returnValue = new CollectionModelHibernateResult<T>();
-        returnValue.setError(400, "The given sort-Attribute doesn't exist. Maybe a misspell? Watch case sensitivity!");
+    protected R errorResult() {
+        R returnValue;
+        try {
+            returnValue = clazzOfResult.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        returnValue.setError(400, "There is a problem with a given attribute. Maybe a misspell? Watch case sensitivity!");
         return returnValue;
     }
 

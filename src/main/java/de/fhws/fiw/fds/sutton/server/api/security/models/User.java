@@ -24,13 +24,15 @@ public class User extends AbstractModel {
 
     private String secret;
 
+    private String salt;
+
     @InjectLink(
             title = "self",
             value = "/users/${instance.id}",
             rel = "self",
             style = InjectLink.Style.ABSOLUTE,
             type = "application/json")
-    @XmlJavaTypeAdapter( XmlServerLinkConverter.class )
+    @XmlJavaTypeAdapter(XmlServerLinkConverter.class)
     private Link selfLink;
 
     @InjectLink(
@@ -40,15 +42,21 @@ public class User extends AbstractModel {
             title = "role",
             type = "application/json"
     )
-    @XmlJavaTypeAdapter( XmlServerLinkConverter.class )
+    @XmlJavaTypeAdapter(XmlServerLinkConverter.class)
     private Link role;
 
     public User() {
     }
 
-    public User(final String userName, final String secret) {
+    public User(String userName, String secret) {
         this.userName = userName;
         this.secret = secret;
+    }
+
+    public User(final String userName, final String secret, final String salt) {
+        this.userName = userName;
+        this.secret = secret;
+        this.salt = salt;
     }
 
     public String getUserName() {
@@ -67,26 +75,32 @@ public class User extends AbstractModel {
         this.secret = secret;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @JsonConverter(JsonServerLinkConverter.class)
     public Link getSelfLink() {
         return selfLink;
     }
 
-    // TODO need htis?
-    //    public void setSelfLink(Link selfLink) {
-//        this.selfLink = selfLink;
-//    }
+    public void setSelfLink(Link selfLink) {
+        this.selfLink = selfLink;
+    }
 
     @JsonConverter(JsonServerLinkConverter.class)
     public Link getRole() {
         return role;
     }
 
-//    public void setLocation(Link location) {
-//        this.location = location;
-//    }
+    public void setRole(Link role) {
+        this.role = role;
+    }
 
-    // TODO funktioniert das mit dem Link?
     /**
      * Returns a clone of the user without their password
      *

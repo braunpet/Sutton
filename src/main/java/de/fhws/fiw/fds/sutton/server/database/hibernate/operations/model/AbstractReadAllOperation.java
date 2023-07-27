@@ -1,12 +1,14 @@
 package de.fhws.fiw.fds.sutton.server.database.hibernate.operations.model;
 
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
  * @param <T> The type of the entity extending AbstractDBModel to be read from the database.
  */
 public abstract class AbstractReadAllOperation<T extends AbstractDBModel>
-        extends AbstractDatabaseOperationWithSearchParameter<T> {
+        extends AbstractDatabaseOperationWithSearchParameter<T, CollectionModelHibernateResult> {
 
     /**
      * The class of the entity to be read.
@@ -34,7 +36,7 @@ public abstract class AbstractReadAllOperation<T extends AbstractDBModel>
      * @param searchParameter The search parameters used for filtering and ordering the result set.
      */
     public AbstractReadAllOperation(EntityManagerFactory emf, Class<T> clazz, SearchParameter searchParameter) {
-        super(emf, searchParameter);
+        super(emf, CollectionModelHibernateResult.class, searchParameter);
         this.clazz = clazz;
     }
 

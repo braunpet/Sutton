@@ -1,22 +1,30 @@
 package suttondemoHibernate.database.hibernate;
 
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.IDatabaseConnection;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.relation.AbstractReadSingleRelationOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.AbstractAttributeEqualsValue;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.dao.*;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.LocationDB;
 import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonDB;
+import de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models.PersonLocationDB;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.From;
+import jakarta.persistence.criteria.Predicate;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class TestHibernateRelations extends AbstractHibernateTestHelper {
+public class TestHibernateRelations extends AbstractHibernateTestHelper implements IDatabaseConnection {
 
     @Test
     public void test_db_save_successful() throws Exception {
@@ -328,4 +336,55 @@ public class TestHibernateRelations extends AbstractHibernateTestHelper {
         assertEquals(1, locationResultGetAllById.getTotalNumberOfResult());
         assertEquals("London", locationResultGetAllById.getResult().stream().toList().get(0).getCityName());
     }
+
+    @Test
+    public void test_db_readSingleRelation() throws Exception {
+        //Person
+        PersonDB person = new PersonDB();
+        person.setFirstName("James");
+        person.setLastName("Bond");
+        person.setBirthDate(LocalDate.of(1948, 7, 7));
+        person.setEmailAddress("james.bond@thws.de");
+
+        PersonDaoHibernate personDao = new PersonDaoHibernateImpl();
+        NoContentResult resultSavePerson = personDao.create(person);
+
+        assertFalse(resultSavePerson.hasError());
+
+        CollectionModelHibernateResult<PersonDB> personResultGetAll = personDao.readAll();
+        assertEquals(1, personResultGetAll.getResult().size());
+        PersonLocationDaoHibernate relDao = new PersonLocationDaoHibernateImpl();
+
+        LocationDB locationLondon = new LocationDB();
+        locationLondon.setCityName("London");
+        locationLondon.setVisitedOn(LocalDate.of(2021, 9, 30));
+        locationLondon.setLongitude(-0.118092);
+        locationLondon.setLatitude(51.509865);
+
+        NoContentResult resultSaveRelLondon = relDao.create(person.getId(), locationLondon);
+        assertFalse(resultSaveRelLondon.hasError());
+
+        // 24 Relations to Location not London
+        IntStream.range(1, 25).forEach(i -> {
+            LocationDB location = new LocationDB();
+            location.setCityName("Berlin");
+            location.setVisitedOn(LocalDate.of(2021, 9, 30));
+            location.setLongitude(-0.118092);
+            location.setLatitude(51.509865);
+
+            NoContentResult resultSaveRel = relDao.create(person.getId(), location);
+            assertFalse(resultSaveRel.hasError());
+        });
+
+        SingleModelHibernateResult<LocationDB> locationResult = new AbstractReadSingleRelationOperation<PersonDB, LocationDB, PersonLocationDB>(SUTTON_EMF, PersonLocationDB.class, person.getId()) {
+            @Override
+            public List<Predicate> getAdditionalPredicates(CriteriaBuilder cb, From from) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(cb.equal(from.get("cityName"), "London"));
+                return predicates;
+            }
+        }.start();
+        assertEquals("London", locationResult.getResult().getCityName());
+    }
+
 }

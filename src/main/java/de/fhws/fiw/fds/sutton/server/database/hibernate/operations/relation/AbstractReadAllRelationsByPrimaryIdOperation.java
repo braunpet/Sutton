@@ -1,11 +1,11 @@
 package de.fhws.fiw.fds.sutton.server.database.hibernate.operations.relation;
 
-import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBRelation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.SuttonColumnConstants;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.AbstractDatabaseOperationWithSearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
@@ -26,7 +26,7 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
         PrimaryModel extends AbstractDBModel,
         SecondaryModel extends AbstractDBModel,
         Relation extends AbstractDBRelation>
-        extends AbstractDatabaseOperationWithSearchParameter<SecondaryModel> {
+        extends AbstractDatabaseOperationWithSearchParameter<SecondaryModel, CollectionModelHibernateResult> {
 
     /**
      * The class of the relation entity associated with the primary and secondary models.
@@ -51,7 +51,7 @@ public abstract class AbstractReadAllRelationsByPrimaryIdOperation<
                                                         Class<Relation> clazzOfRelation,
                                                         long primaryId,
                                                         SearchParameter searchParameter) {
-        super(emf, searchParameter);
+        super(emf, CollectionModelHibernateResult.class, searchParameter);
         this.clazzOfRelation = clazzOfRelation;
         this.primaryId = primaryId;
     }

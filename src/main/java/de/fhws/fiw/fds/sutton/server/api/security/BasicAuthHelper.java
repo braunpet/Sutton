@@ -20,7 +20,7 @@ public class BasicAuthHelper {
      * authorization
      *
      * @param request {@link HttpServletRequest} the HTTP request to extract the username and the password from
-     * @return a {@link User} with the id and the password from the request
+     * @return a {@link User} with the unique username and the password from the request
      * @throws NotAuthorizedException if the HTTP request doesn't implement the basic authorization
      */
     public static User readUserFromHttpHeader(final HttpServletRequest request) {
@@ -33,10 +33,10 @@ public class BasicAuthHelper {
                 final String[] asArray = userColonPass.split(":", 2);
 
                 if (asArray.length == 2) {
-                    final String id = asArray[0];
+                    final String name = asArray[0];
                     final String secret = asArray[1];
 
-                    return new User(id, secret);
+                    return new User(name, secret);
                 }
             }
         }

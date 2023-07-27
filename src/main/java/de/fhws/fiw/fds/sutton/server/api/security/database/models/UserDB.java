@@ -13,13 +13,17 @@ public class UserDB extends AbstractDBModel {
     @Column(nullable = false)
     private String secret;
 
+    @Column(nullable = false)
+    private String salt;
+
     public UserDB() {
         // make JPA happy
     }
 
-    public UserDB(String userName, String secret) {
+    public UserDB(String userName, String secret, String salt) {
         this.userName = userName;
         this.secret = secret;
+        this.salt = salt;
     }
 
     public String getUserName() {
@@ -36,5 +40,13 @@ public class UserDB extends AbstractDBModel {
 
     public void setSecret(String secret) {
         this.secret = secret;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }
