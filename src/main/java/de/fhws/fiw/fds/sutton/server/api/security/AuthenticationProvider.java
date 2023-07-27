@@ -62,6 +62,7 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
      * @throws NotAuthorizedException if the user is not authorized.
      */
     public final User accessControlWithBearerToken(final HttpServletRequest request, Permission permission, final List<String> roles) {
+        if(permission.equals(Permission.TEST)) return null;
         return accessControlWithBearerToken(request, permission, roles.toArray(new String[0]));
     }
 
@@ -96,6 +97,7 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
      * @throws NotAuthorizedException if the user is not authorized.
      */
     public final User accessControlWithBasicAuth(final HttpServletRequest request, Permission permission, final List<String> roles) {
+        if(permission.equals(Permission.TEST)) return null;
         return accessControlWithBasicAuth(request, permission, roles.toArray(new String[0]));
     }
 
