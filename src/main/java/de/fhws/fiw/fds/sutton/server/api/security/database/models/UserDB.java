@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class UserDB extends AbstractDBModel {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userName;
 
     @Column(nullable = false)

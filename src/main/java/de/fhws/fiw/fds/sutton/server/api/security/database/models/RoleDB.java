@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 @Entity
 public class RoleDB extends AbstractDBModel {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String roleName;
 
     private boolean createPermission = false;

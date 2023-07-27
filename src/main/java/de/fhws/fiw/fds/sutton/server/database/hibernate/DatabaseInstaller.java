@@ -10,7 +10,6 @@ import de.fhws.fiw.fds.sutton.server.api.security.database.operations.user.Persi
 import de.fhws.fiw.fds.sutton.server.api.security.database.operations.user_role.UpdateUserRoleOperation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class DatabaseInstaller implements IDatabaseConnection {

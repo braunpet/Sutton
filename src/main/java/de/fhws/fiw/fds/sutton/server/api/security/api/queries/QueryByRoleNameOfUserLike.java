@@ -3,7 +3,6 @@ package de.fhws.fiw.fds.sutton.server.api.security.api.queries;
 import de.fhws.fiw.fds.sutton.server.api.queries.AbstractRelationQuery;
 import de.fhws.fiw.fds.sutton.server.api.queries.PagingBehaviorUsingOffsetSize;
 import de.fhws.fiw.fds.sutton.server.api.security.api.queries.attribute_value.AttributeLikeValueRoleName;
-import de.fhws.fiw.fds.sutton.server.api.security.api.queries.attribute_value.AttributeLikeValueUserName;
 import de.fhws.fiw.fds.sutton.server.api.security.database.dao.IAuthDaoSupplier;
 import de.fhws.fiw.fds.sutton.server.api.security.models.Role;
 import de.fhws.fiw.fds.sutton.server.database.DatabaseException;
