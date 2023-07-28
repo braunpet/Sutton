@@ -2,7 +2,7 @@ package de.fhws.fiw.fds.sutton.server.api.security.api.services;
 
 import de.fhws.fiw.fds.sutton.server.api.security.AuthenticationProvider;
 import de.fhws.fiw.fds.sutton.server.api.security.JwtHelper;
-import de.fhws.fiw.fds.sutton.server.api.security.Permission;
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import de.fhws.fiw.fds.sutton.server.api.services.AbstractService;
 
@@ -20,7 +20,7 @@ public class AuthenticationService extends AbstractService {
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response authenticateUser() {
-        User user = new AuthenticationProvider().accessControlWithBasicAuth(this.httpServletRequest, Permission.NONE, GUEST_ROLES);
+        User user = new AuthenticationProvider().accessControlWithBasicAuth(this.httpServletRequest, RequiredPermission.NONE, GUEST_ROLES);
         return Response.status(Response.Status.OK).entity(JwtHelper.generateJwt(user)).build();
     }
 

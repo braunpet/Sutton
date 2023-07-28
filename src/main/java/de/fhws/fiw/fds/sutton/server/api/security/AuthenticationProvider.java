@@ -58,14 +58,13 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
      * If a Bearer token is present, validate it and authorize the user based on it.
      *
      * @param request    the HTTP request.
-     * @param permission the required permission.
+     * @param requiredPermission the required permission.
      * @param roles      the roles that are allowed to perform the action.
      * @return the authenticated and authorized user.
      * @throws NotAuthorizedException if the user is not authorized.
      */
-    public final User accessControlWithBearerToken(final HttpServletRequest request, Permission permission, final List<String> roles) {
-        if(permission.equals(Permission.TEST)) return null;
-        return accessControlWithBearerToken(request, permission, roles.toArray(new String[0]));
+    public final User accessControlWithBearerToken(final HttpServletRequest request, RequiredPermission requiredPermission, final List<String> roles) {
+        return accessControlWithBearerToken(request, requiredPermission, roles.toArray(new String[0]));
     }
 
     /**
@@ -73,16 +72,16 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
      * If a Bearer token is present, validate it and authorize the user based on it.
      *
      * @param request    the HTTP request.
-     * @param permission the required permission.
+     * @param requiredPermission the required permission.
      * @param roles      the roles that are allowed to perform the action.
      * @return the authenticated and authorized user.
      * @throws NotAuthorizedException if the user is not authorized.
      */
-    public final User accessControlWithBearerToken(final HttpServletRequest request, Permission permission, final String... roles) {
+    public final User accessControlWithBearerToken(final HttpServletRequest request, RequiredPermission requiredPermission, final String... roles) {
         String bearerToken = BearerAuthHelper.extractBearerToken(request);
         if (bearerToken != null) {
             User requestingUser = validateBearerToken(bearerToken);
-            return authorizeUser(requestingUser, permission, true, roles);
+            return authorizeUser(requestingUser, requiredPermission, true, roles);
         } else {
             throw new NotAuthorizedException("");
         }
@@ -93,14 +92,13 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
      * If Basic Auth credentials are present, validate them and authorize the user based on them.
      *
      * @param request    the HTTP request.
-     * @param permission the required permission.
+     * @param requiredPermission the required permission.
      * @param roles      the roles that are allowed to perform the action.
      * @return the authenticated and authorized user.
      * @throws NotAuthorizedException if the user is not authorized.
      */
-    public final User accessControlWithBasicAuth(final HttpServletRequest request, Permission permission, final List<String> roles) {
-        if(permission.equals(Permission.TEST)) return null;
-        return accessControlWithBasicAuth(request, permission, roles.toArray(new String[0]));
+    public final User accessControlWithBasicAuth(final HttpServletRequest request, RequiredPermission requiredPermission, final List<String> roles) {
+        return accessControlWithBasicAuth(request, requiredPermission, roles.toArray(new String[0]));
     }
 
     /**
@@ -108,14 +106,14 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
      * If Basic Auth credentials are present, validate them and authorize the user based on them.
      *
      * @param request    the HTTP request.
-     * @param permission the required permission.
+     * @param requiredPermission the required permission.
      * @param roles      the roles that are allowed to perform the action.
      * @return the authenticated and authorized user.
      * @throws NotAuthorizedException if the user is not authorized.
      */
-    public final User accessControlWithBasicAuth(final HttpServletRequest request, Permission permission, final String... roles) {
+    public final User accessControlWithBasicAuth(final HttpServletRequest request, RequiredPermission requiredPermission, final String... roles) {
         final User requestingUser = BasicAuthHelper.readUserFromHttpHeader(request);
-        return authorizeUser(requestingUser, permission, false, roles);
+        return authorizeUser(requestingUser, requiredPermission, false, roles);
     }
 
     /**
@@ -157,14 +155,14 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
      * (for non-Bearer token users), and if the user has the required permission for the action.
      *
      * @param requestingUser     the user requesting authorization.
-     * @param permissionRequired the {@link Permission} which is needed.
+     * @param requiredPermissionRequired the {@link RequiredPermission} which is needed.
      * @param useBearerToken     indicates whether to authorize the user with a Bearer token.
      * @param roles              the roles that are allowed to perform the action.
      * @return the user from the database.
      * @throws NotAuthorizedException if the user does not exist in the database or if the provided password does not match the stored password (for non-Bearer token users).
      * @throws ForbiddenException     if the user does not have the required permission for the action.
      */
-    private User authorizeUser(final User requestingUser, Permission permissionRequired, boolean useBearerToken, final String... roles) {
+    private User authorizeUser(final User requestingUser, RequiredPermission requiredPermissionRequired, boolean useBearerToken, final String... roles) {
         final SingleModelResult<User> databaseUser = loadUserFromDatabase(requestingUser.getUserName());
 
         if (databaseUser.isEmpty()) {
@@ -172,7 +170,7 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
         } else if (useBearerToken || isBothPasswordsMatch(databaseUser.getResult(), requestingUser)) {
             final User theUser = databaseUser.getResult();
 
-            switch (permissionRequired) {
+            switch (requiredPermissionRequired) {
                 case READ:
                     checkRolesForRead(theUser, roles);
                     break;
@@ -188,7 +186,7 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
                 case NONE:
                     return theUser.cloneWithoutSecret();
                 default:
-                    throw new IllegalArgumentException("Invalid permission: " + permissionRequired.name());
+                    throw new IllegalArgumentException("Invalid permission: " + requiredPermissionRequired.name());
             }
 
             return theUser.cloneWithoutSecret();

@@ -16,7 +16,7 @@
 
 package de.fhws.fiw.fds.sutton.server.api.states.delete;
 
-import de.fhws.fiw.fds.sutton.server.api.security.Permission;
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
@@ -54,8 +54,8 @@ public abstract class AbstractDeleteState<T extends AbstractModel> extends Abstr
     }
 
     @Override
-    protected Permission getRequiredPermission() {
-        return Permission.DELETE;
+    protected RequiredPermission getRequiredPermission() {
+        return RequiredPermission.DELETE;
     }
 
     @Override

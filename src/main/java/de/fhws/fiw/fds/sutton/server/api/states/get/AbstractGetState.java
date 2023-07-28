@@ -17,7 +17,7 @@
 package de.fhws.fiw.fds.sutton.server.api.states.get;
 
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
-import de.fhws.fiw.fds.sutton.server.api.security.Permission;
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
@@ -51,8 +51,8 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
     }
 
     @Override
-    protected Permission getRequiredPermission() {
-        return Permission.READ;
+    protected RequiredPermission getRequiredPermission() {
+        return RequiredPermission.READ;
     }
 
     @Override

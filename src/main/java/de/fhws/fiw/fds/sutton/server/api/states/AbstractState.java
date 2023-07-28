@@ -19,17 +19,17 @@ package de.fhws.fiw.fds.sutton.server.api.states;
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.RateLimiter;
 import de.fhws.fiw.fds.sutton.server.api.security.AuthenticationProvider;
-import de.fhws.fiw.fds.sutton.server.api.security.Permission;
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>The AbstractState class defines the basic requirements each extending state class needs to define a proper workflow.</p>
@@ -73,9 +73,12 @@ public abstract class AbstractState {
      */
     public final Response execute() {
         try {
+            if(getRequiredPermission().equals(RequiredPermission.TEST)){
+                return buildInternal();
+            }
+
             User user = authProvider.accessControlWithBearerToken(httpServletRequest, getRequiredPermission(), getAllowedRoles());
-            if(user == null) throw new NotAuthorizedException("");
-            if(authProvider.isAdmin(user)){
+            if(authProvider.isAdmin(Objects.requireNonNull(user))){
                 return buildInternal();
             }else{
                 return buildInternalWithRateLimiter();
@@ -97,9 +100,9 @@ public abstract class AbstractState {
      * required to execute the state. The permission is used in the {@link AuthenticationProvider}
      * to check if the user has the necessary rights to perform the action.
      *
-     * @return the {@link Permission} required to execute the state.
+     * @return the {@link RequiredPermission} required to execute the state.
      */
-    protected abstract Permission getRequiredPermission();
+    protected abstract RequiredPermission getRequiredPermission();
 
     /**
      * Returns the roles allowed to execute the state.

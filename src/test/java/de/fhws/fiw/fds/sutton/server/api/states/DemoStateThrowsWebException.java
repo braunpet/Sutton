@@ -1,6 +1,6 @@
 package de.fhws.fiw.fds.sutton.server.api.states;
 
-import de.fhws.fiw.fds.sutton.server.api.security.Permission;
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -18,8 +18,8 @@ public class DemoStateThrowsWebException extends AbstractState {
     }
 
     @Override
-    protected Permission getRequiredPermission() {
-        return Permission.TEST;
+    protected RequiredPermission getRequiredPermission() {
+        return RequiredPermission.TEST;
     }
 
     @Override
