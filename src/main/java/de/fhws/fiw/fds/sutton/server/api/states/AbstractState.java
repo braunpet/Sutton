@@ -16,6 +16,7 @@
 
 package de.fhws.fiw.fds.sutton.server.api.states;
 
+import de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller;
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.RateLimiter;
 import de.fhws.fiw.fds.sutton.server.api.security.AuthenticationProvider;
@@ -68,19 +69,22 @@ public abstract class AbstractState {
 
     /**
      * This is the main method to start execution of this state implementation.
+     * <p>
+     * Skips the whole authentication of {@link AuthenticationProvider} and the rate limiting of {@link RateLimiter}
+     * if the {@link AbstractState#getRequiredPermission()} is overridden with {@link RequiredPermission#TEST}.
      *
      * @return the response sent back to the client
      */
     public final Response execute() {
         try {
-            if(getRequiredPermission().equals(RequiredPermission.TEST)){
+            if (getRequiredPermission().equals(RequiredPermission.TEST)) {
                 return buildInternal();
             }
 
             User user = authProvider.accessControlWithBearerToken(httpServletRequest, getRequiredPermission(), getAllowedRoles());
-            if(authProvider.isAdmin(Objects.requireNonNull(user))){
+            if (authProvider.isAdmin(Objects.requireNonNull(user))) {
                 return buildInternal();
-            }else{
+            } else {
                 return buildInternalWithRateLimiter();
             }
         } catch (final WebApplicationException f) {
@@ -95,7 +99,7 @@ public abstract class AbstractState {
 
     /**
      * Returns the permission required to execute the state.
-     *
+     * <br>
      * This method should be overridden by subclasses to specify the permission
      * required to execute the state. The permission is used in the {@link AuthenticationProvider}
      * to check if the user has the necessary rights to perform the action.
@@ -105,11 +109,14 @@ public abstract class AbstractState {
     protected abstract RequiredPermission getRequiredPermission();
 
     /**
-     * Returns the roles allowed to execute the state.
-     *
+     * Returns the roles allowed to execute the state. <br>
+     * <br>
      * This method should be overridden by subclasses to specify the roles
      * that are allowed to execute the state. The roles are used in the {@link AuthenticationProvider}
-     * to check if the user has one of the necessary roles to perform the action.
+     * to check if the user has one of the necessary roles to perform the action. <br>
+     * <br>
+     * These {@link String}s can be usually found in {@link AbstractDatabaseInstaller.RoleNames}. <br>
+     * Override this Method with a return of one of the Lists, or create your own {@link List}.
      *
      * @return an array of {@link String} representing the roles allowed to execute the state.
      */
