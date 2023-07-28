@@ -20,8 +20,10 @@ import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.RateLimiter;
 import de.fhws.fiw.fds.sutton.server.api.security.AuthenticationProvider;
 import de.fhws.fiw.fds.sutton.server.api.security.Permission;
+import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Request;
@@ -71,8 +73,13 @@ public abstract class AbstractState {
      */
     public final Response execute() {
         try {
-            authProvider.accessControlWithBearerToken(httpServletRequest, getRequiredPermission(), getAllowedRoles());
-            return buildInternalWithRateLimiter();
+            User user = authProvider.accessControlWithBearerToken(httpServletRequest, getRequiredPermission(), getAllowedRoles());
+            if(user == null) throw new NotAuthorizedException("");
+            if(authProvider.isAdmin(user)){
+                return buildInternal();
+            }else{
+                return buildInternalWithRateLimiter();
+            }
         } catch (final WebApplicationException f) {
             throw f;
         } catch (final Exception e) {

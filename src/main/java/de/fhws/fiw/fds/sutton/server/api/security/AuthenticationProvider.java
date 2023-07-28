@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
+import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN;
+
 /**
  * Provides functionality for user authentication with basic authorization as
  * defined in the HTTP 1.0 specification in RFC 7617, where an HTTP user agent has to provide a username and a password
@@ -269,5 +271,11 @@ public class AuthenticationProvider implements IAuthDaoSupplier {
                 throw new ForbiddenException("");
             }
         }
+    }
+
+    public boolean isAdmin(User user) {
+        return getUserRoleDao().readRolesByUserName(user.getUserName()).getResult()
+                .stream()
+                .anyMatch(role -> role.getRoleName().equals(ADMIN));
     }
 }

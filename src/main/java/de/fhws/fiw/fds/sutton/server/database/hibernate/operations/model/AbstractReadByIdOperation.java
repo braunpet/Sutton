@@ -30,12 +30,12 @@ public abstract class AbstractReadByIdOperation<T extends AbstractDBModel>
      * Constructs a new AbstractReadByIdOperation with the provided EntityManagerFactory, class of the entity, and ID to load.
      *
      * @param emf      The EntityManagerFactory used for database access.
-     * @param type     The class of the entity to be loaded.
+     * @param clazz     The class of the entity to be loaded.
      * @param idToLoad The ID of the entity to be loaded.
      */
-    public AbstractReadByIdOperation(EntityManagerFactory emf, Class<T> type, long idToLoad) {
+    public AbstractReadByIdOperation(EntityManagerFactory emf, Class<T> clazz, long idToLoad) {
         super(emf);
-        this.clazz = type;
+        this.clazz = clazz;
         this.idToLoad = idToLoad;
     }
 

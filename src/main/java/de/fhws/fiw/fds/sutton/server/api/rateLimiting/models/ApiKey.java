@@ -28,7 +28,7 @@ public class ApiKey extends AbstractModel {
 
     @InjectLink(
             title = "self",
-            value = "/apiKey/${instance.id}",
+            value = "/apikeys/${instance.id}",
             rel = "self",
             style = InjectLink.Style.ABSOLUTE,
             type = "application/json")

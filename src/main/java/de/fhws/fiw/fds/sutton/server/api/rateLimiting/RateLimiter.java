@@ -1,11 +1,7 @@
 package de.fhws.fiw.fds.sutton.server.api.rateLimiting;
 
-import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.models.ApiKeyDB;
-import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.operation.ReadAllApiKeysOperation;
-import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.operation.ReadApiKeyOperation;
-import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.operation.UpdateApiKeyOperation;
-import de.fhws.fiw.fds.sutton.server.database.hibernate.IDatabaseConnection;
-import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.dao.IRateLimiterDaoSupplier;
+import de.fhws.fiw.fds.sutton.server.api.rateLimiting.models.ApiKey;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
@@ -14,9 +10,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This class provides rate limiting with {@link ApiKeyDB}s.
+ * This class provides rate limiting with {@link ApiKey}s.
  */
-public class RateLimiter implements IDatabaseConnection {
+public class RateLimiter implements IRateLimiterDaoSupplier {
 
     /**
      * Checks every 5 seconds whether the rates need to be reset
@@ -26,7 +22,7 @@ public class RateLimiter implements IDatabaseConnection {
     /**
      * Instances a new {@link RateLimiter} with a given checkRate
      *
-     * @param checkRate in seconds the resetRate of {@link ApiKeyDB} is checked
+     * @param checkRate in seconds the resetRate of {@link ApiKey} is checked
      */
     public RateLimiter(long checkRate) {
         Timer resetTimer = new Timer();
@@ -36,12 +32,12 @@ public class RateLimiter implements IDatabaseConnection {
     /**
      * Checks if a Request for the given API-Key String is allowed.
      *
-     * @param apiKey of {@link ApiKeyDB}
+     * @param apiKey of {@link ApiKey}
      * @return a boolean
-     * @throws WebApplicationException if no {@link ApiKeyDB} is present on the DB.
+     * @throws WebApplicationException if no {@link ApiKey} is present on the DB.
      */
     public boolean isRequestAllowed(String apiKey) {
-        ApiKeyDB apiKeyDBOnDB = new ReadApiKeyOperation(SUTTON_EMF, apiKey).start().getResult();
+        ApiKey apiKeyDBOnDB = getApiKeyDao().readApiKey(apiKey).getResult();
         if (apiKeyDBOnDB == null) {
             Response errorResponse = Response.status(Response.Status.BAD_REQUEST)
                     .entity("API-Key " + apiKey + " not found.")
@@ -58,7 +54,7 @@ public class RateLimiter implements IDatabaseConnection {
         long requests = apiKeyDBOnDB.getRequests();
         if (requests < apiKeyDBOnDB.getRequestLimit()) {
             apiKeyDBOnDB.setRequests(requests + 1);
-            new UpdateApiKeyOperation(SUTTON_EMF, apiKeyDBOnDB).start();
+            getApiKeyDao().update(apiKeyDBOnDB);
             return true;
         } else {
             return false;
@@ -66,18 +62,18 @@ public class RateLimiter implements IDatabaseConnection {
     }
 
     /**
-     * {@link TimerTask} for the {@link RateLimiter} to check if the requests of the {@link ApiKeyDB} must be reset.
+     * {@link TimerTask} for the {@link RateLimiter} to check if the requests of the {@link ApiKey} must be reset.
      */
     private class ResetTask extends TimerTask {
         @Override
         public void run() {
-            Collection<ApiKeyDB> apiKeyDBS = new ReadAllApiKeysOperation(SUTTON_EMF, SearchParameter.DEFAULT).start().getResult();
+            Collection<ApiKey> apiKeyDBS = getApiKeyDao().readAll().getResult();
             long currentTimestamp = System.currentTimeMillis();
             apiKeyDBS.forEach(apiKey -> {
                 if(currentTimestamp - apiKey.getLastReset() > apiKey.getResetRateInSeconds() * 1000) {
                     apiKey.setRequests(0L);
                     apiKey.setLastReset(currentTimestamp);
-                    new UpdateApiKeyOperation(SUTTON_EMF, apiKey).start();
+                    getApiKeyDao().update(apiKey);
                 }
             });
         }

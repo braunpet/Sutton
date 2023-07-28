@@ -10,6 +10,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import javax.ws.rs.core.Response;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
@@ -64,7 +65,10 @@ public abstract class AbstractReadSingleOperation<T extends AbstractDBModel>
                 .setHint("org.hibernate.cacheable", true)
                 .getResultList().stream().findFirst();
 
-        return result.map(SingleModelHibernateResult::new).orElseGet(SingleModelHibernateResult::new);
+        return result.map(SingleModelHibernateResult::new)
+                .orElseGet(() -> new SingleModelHibernateResult.SingleModelHibernateResultBuilder<T>()
+                        .setError(Response.Status.NOT_FOUND.getStatusCode(), "Requested entity not found in Database.")
+                        .build());
     }
 
 }

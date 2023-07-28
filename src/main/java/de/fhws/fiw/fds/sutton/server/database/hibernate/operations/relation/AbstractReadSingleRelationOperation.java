@@ -9,6 +9,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 
+import javax.ws.rs.core.Response;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
@@ -70,6 +71,9 @@ public abstract class AbstractReadSingleRelationOperation <
                 .setHint("org.hibernate.cacheable", true)
                 .getResultList().stream().findFirst();
 
-        return result.map(relation -> new SingleModelHibernateResult<>((SecondaryModel) relation.getSecondaryModel())).orElseGet(SingleModelHibernateResult::new);
+        return result.map(relation -> new SingleModelHibernateResult<>((SecondaryModel) relation.getSecondaryModel()))
+                .orElseGet(() -> new SingleModelHibernateResult.SingleModelHibernateResultBuilder<SecondaryModel>()
+                        .setError(Response.Status.NOT_FOUND.getStatusCode(), "Requested entity not found in Database.")
+                        .build());
     }
 }
