@@ -1,7 +1,7 @@
 package de.fhws.fiw.fds.sutton.server.database.hibernate;
 
-import de.fhws.fiw.fds.sutton.server.api.rateLimiting.model.APIKey;
-import de.fhws.fiw.fds.sutton.server.api.rateLimiting.operation.PersistAPIKeyOperation;
+import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.models.ApiKeyDB;
+import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.operation.PersistApiKeyOperation;
 import de.fhws.fiw.fds.sutton.server.api.security.SecretHashingHelper;
 import de.fhws.fiw.fds.sutton.server.api.security.database.models.RoleDB;
 import de.fhws.fiw.fds.sutton.server.api.security.database.models.UserDB;
@@ -24,13 +24,13 @@ public class DatabaseInstaller implements IDatabaseConnection {
 
     // TODO change with when Authorization with Users is Implemented
     private void initializeAPIKeys() {
-        List<APIKey> apiKeys = new ArrayList<>();
-        apiKeys.add(new APIKey("API_KEY_01", 10, 10));
-        apiKeys.add(new APIKey("API_KEY_02", 10, 10));
-        apiKeys.add(new APIKey("API_KEY_03", 10, 10));
-        apiKeys.add(new APIKey("API_KEY_04", 10, 10));
-        apiKeys.add(new APIKey("API_KEY_05", 10, 10));
-        apiKeys.forEach(apiKey -> new PersistAPIKeyOperation(SUTTON_EMF, apiKey).start());
+        List<ApiKeyDB> apiKeyDBS = new ArrayList<>();
+        apiKeyDBS.add(new ApiKeyDB("API_KEY_01", 10, 10));
+        apiKeyDBS.add(new ApiKeyDB("API_KEY_02", 10, 10));
+        apiKeyDBS.add(new ApiKeyDB("API_KEY_03", 10, 10));
+        apiKeyDBS.add(new ApiKeyDB("API_KEY_04", 10, 10));
+        apiKeyDBS.add(new ApiKeyDB("API_KEY_05", 10, 10));
+        apiKeyDBS.forEach(apiKey -> new PersistApiKeyOperation(SUTTON_EMF, apiKey).start());
         System.out.println("Installed API-Keys.");
     }
 

@@ -5,7 +5,7 @@
     <description>How to use Hibernate with Sutton</description>
     <class>de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel</class>
     <class>de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBRelation</class>
-    <class>de.fhws.fiw.fds.sutton.server.api.rateLimiting.model.APIKey</class>
+    <class>de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.models.ApiKeyDB</class>
     <class>de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.models.BinaryDataDBModel</class>
     <class>de.fhws.fiw.fds.sutton.server.api.security.database.models.UserDB</class>
     <class>de.fhws.fiw.fds.sutton.server.api.security.database.models.RoleDB</class>

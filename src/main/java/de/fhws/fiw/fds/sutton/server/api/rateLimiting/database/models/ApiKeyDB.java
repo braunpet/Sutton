@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.api.rateLimiting.model;
+package de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.models;
 
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.SuttonColumnConstants;
@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
  * This class provides a DB-Table to store API-Keys for the RateLimiter
  */
 @Entity
-public class APIKey extends AbstractDBModel {
+public class ApiKeyDB extends AbstractDBModel {
 
     @Column(name = SuttonColumnConstants.API_KEY, unique = true)
     private String apiKey;
@@ -27,13 +27,13 @@ public class APIKey extends AbstractDBModel {
     @Column(name = SuttonColumnConstants.API_KEY_REQUEST_LIMIT)
     private long requestLimit;
 
-    public APIKey(String apiKey, long resetRateInSeconds, long requestLimit) {
+    public ApiKeyDB(String apiKey, long resetRateInSeconds, long requestLimit) {
         this.apiKey = apiKey;
         this.resetRateInSeconds = resetRateInSeconds;
         this.requestLimit = requestLimit;
     }
 
-    protected APIKey() {
+    public ApiKeyDB() {
         // make JPA happy
     }
 
