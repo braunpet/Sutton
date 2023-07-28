@@ -38,6 +38,7 @@ public abstract class AbstractStart {
     }
 
     protected void startTomcat() throws Exception {
+        getInstaller().install();
         final Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
 
@@ -53,6 +54,8 @@ public abstract class AbstractStart {
         tomcat.start();
         tomcat.getServer().await();
     }
+
+    protected abstract AbstractDatabaseInstaller getInstaller();
 
     public static String getContextPath() {
         return contextPath;

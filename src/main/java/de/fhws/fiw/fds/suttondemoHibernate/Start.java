@@ -14,6 +14,7 @@
 
 package de.fhws.fiw.fds.suttondemoHibernate;
 
+import de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller;
 import de.fhws.fiw.fds.sutton.server.AbstractStart;
 
 public class Start extends AbstractStart {
@@ -25,9 +26,11 @@ public class Start extends AbstractStart {
     }
 
     public static void main(final String[] args) throws Exception {
-        new InstallerForDevelopment().install();
         new Start().startTomcat();
     }
 
-
+    @Override
+    protected AbstractDatabaseInstaller getInstaller() {
+        return new InstallerForDevelopment();
+    }
 }
