@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.api.security;
+package de.fhws.fiw.fds.sutton.server.api.security.helper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;

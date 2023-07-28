@@ -19,8 +19,9 @@ package de.fhws.fiw.fds.sutton.server.api.states;
 import de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller;
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.RateLimiter;
-import de.fhws.fiw.fds.sutton.server.api.security.AuthenticationProvider;
+import de.fhws.fiw.fds.sutton.server.api.security.IAuthenticationProvider;
 import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
+import de.fhws.fiw.fds.sutton.server.api.security.SuttonAuthenticationProvider;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +52,7 @@ public abstract class AbstractState {
 
     protected RateLimiter rateLimiter;
 
-    protected AuthenticationProvider authProvider;
+    protected IAuthenticationProvider authProvider;
 
     /**
      * This constructor instantiates an instance of the AbstractState class using the builder pattern
@@ -64,13 +65,13 @@ public abstract class AbstractState {
         this.rateLimiter = builder.rateLimiter != null ? builder.rateLimiter : RateLimiter.DEFAULT;
         this.responseBuilder = Response.ok();
 
-        this.authProvider = new AuthenticationProvider();
+        this.authProvider = new SuttonAuthenticationProvider();
     }
 
     /**
      * This is the main method to start execution of this state implementation.
      * <p>
-     * Skips the whole authentication of {@link AuthenticationProvider} and the rate limiting of {@link RateLimiter}
+     * Skips the whole authentication of {@link SuttonAuthenticationProvider} and the rate limiting of {@link RateLimiter}
      * if the {@link AbstractState#getRequiredPermission()} is overridden with {@link RequiredPermission#TEST}.
      *
      * @return the response sent back to the client
@@ -101,7 +102,7 @@ public abstract class AbstractState {
      * Returns the permission required to execute the state.
      * <br>
      * This method should be overridden by subclasses to specify the permission
-     * required to execute the state. The permission is used in the {@link AuthenticationProvider}
+     * required to execute the state. The permission is used in the {@link SuttonAuthenticationProvider}
      * to check if the user has the necessary rights to perform the action.
      *
      * @return the {@link RequiredPermission} required to execute the state.
@@ -112,7 +113,7 @@ public abstract class AbstractState {
      * Returns the roles allowed to execute the state. <br>
      * <br>
      * This method should be overridden by subclasses to specify the roles
-     * that are allowed to execute the state. The roles are used in the {@link AuthenticationProvider}
+     * that are allowed to execute the state. The roles are used in the {@link SuttonAuthenticationProvider}
      * to check if the user has one of the necessary roles to perform the action. <br>
      * <br>
      * These {@link String}s can be usually found in {@link AbstractDatabaseInstaller.RoleNames}. <br>

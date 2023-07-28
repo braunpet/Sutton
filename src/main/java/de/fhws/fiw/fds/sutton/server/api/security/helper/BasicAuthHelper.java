@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.api.security;
+package de.fhws.fiw.fds.sutton.server.api.security.helper;
 
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import org.apache.commons.codec.binary.Base64;

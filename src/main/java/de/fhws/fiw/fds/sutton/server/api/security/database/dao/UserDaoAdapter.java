@@ -1,7 +1,7 @@
 package de.fhws.fiw.fds.sutton.server.api.security.database.dao;
 
-import de.fhws.fiw.fds.sutton.server.api.security.SecretHashingHelper;
 import de.fhws.fiw.fds.sutton.server.api.security.database.models.UserDB;
+import de.fhws.fiw.fds.sutton.server.api.security.helper.SecretHashingHelper;
 import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;

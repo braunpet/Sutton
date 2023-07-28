@@ -3,10 +3,10 @@ package de.fhws.fiw.fds.suttondemoHibernate;
 import de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.models.ApiKeyDB;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.operation.PersistApiKeyOperation;
-import de.fhws.fiw.fds.sutton.server.api.security.SecretHashingHelper;
 import de.fhws.fiw.fds.sutton.server.api.security.database.models.UserDB;
 import de.fhws.fiw.fds.sutton.server.api.security.database.operations.user.PersistUserOperation;
 import de.fhws.fiw.fds.sutton.server.api.security.database.operations.user_role.UpdateUserRoleOperation;
+import de.fhws.fiw.fds.sutton.server.api.security.helper.SecretHashingHelper;
 
 import java.util.ArrayList;
 import java.util.List;
