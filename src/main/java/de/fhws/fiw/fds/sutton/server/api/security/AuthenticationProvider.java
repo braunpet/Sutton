@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.ADMIN;
 
 /**
  * Provides functionality for user authentication with basic authorization as

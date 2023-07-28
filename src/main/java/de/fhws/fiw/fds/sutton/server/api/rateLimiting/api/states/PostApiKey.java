@@ -8,7 +8,7 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 
 import java.util.List;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.MOD_ROLES;
 
 public class PostApiKey extends AbstractPostState<ApiKey>
         implements IRateLimiterDaoSupplier {

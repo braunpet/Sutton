@@ -10,7 +10,7 @@ import javax.ws.rs.core.GenericEntity;
 import java.util.Collection;
 import java.util.List;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.MOD_ROLES;
 
 public class GetAllApiKeys extends AbstractGetCollectionState<ApiKey>
         implements IRateLimiterDaoSupplier {

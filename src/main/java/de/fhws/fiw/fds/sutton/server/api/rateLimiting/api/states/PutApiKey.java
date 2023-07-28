@@ -9,7 +9,7 @@ import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 
 import java.util.List;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN_ROLES;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.ADMIN_ROLES;
 
 public class PutApiKey extends AbstractPutState<ApiKey>
         implements IRateLimiterDaoSupplier {

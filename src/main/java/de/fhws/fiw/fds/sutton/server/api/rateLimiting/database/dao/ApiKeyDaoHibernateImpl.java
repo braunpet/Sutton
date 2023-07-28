@@ -2,7 +2,7 @@ package de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.dao;
 
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.models.ApiKeyDB;
 import de.fhws.fiw.fds.sutton.server.api.rateLimiting.database.operation.*;
-import de.fhws.fiw.fds.sutton.server.database.hibernate.IDatabaseConnection;
+import de.fhws.fiw.fds.sutton.server.IDatabaseConnection;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;

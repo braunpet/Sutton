@@ -9,7 +9,7 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 
 import java.util.List;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.USER_ROLES;
 
 public class PostNewLocation extends AbstractPostState<Location>
 {

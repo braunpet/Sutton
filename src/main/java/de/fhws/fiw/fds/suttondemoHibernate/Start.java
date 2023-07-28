@@ -25,6 +25,7 @@ public class Start extends AbstractStart {
     }
 
     public static void main(final String[] args) throws Exception {
+        new InstallerForDevelopment().install();
         new Start().startTomcat();
     }
 

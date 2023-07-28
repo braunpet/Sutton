@@ -2,7 +2,7 @@ package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao;
 
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.models.BinaryDataDBModel;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.operations.*;
-import de.fhws.fiw.fds.sutton.server.database.hibernate.IDatabaseConnection;
+import de.fhws.fiw.fds.sutton.server.IDatabaseConnection;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;

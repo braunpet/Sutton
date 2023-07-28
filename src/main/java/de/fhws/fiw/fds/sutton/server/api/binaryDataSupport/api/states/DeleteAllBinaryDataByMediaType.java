@@ -8,7 +8,7 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 
 import java.util.List;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.*;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.*;
 
 public class DeleteAllBinaryDataByMediaType extends AbstractDeleteAllState
         implements IBinaryDataDaoSupplier {

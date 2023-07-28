@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.database.hibernate;
+package de.fhws.fiw.fds.sutton.server;
 
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -9,7 +9,8 @@ import jakarta.persistence.Persistence;
 public interface IDatabaseConnection {
 
     /**
-     * The {@link EntityManagerFactory} for your Database
+     * The {@link EntityManagerFactory} for your Database.
+     * The String needs to be equal to the persistence-unit name in persistence.xml
      */
     EntityManagerFactory SUTTON_EMF = //
             Persistence.createEntityManagerFactory("de.fhws.fiw.fds.sutton");

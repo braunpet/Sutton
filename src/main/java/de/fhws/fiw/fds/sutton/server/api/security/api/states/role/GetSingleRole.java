@@ -7,8 +7,7 @@ import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 
 import java.util.List;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.ADMIN_ROLES;
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.MOD_ROLES;
 
 public class GetSingleRole extends AbstractGetState<Role>
         implements IAuthDaoSupplier {

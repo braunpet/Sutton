@@ -1,6 +1,6 @@
 package suttondemoHibernate.database.hibernate;
 
-import de.fhws.fiw.fds.sutton.server.database.hibernate.IDatabaseConnection;
+import de.fhws.fiw.fds.sutton.server.IDatabaseConnection;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.operations.model.AbstractReadSingleOperation;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;

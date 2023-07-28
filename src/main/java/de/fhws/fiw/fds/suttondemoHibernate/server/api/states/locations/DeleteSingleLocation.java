@@ -11,8 +11,7 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.PersonUri;
 
 import java.util.List;
 
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.MOD_ROLES;
-import static de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller.RoleNames.USER_ROLES;
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.USER_ROLES;
 
 public class DeleteSingleLocation extends AbstractDeleteState<Location> {
 
