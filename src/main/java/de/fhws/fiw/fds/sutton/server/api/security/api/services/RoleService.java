@@ -25,6 +25,7 @@ public class RoleService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -39,6 +40,7 @@ public class RoleService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -52,6 +54,7 @@ public class RoleService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -67,6 +70,7 @@ public class RoleService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -81,6 +85,7 @@ public class RoleService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }

@@ -19,6 +19,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -33,6 +34,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -46,6 +48,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -61,6 +64,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -75,6 +79,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -92,6 +97,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -106,6 +112,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -120,6 +127,7 @@ public class ApiKeyService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }

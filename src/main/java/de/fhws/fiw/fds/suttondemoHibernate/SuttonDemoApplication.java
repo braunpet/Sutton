@@ -17,10 +17,13 @@
 package de.fhws.fiw.fds.suttondemoHibernate;
 
 import de.fhws.fiw.fds.sutton.server.api.AbstractApplication;
+import de.fhws.fiw.fds.sutton.server.api.security.IAuthenticationProvider;
+import de.fhws.fiw.fds.sutton.server.api.security.SuttonAuthenticationProvider;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.services.DispatcherService;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.services.LocationService;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.services.PersonService;
 import org.apache.catalina.loader.ParallelWebappClassLoader;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import javax.ws.rs.ApplicationPath;
 import java.util.HashSet;
@@ -28,6 +31,20 @@ import java.util.Set;
 
 @ApplicationPath("api")
 public class SuttonDemoApplication extends AbstractApplication {
+
+
+    @Override
+    protected AbstractBinder registerDependencyInjectionBinder() {
+        return new AbstractBinder() {
+            @Override
+            protected void configure() {
+                /*
+                 * Configure your DependencyInjection here
+                 */
+                bind(SuttonAuthenticationProvider.class).to(IAuthenticationProvider.class);
+            }
+        };
+    }
 
     @Override
     protected Set<Class<?>> getServiceClasses() {

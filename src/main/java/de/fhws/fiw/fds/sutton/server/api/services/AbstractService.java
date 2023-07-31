@@ -16,13 +16,16 @@
 
 package de.fhws.fiw.fds.sutton.server.api.services;
 
+import de.fhws.fiw.fds.sutton.server.api.security.IAuthenticationProvider;
+
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.UriInfo;
 
-public class AbstractService {
+public abstract class AbstractService {
 
     @Context
     protected ContainerRequestContext context;
@@ -38,5 +41,8 @@ public class AbstractService {
 
     @Context
     protected HttpServletRequest httpServletRequest;
+
+    @Inject
+    protected IAuthenticationProvider authProvider;
 
 }

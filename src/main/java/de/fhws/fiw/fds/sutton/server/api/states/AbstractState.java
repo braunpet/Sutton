@@ -63,9 +63,8 @@ public abstract class AbstractState {
         this.request = builder.request;
         this.context = builder.context;
         this.rateLimiter = builder.rateLimiter != null ? builder.rateLimiter : RateLimiter.DEFAULT;
+        this.authProvider = builder.authProvider;
         this.responseBuilder = Response.ok();
-
-        this.authProvider = new SuttonAuthenticationProvider();
     }
 
     /**
@@ -225,6 +224,8 @@ public abstract class AbstractState {
 
         protected RateLimiter rateLimiter;
 
+        protected IAuthenticationProvider authProvider;
+
         public AbstractStateBuilder setUriInfo(final UriInfo uriInfo) {
             this.uriInfo = uriInfo;
             return this;
@@ -247,6 +248,11 @@ public abstract class AbstractState {
 
         public AbstractStateBuilder setRateLimiter(final RateLimiter rateLimiter) {
             this.rateLimiter = rateLimiter;
+            return this;
+        }
+
+        public AbstractStateBuilder setAuthProvider(final IAuthenticationProvider authProvider) {
+            this.authProvider = authProvider;
             return this;
         }
 

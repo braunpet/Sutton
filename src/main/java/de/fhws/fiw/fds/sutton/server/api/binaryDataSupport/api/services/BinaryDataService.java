@@ -1,8 +1,8 @@
 package de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.services;
 
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.states.*;
-import de.fhws.fiw.fds.sutton.server.api.services.AbstractService;
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.models.BinaryDataModel;
+import de.fhws.fiw.fds.sutton.server.api.services.AbstractService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +20,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -34,6 +35,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -47,6 +49,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -61,6 +64,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -76,6 +80,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -90,6 +95,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -104,6 +110,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -117,6 +124,7 @@ public class BinaryDataService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }

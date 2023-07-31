@@ -22,8 +22,6 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByFirstNameEq
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByLocationName;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.person_locations.*;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.*;
-import de.fhws.fiw.fds.suttondemoHibernate.server.database.utils.InitializeDatabase;
-import de.fhws.fiw.fds.suttondemoHibernate.server.database.utils.ResetDatabase;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -31,6 +29,7 @@ import javax.ws.rs.core.Response;
 
 @Path("persons")
 public class PersonService extends AbstractService {
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllPersons(
@@ -45,6 +44,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -58,6 +58,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -71,6 +72,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -83,6 +85,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -97,6 +100,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -110,6 +114,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -130,6 +135,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -146,6 +152,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -161,6 +168,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -178,6 +186,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -193,6 +202,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
