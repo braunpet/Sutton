@@ -1,4 +1,4 @@
-package de.fhws.fiw.fds.sutton.server.database.binaryData;
+package de.fhws.fiw.fds.sutton.server.api.binaryData;
 
 import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.database.dao.BinaryDataDaoAdapter;
 import de.fhws.fiw.fds.sutton.server.database.binaryData.database.BinaryDataResourceHandler;
