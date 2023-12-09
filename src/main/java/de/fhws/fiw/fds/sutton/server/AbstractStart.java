@@ -16,7 +16,6 @@
 
 package de.fhws.fiw.fds.sutton.server;
 
-import de.fhws.fiw.fds.sutton.server.database.hibernate.DatabaseInstaller;
 import org.apache.catalina.Context;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.startup.Tomcat;
@@ -32,13 +31,18 @@ public abstract class AbstractStart {
     private static final String WEB_APP_MOUNT = "/WEB-INF/classes";
     private static final String WEB_APP_CLASSES = "target/classes";
 
-    protected void startTomcat() throws Exception {
-        new DatabaseInstaller().install();
+    private static String contextPath = null;
 
+    public AbstractStart(String contextPath) {
+        this.contextPath = contextPath;
+    }
+
+    protected void startTomcat() throws Exception {
+        getInstaller().install();
         final Tomcat tomcat = new Tomcat();
         tomcat.setPort(8080);
 
-        final Context context = tomcat.addWebapp(CONTEXT_PATH_PREFIX + contextPath(),
+        final Context context = tomcat.addWebapp(CONTEXT_PATH_PREFIX + getContextPath(),
                 new File(WEB_APP_LOCATION).getAbsolutePath());
         final String pathToClasses = new File(WEB_APP_CLASSES).getAbsolutePath();
         final WebResourceRoot resources = new StandardRoot(context);
@@ -51,6 +55,9 @@ public abstract class AbstractStart {
         tomcat.getServer().await();
     }
 
-    protected abstract String contextPath();
+    protected abstract AbstractDatabaseInstaller getInstaller();
 
+    public static String getContextPath() {
+        return contextPath;
+    }
 }

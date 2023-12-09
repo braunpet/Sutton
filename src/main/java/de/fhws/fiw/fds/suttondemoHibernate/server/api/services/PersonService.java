@@ -18,11 +18,10 @@ import de.fhws.fiw.fds.sutton.server.api.services.AbstractService;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByFirstAndLastName;
+import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByFirstNameEquals;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.queries.QueryByLocationName;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.person_locations.*;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.*;
-import de.fhws.fiw.fds.suttondemoHibernate.server.database.utils.InitializeDatabase;
-import de.fhws.fiw.fds.suttondemoHibernate.server.database.utils.ResetDatabase;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -30,6 +29,7 @@ import javax.ws.rs.core.Response;
 
 @Path("persons")
 public class PersonService extends AbstractService {
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response getAllPersons(
@@ -37,12 +37,28 @@ public class PersonService extends AbstractService {
             @DefaultValue("") @QueryParam("lastname") final String lastName,
             @DefaultValue("0") @QueryParam("offset") int offset,
             @DefaultValue("20") @QueryParam("size") int size,
-            @DefaultValue("0") @QueryParam("wait") int waitingTime) {
-        return new GetAllPersons.Builder().setQuery(new QueryByFirstAndLastName(firstName, lastName, offset, size, waitingTime))
+            @DefaultValue("0") @QueryParam("wait") int waitingTime,
+            @DefaultValue("") @QueryParam("sort") final String orderByAttributes) {
+        return new GetAllPersons.Builder().setQuery(new QueryByFirstAndLastName(firstName, lastName, offset, size, waitingTime, orderByAttributes))
                 .setUriInfo(this.uriInfo)
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
+                .build()
+                .execute();
+    }
+
+    @GET
+    @Path("{firstName: \\p{L}+}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonsWithFirstName(@PathParam("firstName") final String firstName) {
+        return new GetAllPersons.Builder().setQuery(new QueryByFirstNameEquals(firstName))
+                .setUriInfo(this.uriInfo)
+                .setRequest(this.request)
+                .setHttpServletRequest(this.httpServletRequest)
+                .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -56,6 +72,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -68,6 +85,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -82,6 +100,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -95,6 +114,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -106,14 +126,16 @@ public class PersonService extends AbstractService {
                                          @DefaultValue("") @QueryParam("cityname") final String cityName,
                                          @DefaultValue("0") @QueryParam("offset") int offset,
                                          @DefaultValue("20") @QueryParam("size") int size,
-                                         @DefaultValue("0") @QueryParam("wait") int waitingTime) {
+                                         @DefaultValue("0") @QueryParam("wait") int waitingTime,
+                                         @DefaultValue("") @QueryParam("sort") final String orderByAttributes) {
         return new GetAllLocationsOfPerson.Builder()
                 .setParentId(personId)
-                .setQuery(new QueryByLocationName(personId, cityName, offset, size, waitingTime))
+                .setQuery(new QueryByLocationName(personId, cityName, offset, size, waitingTime, orderByAttributes))
                 .setUriInfo(this.uriInfo)
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -130,6 +152,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -145,6 +168,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -162,6 +186,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }
@@ -177,6 +202,7 @@ public class PersonService extends AbstractService {
                 .setRequest(this.request)
                 .setHttpServletRequest(this.httpServletRequest)
                 .setContext(this.context)
+                .setAuthProvider(this.authProvider)
                 .build()
                 .execute();
     }

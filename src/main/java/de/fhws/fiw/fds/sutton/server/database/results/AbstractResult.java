@@ -16,6 +16,9 @@
 
 package de.fhws.fiw.fds.sutton.server.database.results;
 
+
+import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
+
 /**
  * The AbstractResult class defines the required properties, that all kind of results should possess in order to
  * give descriptive information about possible errors
@@ -28,12 +31,16 @@ public abstract class AbstractResult {
     protected boolean hasError;
 
     /**
-     * Defines the error code to be returned with the result in case on an error
+     * Defines the error code to be returned with the result in case on an error. This will be used in
+     * {@link de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetState} and {@link de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetCollectionState}
+     * for the StatusCode of the {@link javax.ws.rs.core.Response}.
      */
-    protected int errorCode;
+    protected Integer errorCode;
 
     /**
-     * Defines the error message to be returned with the result in case on an error
+     * Defines the error message to be returned with the result in case on an error. This will be used in
+     * {@link de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetState} and {@link de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetCollectionState}
+     * for the Entity of the {@link javax.ws.rs.core.Response}.
      */
     protected String errorMessage;
 
@@ -43,10 +50,13 @@ public abstract class AbstractResult {
     protected long databaseExecutionTimeInMs;
 
     /**
-     * The default constructor, which sets the {@link AbstractResult#hasError} to false by default
+     * The default constructor, which sets the {@link AbstractResult#hasError} to false,
+     * {@link AbstractResult#errorCode} to null and {@link AbstractResult#errorMessage} to null by default
      */
     protected AbstractResult() {
         this.hasError = false;
+        this.errorCode = null;
+        this.errorMessage = null;
     }
 
     /**
@@ -77,6 +87,20 @@ public abstract class AbstractResult {
     }
 
     /**
+     * @return the {@link AbstractResult#errorCode}
+     */
+    public final Integer getErrorCode() {
+        return errorCode;
+    }
+
+    /**
+     * @return the {@link AbstractResult#errorMessage}
+     */
+    public final String getErrorMessage() {
+        return errorMessage;
+    }
+
+    /**
      * Sets {@link AbstractResult#hasError} to true
      */
     public final void setError() {
@@ -95,6 +119,33 @@ public abstract class AbstractResult {
         this.hasError = true;
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
+    }
+
+    public static abstract class AbstractResultBuilder<T extends AbstractResult> {
+
+        protected boolean hasError;
+        protected Integer errorCode;
+        protected String errorMessage;
+        protected long databaseExecutionTimeInMs;
+
+        public AbstractResultBuilder<T> setError() {
+            this.hasError = true;
+            return this;
+        }
+
+        public AbstractResultBuilder<T> setError(final int errorCode, final String errorMessage){
+            this.hasError = true;
+            this.errorCode = errorCode;
+            this.errorMessage = errorMessage;
+            return this;
+        }
+
+        public AbstractResultBuilder<T> setDatabaseExecutionTimeInMs(long databaseExecutionTimeInMs) {
+            this.databaseExecutionTimeInMs = databaseExecutionTimeInMs;
+            return this;
+        }
+
+        public abstract T build();
     }
 
 }

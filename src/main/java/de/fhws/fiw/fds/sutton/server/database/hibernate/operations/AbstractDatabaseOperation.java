@@ -10,15 +10,37 @@ import java.lang.reflect.InvocationTargetException;
 
 public abstract class AbstractDatabaseOperation<T extends AbstractDBModel, R extends AbstractResult> {
 
+    /**
+     * The EntityManagerFactory used to create EntityManagers for database access.
+     */
     protected EntityManager em;
+
+    /**
+     * The current EntityManager used for the database operation.
+     */
     private EntityManagerFactory emf;
 
+    /**
+     * The EntityTransaction used for the current database operation.
+     */
     private EntityTransaction transaction;
 
-    protected AbstractDatabaseOperation(EntityManagerFactory emf) {
+    /**
+     * Constructs a new AbstractDatabaseOperation with the provided EntityManagerFactory.
+     *
+     * @param emf The EntityManagerFactory used to create EntityManagers.
+     */
+    public AbstractDatabaseOperation(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
+    /**
+     * Starts the database operation. It creates a new EntityManager, starts a transaction, calls the abstract
+     * method run() for performing the database operation, commits the transaction if successful, or rolls back
+     * the transaction and returns the error result in case of an exception.
+     *
+     * @return The result of the database operation.
+     */
     public final R start() {
         this.em = this.emf.createEntityManager();
 
@@ -41,8 +63,22 @@ public abstract class AbstractDatabaseOperation<T extends AbstractDBModel, R ext
         }
     }
 
+    /**
+     * The abstract method for performing the actual database operation.
+     *
+     * @return The result of the database operation.
+     * @throws NoSuchMethodException If a requested method cannot be found during the database operation.
+     * @throws InvocationTargetException If an error occurs while invoking a method during the database operation.
+     * @throws InstantiationException If an object cannot be instantiated during the database operation.
+     * @throws IllegalAccessException If access to a class, field, method, or constructor is not allowed during the database operation.
+     */
     protected abstract R run() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException;
 
+    /**
+     * The abstract method for handling the error result in case of an exception during the database operation.
+     *
+     * @return The error result of the database operation.
+     */
     protected abstract R errorResult();
 
 }

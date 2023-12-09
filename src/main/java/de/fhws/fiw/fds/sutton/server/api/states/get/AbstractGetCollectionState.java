@@ -18,6 +18,7 @@ package de.fhws.fiw.fds.sutton.server.api.states.get;
 
 import de.fhws.fiw.fds.sutton.server.api.queries.AbstractQuery;
 import de.fhws.fiw.fds.sutton.server.api.queries.PagingContext;
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
@@ -61,12 +62,23 @@ public abstract class AbstractGetCollectionState<T extends AbstractModel> extend
     }
 
     @Override
+    protected RequiredPermission getRequiredPermission() {
+        return RequiredPermission.READ;
+    }
+
+    @Override
     protected Response buildInternal() {
         configureState();
 
         authorizeRequest();
 
         this.result = loadModels();
+
+        if (this.result.getErrorCode() != null) {
+            return Response.status(this.result.getErrorCode())
+                    .entity(this.result.getErrorMessage())
+                    .build();
+        }
 
         if (this.result.hasError()) {
             return Response.serverError()
@@ -85,7 +97,7 @@ public abstract class AbstractGetCollectionState<T extends AbstractModel> extend
      * Extending classes should use this method to implement the loading of the requested resources
      * from the database
      */
-    protected final CollectionModelResult<T> loadModels() {
+    protected CollectionModelResult<T> loadModels() {
         return this.query.startQuery();
     }
 

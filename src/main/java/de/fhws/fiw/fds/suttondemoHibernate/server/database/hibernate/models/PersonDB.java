@@ -1,26 +1,19 @@
 package de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate.models;
 
 import de.fhws.fiw.fds.sutton.server.database.hibernate.models.AbstractDBModel;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "person")
 public class PersonDB extends AbstractDBModel {
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "birthday")
     private LocalDate birthDate;
 
-    @Column(name = "email_address")
     private String emailAddress;
 
     public PersonDB() {

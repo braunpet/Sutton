@@ -6,6 +6,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.DaoFactory;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.USER_ROLES;
+
 public class PostNewLocationOfPerson extends AbstractPostRelationState<Location> {
 
     public PostNewLocationOfPerson( final Builder builder )
@@ -26,6 +30,11 @@ public class PostNewLocationOfPerson extends AbstractPostRelationState<Location>
     @Override protected void defineTransitionLinks( )
     {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractPostRelationStateBuilder<Location>

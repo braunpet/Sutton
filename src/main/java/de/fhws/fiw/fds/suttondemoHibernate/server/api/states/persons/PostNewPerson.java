@@ -22,6 +22,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.DaoFactory;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.USER_ROLES;
+
 public class PostNewPerson extends AbstractPostState<Person> {
 
     public PostNewPerson(final Builder builder) {
@@ -40,6 +44,11 @@ public class PostNewPerson extends AbstractPostState<Person> {
     @Override
     protected void defineTransitionLinks() {
 
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractPostStateBuilder<Person> {

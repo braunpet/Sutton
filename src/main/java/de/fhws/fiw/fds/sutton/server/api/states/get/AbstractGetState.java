@@ -17,6 +17,7 @@
 package de.fhws.fiw.fds.sutton.server.api.states.get;
 
 import de.fhws.fiw.fds.sutton.server.api.hyperlinks.Hyperlinks;
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
@@ -50,6 +51,11 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
     }
 
     @Override
+    protected RequiredPermission getRequiredPermission() {
+        return RequiredPermission.READ;
+    }
+
+    @Override
     protected Response buildInternal() {
         configureState();
 
@@ -57,13 +63,14 @@ public abstract class AbstractGetState<T extends AbstractModel> extends Abstract
 
         this.requestedModel = loadModel();
 
-        if (this.requestedModel.hasError()) {
-            return Response.serverError()
+        if(this.requestedModel.getErrorCode() != null){
+            return Response.status(this.requestedModel.getErrorCode())
+                    .entity(this.requestedModel.getErrorMessage())
                     .build();
         }
 
-        if (this.requestedModel.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND)
+        if (this.requestedModel.hasError()) {
+            return Response.serverError()
                     .build();
         }
 

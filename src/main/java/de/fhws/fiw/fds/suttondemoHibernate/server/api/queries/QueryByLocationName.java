@@ -3,7 +3,7 @@ package de.fhws.fiw.fds.suttondemoHibernate.server.api.queries;
 import de.fhws.fiw.fds.sutton.server.api.queries.AbstractRelationQuery;
 import de.fhws.fiw.fds.sutton.server.api.queries.PagingBehaviorUsingOffsetSize;
 import de.fhws.fiw.fds.sutton.server.database.DatabaseException;
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.DaoFactory;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
@@ -15,11 +15,12 @@ public class QueryByLocationName extends AbstractRelationQuery<Location> {
 
     private int waitingTime;
 
-    public QueryByLocationName(long primaryId, String cityName, int offset, int size, int waitingTime) {
+    public QueryByLocationName(long primaryId, String cityName, int offset, int size, int waitingTime, String orderByAttributes) {
         super(primaryId);
         this.cityName = cityName;
         this.waitingTime = waitingTime;
         this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size);
+        this.orderByAttributes = orderByAttributes;
     }
 
     public String getCityName() {

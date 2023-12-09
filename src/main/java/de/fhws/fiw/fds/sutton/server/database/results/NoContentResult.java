@@ -37,4 +37,17 @@ public class NoContentResult extends AbstractResult {
         return true;
     }
 
+    public static class NoContentResultBuilder extends AbstractResultBuilder<NoContentResult> {
+
+        @Override
+        public NoContentResult build() {
+            NoContentResult noContentResult = new NoContentResult();
+            noContentResult.hasError = this.hasError;
+            noContentResult.errorCode = this.errorCode;
+            noContentResult.errorMessage = this.errorMessage;
+            noContentResult.databaseExecutionTimeInMs = this.databaseExecutionTimeInMs;
+            return noContentResult;
+        }
+    }
+
 }

@@ -76,4 +76,32 @@ public class CollectionModelResult<T extends AbstractModel> extends AbstractResu
         this.totalNumberOfResult = totalNumberOfResult;
     }
 
+    public static class CollectionModelResultBuilder<T extends AbstractModel> extends AbstractResultBuilder<CollectionModelResult<T>> {
+
+        private Collection<T> result;
+
+        private int totalNumberOfResult;
+
+        public CollectionModelResultBuilder<T> setResult(Collection<T> result) {
+            this.result = result;
+            return this;
+        }
+
+        public CollectionModelResultBuilder<T> setTotalNumberOfResult(int totalNumberOfResult) {
+            this.totalNumberOfResult = totalNumberOfResult;
+            return this;
+        }
+
+        @Override
+        public CollectionModelResult<T> build() {
+            CollectionModelResult<T> collectionModelResult = new CollectionModelResult<>();
+            collectionModelResult.result = this.result;
+            collectionModelResult.totalNumberOfResult = this.totalNumberOfResult;
+            collectionModelResult.hasError = this.hasError;
+            collectionModelResult.errorCode = this.errorCode;
+            collectionModelResult.errorMessage = this.errorMessage;
+            collectionModelResult.databaseExecutionTimeInMs = this.databaseExecutionTimeInMs;
+            return collectionModelResult;
+        }
+    }
 }

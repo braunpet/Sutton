@@ -8,19 +8,14 @@ import jakarta.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "location")
 public class LocationDB extends AbstractDBModel {
 
-    @Column(name = "cityName")
     private String cityName;
 
-    @Column(name = "longitude")
     private double longitude;
 
-    @Column(name = "latitude")
     private double latitude;
 
-    @Column(name = "visitedOn")
     private LocalDate visitedOn;
 
     public LocationDB() {

@@ -16,6 +16,7 @@
 
 package de.fhws.fiw.fds.sutton.server.api.states.post;
 
+import de.fhws.fiw.fds.sutton.server.api.security.RequiredPermission;
 import de.fhws.fiw.fds.sutton.server.api.states.AbstractState;
 import de.fhws.fiw.fds.sutton.server.database.results.NoContentResult;
 import de.fhws.fiw.fds.sutton.server.models.AbstractModel;
@@ -49,16 +50,27 @@ public abstract class AbstractPostState<T extends AbstractModel> extends Abstrac
     }
 
     @Override
+    protected RequiredPermission getRequiredPermission() {
+        return RequiredPermission.CREATE;
+    }
+
+    @Override
     protected Response buildInternal() {
         configureState();
 
         authorizeRequest();
 
-        if (this.modelToStore.getId() != 0) {
+        if (this.modelToStore == null || this.modelToStore.getId() != 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         this.resultAfterSave = saveModel();
+
+        if(this.resultAfterSave.getErrorCode() != null){
+            return Response.status(this.resultAfterSave.getErrorCode())
+                    .entity(this.resultAfterSave.getErrorMessage())
+                    .build();
+        }
 
         if (this.resultAfterSave.hasError()) {
             return Response.serverError()

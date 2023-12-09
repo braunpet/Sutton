@@ -18,6 +18,10 @@ import de.fhws.fiw.fds.sutton.server.api.states.get.AbstractGetDispatcherState;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.PersonRelTypes;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.PersonUri;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.GUEST_ROLES;
+
 public class GetDispatcher extends AbstractGetDispatcherState {
 
     public GetDispatcher(Builder builder) {
@@ -27,6 +31,11 @@ public class GetDispatcher extends AbstractGetDispatcherState {
     @Override
     protected void defineTransitionLinks() {
         addLink(PersonUri.REL_PATH, PersonRelTypes.GET_ALL_PERSONS, getAcceptRequestHeader());
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return GUEST_ROLES;
     }
 
     public static class Builder extends AbstractDispatcherStateBuilder {

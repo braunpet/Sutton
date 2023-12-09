@@ -1,6 +1,6 @@
 package de.fhws.fiw.fds.suttondemoHibernate.server.database.hibernate;
 
-import de.fhws.fiw.fds.sutton.server.database.SearchParameter;
+import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.CollectionModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.hibernate.results.SingleModelHibernateResult;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
@@ -93,12 +93,9 @@ public class PersonDaoAdapter implements PersonDao {
     }
 
     private SingleModelResult<Person> createResult(SingleModelHibernateResult<PersonDB> result) {
-        if (result.isEmpty()) {
-            return new SingleModelResult<>();
-        }
         if (result.hasError()) {
             final SingleModelResult<Person> returnValue = new SingleModelResult<>();
-            returnValue.setError();
+            returnValue.setError(result.getErrorCode(), result.getErrorMessage());
             return returnValue;
         } else {
             return new SingleModelResult<>(createFrom(result.getResult()));
@@ -108,7 +105,7 @@ public class PersonDaoAdapter implements PersonDao {
     private CollectionModelResult<Person> createResult(CollectionModelHibernateResult<PersonDB> result) {
         if (result.hasError()) {
             final CollectionModelResult<Person> returnValue = new CollectionModelResult<>();
-            returnValue.setError();
+            returnValue.setError(result.getErrorCode(), result.getErrorMessage());
             return returnValue;
         } else {
             final CollectionModelResult returnValue = new CollectionModelResult<>(createFrom(result.getResult()));

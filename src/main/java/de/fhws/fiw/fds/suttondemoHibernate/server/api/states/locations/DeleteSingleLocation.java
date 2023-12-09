@@ -9,6 +9,10 @@ import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.PersonRelTypes;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.states.persons.PersonUri;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.USER_ROLES;
+
 public class DeleteSingleLocation extends AbstractDeleteState<Location> {
 
     public DeleteSingleLocation( final Builder builder )
@@ -35,6 +39,11 @@ public class DeleteSingleLocation extends AbstractDeleteState<Location> {
     @Override protected void defineTransitionLinks( )
     {
         addLink( PersonUri.REL_PATH, PersonRelTypes.GET_ALL_PERSONS, getAcceptRequestHeader( ) );
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractDeleteStateBuilder

@@ -1,0 +1,5 @@
+http://localhost:8080/sd/api/filldatabase
+http://localhost:8080/sd/api/resetdatabase
+http://localhost:8080/sd/api/persons?sort=asc:firstName,desc:lastName
+http://localhost:8080/sd/api/persons/1/locations?sort=asc:cityName
+http://localhost:8080/sd/api/persons/[name] <- This is used by QueryTemplates...

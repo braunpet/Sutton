@@ -7,6 +7,10 @@ import de.fhws.fiw.fds.sutton.server.database.results.SingleModelResult;
 import de.fhws.fiw.fds.suttondemoHibernate.server.DaoFactory;
 import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Location;
 
+import java.util.List;
+
+import static de.fhws.fiw.fds.sutton.server.AbstractDatabaseInstaller.RoleNames.USER_ROLES;
+
 public class PutSingleLocation extends AbstractPutState<Location> {
 
     public PutSingleLocation( final Builder builder )
@@ -33,6 +37,11 @@ public class PutSingleLocation extends AbstractPutState<Location> {
     {
         addLink( LocationUri.REL_PATH_ID, LocationRelTypes.GET_SINGLE_LOCATION, getAcceptRequestHeader( ),
                 this.modelToUpdate.getId( ) );
+    }
+
+    @Override
+    protected List<String> getAllowedRoles() {
+        return USER_ROLES;
     }
 
     public static class Builder extends AbstractPutStateBuilder<Location>

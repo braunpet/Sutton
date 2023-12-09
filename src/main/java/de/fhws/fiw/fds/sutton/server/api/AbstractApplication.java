@@ -14,22 +14,28 @@
 
 package de.fhws.fiw.fds.sutton.server.api;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import de.fhws.fiw.fds.sutton.server.api.rateLimiting.service.RateLimiterService;
+import com.owlike.genson.GensonBuilder;
+import com.owlike.genson.ext.jaxrs.GensonJaxRSFeature;
+import de.fhws.fiw.fds.sutton.server.api.binaryDataSupport.api.services.BinaryDataService;
+import de.fhws.fiw.fds.sutton.server.api.rateLimiting.api.service.ApiKeyService;
+import de.fhws.fiw.fds.sutton.server.api.security.api.services.AuthenticationService;
+import de.fhws.fiw.fds.sutton.server.api.security.api.services.RoleService;
+import de.fhws.fiw.fds.sutton.server.api.security.api.services.UserService;
 import org.apache.catalina.filters.CorsFilter;
 import org.apache.catalina.loader.ParallelWebappClassLoader;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import com.owlike.genson.GensonBuilder;
-import com.owlike.genson.ext.jaxrs.GensonJaxRSFeature;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class AbstractApplication extends ResourceConfig {
 
     protected AbstractApplication() {
         super();
+        register(registerDependencyInjectionBinder());
         registerClasses(getDefaultAndSpecificServiceClasses());
         packages("org.glassfish.jersey.examples.linking");
         register(DeclarativeLinkingFeature.class);
@@ -57,13 +63,23 @@ public abstract class AbstractApplication extends ResourceConfig {
 
         Set<Class<?>> allServiceClasses = new HashSet<>(getServiceClasses());
 
-        allServiceClasses.add(RateLimiterService.class);
+        allServiceClasses.add(ApiKeyService.class);
+        allServiceClasses.add(BinaryDataService.class);
+        allServiceClasses.add(UserService.class);
+        allServiceClasses.add(RoleService.class);
+        allServiceClasses.add(AuthenticationService.class);
 
         return allServiceClasses;
     }
 
     /**
-     * this method should be used to register the services to be used in the webapp
+     * This method should be used to register all DependencyInjection bindings.
+     * @return an {@link AbstractBinder} which contains all relevant injection bindings.
+     */
+    protected abstract AbstractBinder registerDependencyInjectionBinder();
+
+    /**
+     * This method should be used to register the services to be used in the webapp.
      */
     protected abstract Set<Class<?>> getServiceClasses();
 

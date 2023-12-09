@@ -60,7 +60,7 @@ public class Person extends AbstractModel {
     private Link location;
 
     public Person() {
-        // make JPA happy
+
     }
 
     public Person(final String firstname, final String lastname, final String emailAddress,
