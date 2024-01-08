@@ -8,7 +8,6 @@ import de.fhws.fiw.fds.sutton.server.api.security.models.User;
 import de.fhws.fiw.fds.sutton.server.database.DatabaseException;
 import de.fhws.fiw.fds.sutton.server.database.searchParameter.SearchParameter;
 import de.fhws.fiw.fds.sutton.server.database.results.CollectionModelResult;
-import de.fhws.fiw.fds.suttondemoHibernate.server.api.models.Person;
 
 public class QueryByUserNameLike extends AbstractQuery<User> implements IAuthDaoSupplier {
 
@@ -17,7 +16,7 @@ public class QueryByUserNameLike extends AbstractQuery<User> implements IAuthDao
     public QueryByUserNameLike(String name, int offset, int size, int waitingTime, String orderByAttributes){
         addAttributeLikeValue(new AttributeLikeValueUserName(name));
         this.waitingTime = waitingTime;
-        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<Person>(offset, size);
+        this.pagingBehavior = new PagingBehaviorUsingOffsetSize<User>(offset, size);
         this.orderByAttributes = orderByAttributes;
     }
 
